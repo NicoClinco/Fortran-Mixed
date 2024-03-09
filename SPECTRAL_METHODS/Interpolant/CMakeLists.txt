@@ -1,7 +1,7 @@
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.10)
 project(SpectralDerivative
-  DESCRIPTION "Spectral derivative in 1D"
+  DESCRIPTION "Construction of Fourier Interpolant in 1D"
   LANGUAGES Fortran)
 set(VERSION 1.0)
 enable_language(Fortran)
@@ -11,10 +11,6 @@ if(NOT CMAKE_BUILD_TYPE)
 set(CMAKE_BUILD_TYPE RELEASE)
 endif()
 
-
-#set(CMAKE_SKIP_BUILD_RPATH            FALSE)
-#set(CMAKE_BUILD_WITH_INSTALL_RPATH    TRUE)
-#set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -I/usr/include -I/home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/include")
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -std=f2003 ")

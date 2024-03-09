@@ -1,2 +1,2 @@
-/usr/bin/ar qc /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o
-/usr/bin/ranlib /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a
+/usr/bin/ar qc /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o
+/usr/bin/ranlib /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a

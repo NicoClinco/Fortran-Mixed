@@ -53,10 +53,10 @@ RM = /snap/cmake/1366/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant
+CMAKE_SOURCE_DIR = /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build
+CMAKE_BINARY_DIR = /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/fourier_module.dir/depend.make
@@ -70,17 +70,17 @@ include CMakeFiles/fourier_module.dir/progress.make
 include CMakeFiles/fourier_module.dir/flags.make
 
 CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o: CMakeFiles/fourier_module.dir/flags.make
-CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o: /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building Fortran object CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o"
-	/usr/bin/f95 $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90 -o CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o
+CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o: /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building Fortran object CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o"
+	/usr/bin/f95 $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90 -o CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o
 
 CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing Fortran source to CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.i"
-	/usr/bin/f95 $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90 > CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.i
+	/usr/bin/f95 $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90 > CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.i
 
 CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling Fortran source to assembly CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.s"
-	/usr/bin/f95 $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90 -o CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.s
+	/usr/bin/f95 $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90 -o CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.s
 
 # Object files for target fourier_module
 fourier_module_OBJECTS = \
@@ -89,15 +89,15 @@ fourier_module_OBJECTS = \
 # External object files for target fourier_module
 fourier_module_EXTERNAL_OBJECTS =
 
-/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a: CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o
-/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a: CMakeFiles/fourier_module.dir/build.make
-/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a: CMakeFiles/fourier_module.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking Fortran static library /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a"
+/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a: CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o
+/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a: CMakeFiles/fourier_module.dir/build.make
+/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a: CMakeFiles/fourier_module.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking Fortran static library /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/fourier_module.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/fourier_module.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/fourier_module.dir/build: /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a
+CMakeFiles/fourier_module.dir/build: /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules/libfourier_module.a
 .PHONY : CMakeFiles/fourier_module.dir/build
 
 CMakeFiles/fourier_module.dir/clean:
@@ -105,6 +105,6 @@ CMakeFiles/fourier_module.dir/clean:
 .PHONY : CMakeFiles/fourier_module.dir/clean
 
 CMakeFiles/fourier_module.dir/depend:
-	cd /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/fourier_module.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/fourier_module.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/fourier_module.dir/depend
 

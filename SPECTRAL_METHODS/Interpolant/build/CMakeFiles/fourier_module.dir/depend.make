@@ -4,7 +4,7 @@
 # Note that incremental build could trigger a call to cmake_copy_f90_mod on each re-build
 CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o.provides.build: CMakeFiles/fourier_module.dir/fourierinterp1dclass.mod.stamp
 CMakeFiles/fourier_module.dir/fourierinterp1dclass.mod.stamp: CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o
-	$(CMAKE_COMMAND) -E cmake_copy_f90_mod /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules/fourierinterp1dclass.mod CMakeFiles/fourier_module.dir/fourierinterp1dclass.mod.stamp GNU
+	$(CMAKE_COMMAND) -E cmake_copy_f90_mod /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules/fourierinterp1dclass.mod CMakeFiles/fourier_module.dir/fourierinterp1dclass.mod.stamp GNU
 CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o.provides.build:
 	$(CMAKE_COMMAND) -E touch CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o.provides.build
 CMakeFiles/fourier_module.dir/build: CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o.provides.build

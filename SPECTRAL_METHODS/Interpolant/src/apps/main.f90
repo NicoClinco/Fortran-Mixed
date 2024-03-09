@@ -1,6 +1,8 @@
 program main
   use fftpack, only: rk,fft, ifft,fftfreq;
-  use FourierInterp1dClass, only: FourierInterp1d,FourierInterp1d_,FwdTransform,Fourierinterpolate1D_scalar
+  !use FourierInterp1dClass, only: FourierInterp1d,FourierInterp1d_,FwdTransform,Fourierinterpolate1D_scalar,&
+  !     FourierDerivative1d,DerFourierInterp1d_,derFwdTransform,FourierDerivative1D_scalar, InterpolateFourier
+  use FourierInterp1dClass
   use fftpack_kind, only: rk
   implicit none;
   integer ::i;
@@ -9,8 +11,12 @@ program main
   real(rk), allocatable :: y_r(:);
   complex(rk),allocatable :: yHat(:);
   type (FourierInterp1d) :: fourierInterpolant;
-  real(rk),parameter :: pi =  3.14159265358979323846;
-  real(rk):: y_interp;
+  type (FourierDerivative1d) :: fourierDerivative;
+
+  
+  !real(rk),parameter :: pi =  3.14159265358979323846;
+  real(rk):: y_interp,dy_interp;
+
   real :: h;
   integer :: n;
 
@@ -27,13 +33,23 @@ program main
   y = sin(x);
 
   
+  
   fourierInterpolant = FourierInterp1d_(n,real(y));
-
+  fourierDerivative = DerFourierInterp1d_(n,real(y));
+  
   call FwdTransform(fourierInterpolant);
   call Fourierinterpolate1D_scalar(fourierInterpolant,0.5_rk,y_interp);
   
   print*,'Interpolated value in x=0.5: ',y_interp;
 
+  call fourierDerivative%derFwdTransform();
+  call fourierDerivative%FourierDerivative1D_scalar(0.5_rk,dy_interp);
+
+  call Interpolate(fourierInterpolant,x,y_);
+  
+  print*,'Interpolation error',abs(y-y_);
+  
+  print*,'Interpolated value [derivative] in x=0.5: ',dy_interp;
   
   !print '("{",ES10.3,",",1X,ES10.3,"}")',yHat(1:5);
 

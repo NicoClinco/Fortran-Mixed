@@ -57,10 +57,10 @@ RM = /snap/cmake/1366/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant
+CMAKE_SOURCE_DIR = /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build
+CMAKE_BINARY_DIR = /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -130,24 +130,24 @@ fourier_module/fast:
 .PHONY : fourier_module/fast
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named main.exe
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
-.PHONY : main
+main.exe: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main.exe
+.PHONY : main.exe
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+main.exe/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/build
+.PHONY : main.exe/fast
 
 src/apps/main.o: src/apps/main.f90.o
 .PHONY : src/apps/main.o
 
 # target to build an object file
 src/apps/main.f90.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/apps/main.f90.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/src/apps/main.f90.o
 .PHONY : src/apps/main.f90.o
 
 src/apps/main.i: src/apps/main.f90.i
@@ -155,7 +155,7 @@ src/apps/main.i: src/apps/main.f90.i
 
 # target to preprocess a source file
 src/apps/main.f90.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/apps/main.f90.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/src/apps/main.f90.i
 .PHONY : src/apps/main.f90.i
 
 src/apps/main.s: src/apps/main.f90.s
@@ -163,7 +163,7 @@ src/apps/main.s: src/apps/main.f90.s
 
 # target to generate assembly for a file
 src/apps/main.f90.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/apps/main.f90.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/src/apps/main.f90.s
 .PHONY : src/apps/main.f90.s
 
 src/modules/Interp1DClass.o: src/modules/Interp1DClass.f90.o
@@ -199,7 +199,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... fourier_module"
-	@echo "... main"
+	@echo "... main.exe"
 	@echo "... src/apps/main.o"
 	@echo "... src/apps/main.i"
 	@echo "... src/apps/main.s"

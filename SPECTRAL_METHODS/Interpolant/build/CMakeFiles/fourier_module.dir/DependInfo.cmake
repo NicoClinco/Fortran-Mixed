@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_Fortran
-  "/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90" "/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o"
+  "/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/src/modules/Interp1DClass.f90" "/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o"
   )
 set(CMAKE_Fortran_COMPILER_ID "GNU")
 set(CMAKE_Fortran_SUBMODULE_SEP "@")
@@ -31,4 +31,4 @@ set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.
-set(CMAKE_Fortran_TARGET_MODULE_DIR "/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules")
+set(CMAKE_Fortran_TARGET_MODULE_DIR "/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules")

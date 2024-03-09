@@ -6,5 +6,5 @@ Fortran_DEFINES =
 
 Fortran_INCLUDES = 
 
-Fortran_FLAGS =  -I/usr/include -I/home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/include -std=f2003  -O2 -J/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/modules
+Fortran_FLAGS =  -I/usr/include -I/home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/include -std=f2003  -O2 -J/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/modules
 

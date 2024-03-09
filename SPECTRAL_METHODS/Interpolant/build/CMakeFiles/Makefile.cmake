@@ -7,7 +7,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/CMakeLists.txt"
+  "/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/CMakeLists.txt"
   "CMakeFiles/3.28.3/CMakeFortranCompiler.cmake"
   "CMakeFiles/3.28.3/CMakeSystem.cmake"
   "/snap/cmake/1366/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake"
@@ -41,5 +41,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/fourier_module.dir/DependInfo.cmake"
-  "CMakeFiles/main.dir/DependInfo.cmake"
+  "CMakeFiles/main.exe.dir/DependInfo.cmake"
   )
