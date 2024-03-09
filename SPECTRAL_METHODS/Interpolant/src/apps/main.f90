@@ -45,9 +45,13 @@ program main
   call fourierDerivative%derFwdTransform();
   call fourierDerivative%FourierDerivative1D_scalar(0.5_rk,dy_interp);
 
-  call Interpolate(fourierInterpolant,x,y_);
+  ! Note that here we have exploited the polymorphism:
+  ! The functions/subroutines take a base-class object,
+  ! but we can use a derived object:
+  call Interpolate(fourierDerivative,x,y_);
+  call FwdTransform(fourierDerivative);
   
-  print*,'Interpolation error',abs(y-y_);
+  print '(A,1X,E11.5)','Interpolation error',abs(sum(y_-y));
   
   print*,'Interpolated value [derivative] in x=0.5: ',dy_interp;
   

@@ -10,10 +10,9 @@ module FourierInterp1dClass
      complex(rk),allocatable ::yHat(:);
      logical :: m_transformed;
    contains
-     
-     !procedure :: Interpolate
      procedure :: Fwdtransform
-     procedure :: Fourierinterpolate1D_scalar 
+     procedure :: Fourierinterpolate1D_scalar
+     procedure :: Fourierinterpolate1D_vector
   end type FourierInterp1d
 
   interface Interpolate
@@ -163,5 +162,7 @@ contains
     dyInt = abs(sum(discrete_exp*Dobj%dyHat))/real(size(Dobj%y));
     
   end subroutine FourierDerivative1D_scalar
+
+  
   
 end module FourierInterp1dClass
