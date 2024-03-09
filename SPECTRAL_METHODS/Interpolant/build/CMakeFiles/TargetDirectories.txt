@@ -1,0 +1,4 @@
+/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/fourier_module.dir
+/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/main.dir
+/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/edit_cache.dir
+/home/nico/Desktop/PHD-COURSES/Fortran/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/rebuild_cache.dir
