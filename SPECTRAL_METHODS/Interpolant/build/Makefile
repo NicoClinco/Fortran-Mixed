@@ -117,6 +117,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named fourier_module1d
+
+# Build rule for target.
+fourier_module1d: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fourier_module1d
+.PHONY : fourier_module1d
+
+# fast build rule for target.
+fourier_module1d/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module1d.dir/build.make CMakeFiles/fourier_module1d.dir/build
+.PHONY : fourier_module1d/fast
+
+#=============================================================================
 # Target rules for targets named fourier_module2d
 
 # Build rule for target.
@@ -166,6 +179,30 @@ src/apps/testWrapper.f90.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/src/apps/testWrapper.f90.s
 .PHONY : src/apps/testWrapper.f90.s
 
+src/modules/Interp1DClass.o: src/modules/Interp1DClass.f90.o
+.PHONY : src/modules/Interp1DClass.o
+
+# target to build an object file
+src/modules/Interp1DClass.f90.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module1d.dir/build.make CMakeFiles/fourier_module1d.dir/src/modules/Interp1DClass.f90.o
+.PHONY : src/modules/Interp1DClass.f90.o
+
+src/modules/Interp1DClass.i: src/modules/Interp1DClass.f90.i
+.PHONY : src/modules/Interp1DClass.i
+
+# target to preprocess a source file
+src/modules/Interp1DClass.f90.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module1d.dir/build.make CMakeFiles/fourier_module1d.dir/src/modules/Interp1DClass.f90.i
+.PHONY : src/modules/Interp1DClass.f90.i
+
+src/modules/Interp1DClass.s: src/modules/Interp1DClass.f90.s
+.PHONY : src/modules/Interp1DClass.s
+
+# target to generate assembly for a file
+src/modules/Interp1DClass.f90.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module1d.dir/build.make CMakeFiles/fourier_module1d.dir/src/modules/Interp1DClass.f90.s
+.PHONY : src/modules/Interp1DClass.f90.s
+
 src/modules/Interp2DClass.o: src/modules/Interp2DClass.f90.o
 .PHONY : src/modules/Interp2DClass.o
 
@@ -198,11 +235,15 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... fourier_module1d"
 	@echo "... fourier_module2d"
 	@echo "... testWrapper.exe"
 	@echo "... src/apps/testWrapper.o"
 	@echo "... src/apps/testWrapper.i"
 	@echo "... src/apps/testWrapper.s"
+	@echo "... src/modules/Interp1DClass.o"
+	@echo "... src/modules/Interp1DClass.i"
+	@echo "... src/modules/Interp1DClass.s"
 	@echo "... src/modules/Interp2DClass.o"
 	@echo "... src/modules/Interp2DClass.i"
 	@echo "... src/modules/Interp2DClass.s"

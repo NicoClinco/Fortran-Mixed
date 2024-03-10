@@ -10,6 +10,10 @@ module FourierInterp2dClass
      real(rk),allocatable :: y(:,:);
      complex(rk),allocatable ::yHat(:,:);
      logical :: m_transformed = .false.;
+   contains
+     procedure FwdTransform2d
+     procedure FourierInterpolate2D_scalar
+     
   end type FourierInterp2d
 
   real(rk),parameter :: pi =  3.14159265358979323846;!pi
@@ -72,6 +76,24 @@ contains
     enddo
     yInt = real(sum(Iobj%yHat*expK*expL))/(n(1)*n(2));
   end subroutine FourierInterpolate2D_scalar
-  
+
+  !>@brief Interpolate to a set of interpolation points
+  !>@param[in] Iobj
+  !>@param[in] xy(nPoints,2) a row vector which contains
+  !the coordinates
+  !@out param yInt [out] The interpolated values.
+  subroutine FourierInterpolate2D_vector(Iobj,xy,yInt)
+    implicit none;
+    class (FourierInterp2d),intent(in) :: Iobj;
+    real(rk),intent(in) :: xy(:,:); !A row vector 
+    real(rk),intent(out) ::yInt(:);
+    integer :: nPoints,ipnts;
+
+    nPoints = size(xy,1) !Get the numOfPoints
+    
+    do ipnts = 1,nPoints
+       call FourierInterpolate2d_scalar(Iobj,xy(ipnts,:),yInt(ipnts))
+    enddo
+  end subroutine FourierInterpolate2D_vector
   
 end module FourierInterp2dClass

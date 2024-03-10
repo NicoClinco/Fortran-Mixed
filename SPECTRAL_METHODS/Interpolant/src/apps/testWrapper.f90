@@ -23,7 +23,7 @@ program main
 
   
 
-  n = 6; !random
+  n = 11; !random
   allocate( &
        x(n,n),y(n,n),input_array(n,n),&
        org_array(n,n),error_array(n,n),dfdx(n,n),&
@@ -91,6 +91,6 @@ program main
   call FourierInterpolate2D_scalar(Interpolant2d,[0.2_rk,0.2_rk],y_int)
 
   
-  print '(A,1x,e12.6)','Interpolated value: ',y_int
+  print '(A,1x,e12.6)','Interpolated value at x,y = (0.2,0.2):',y_int
   
 end program main

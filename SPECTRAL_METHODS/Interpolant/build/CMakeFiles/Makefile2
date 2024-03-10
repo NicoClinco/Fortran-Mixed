@@ -63,6 +63,7 @@ CMAKE_BINARY_DIR = /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/fourier_module1d.dir/all
 all: CMakeFiles/fourier_module2d.dir/all
 all: CMakeFiles/testWrapper.exe.dir/all
 .PHONY : all
@@ -72,9 +73,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/fourier_module1d.dir/clean
 clean: CMakeFiles/fourier_module2d.dir/clean
 clean: CMakeFiles/testWrapper.exe.dir/clean
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fourier_module1d.dir
+
+# All Build rule for target.
+CMakeFiles/fourier_module1d.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module1d.dir/build.make CMakeFiles/fourier_module1d.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module1d.dir/build.make CMakeFiles/fourier_module1d.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=1,2 "Built target fourier_module1d"
+.PHONY : CMakeFiles/fourier_module1d.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fourier_module1d.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/fourier_module1d.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles 0
+.PHONY : CMakeFiles/fourier_module1d.dir/rule
+
+# Convenience name for target.
+fourier_module1d: CMakeFiles/fourier_module1d.dir/rule
+.PHONY : fourier_module1d
+
+# clean rule for target.
+CMakeFiles/fourier_module1d.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module1d.dir/build.make CMakeFiles/fourier_module1d.dir/clean
+.PHONY : CMakeFiles/fourier_module1d.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/fourier_module2d.dir
@@ -83,7 +111,7 @@ clean: CMakeFiles/testWrapper.exe.dir/clean
 CMakeFiles/fourier_module2d.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module2d.dir/build.make CMakeFiles/fourier_module2d.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module2d.dir/build.make CMakeFiles/fourier_module2d.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=1,2 "Built target fourier_module2d"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=3,4 "Built target fourier_module2d"
 .PHONY : CMakeFiles/fourier_module2d.dir/all
 
 # Build rule for subdir invocation for target.
@@ -109,7 +137,7 @@ CMakeFiles/fourier_module2d.dir/clean:
 CMakeFiles/testWrapper.exe.dir/all: CMakeFiles/fourier_module2d.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=3,4 "Built target testWrapper.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=5,6 "Built target testWrapper.exe"
 .PHONY : CMakeFiles/testWrapper.exe.dir/all
 
 # Build rule for subdir invocation for target.
