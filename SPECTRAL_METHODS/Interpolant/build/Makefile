@@ -117,78 +117,78 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named fourier_module
+# Target rules for targets named fourier_module2d
 
 # Build rule for target.
-fourier_module: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fourier_module
-.PHONY : fourier_module
+fourier_module2d: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fourier_module2d
+.PHONY : fourier_module2d
 
 # fast build rule for target.
-fourier_module/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module.dir/build.make CMakeFiles/fourier_module.dir/build
-.PHONY : fourier_module/fast
+fourier_module2d/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module2d.dir/build.make CMakeFiles/fourier_module2d.dir/build
+.PHONY : fourier_module2d/fast
 
 #=============================================================================
-# Target rules for targets named main.exe
+# Target rules for targets named testWrapper.exe
 
 # Build rule for target.
-main.exe: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main.exe
-.PHONY : main.exe
+testWrapper.exe: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 testWrapper.exe
+.PHONY : testWrapper.exe
 
 # fast build rule for target.
-main.exe/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/build
-.PHONY : main.exe/fast
+testWrapper.exe/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/build
+.PHONY : testWrapper.exe/fast
 
-src/apps/main.o: src/apps/main.f90.o
-.PHONY : src/apps/main.o
-
-# target to build an object file
-src/apps/main.f90.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/src/apps/main.f90.o
-.PHONY : src/apps/main.f90.o
-
-src/apps/main.i: src/apps/main.f90.i
-.PHONY : src/apps/main.i
-
-# target to preprocess a source file
-src/apps/main.f90.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/src/apps/main.f90.i
-.PHONY : src/apps/main.f90.i
-
-src/apps/main.s: src/apps/main.f90.s
-.PHONY : src/apps/main.s
-
-# target to generate assembly for a file
-src/apps/main.f90.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/src/apps/main.f90.s
-.PHONY : src/apps/main.f90.s
-
-src/modules/Interp1DClass.o: src/modules/Interp1DClass.f90.o
-.PHONY : src/modules/Interp1DClass.o
+src/apps/testWrapper.o: src/apps/testWrapper.f90.o
+.PHONY : src/apps/testWrapper.o
 
 # target to build an object file
-src/modules/Interp1DClass.f90.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module.dir/build.make CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.o
-.PHONY : src/modules/Interp1DClass.f90.o
+src/apps/testWrapper.f90.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/src/apps/testWrapper.f90.o
+.PHONY : src/apps/testWrapper.f90.o
 
-src/modules/Interp1DClass.i: src/modules/Interp1DClass.f90.i
-.PHONY : src/modules/Interp1DClass.i
+src/apps/testWrapper.i: src/apps/testWrapper.f90.i
+.PHONY : src/apps/testWrapper.i
 
 # target to preprocess a source file
-src/modules/Interp1DClass.f90.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module.dir/build.make CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.i
-.PHONY : src/modules/Interp1DClass.f90.i
+src/apps/testWrapper.f90.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/src/apps/testWrapper.f90.i
+.PHONY : src/apps/testWrapper.f90.i
 
-src/modules/Interp1DClass.s: src/modules/Interp1DClass.f90.s
-.PHONY : src/modules/Interp1DClass.s
+src/apps/testWrapper.s: src/apps/testWrapper.f90.s
+.PHONY : src/apps/testWrapper.s
 
 # target to generate assembly for a file
-src/modules/Interp1DClass.f90.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module.dir/build.make CMakeFiles/fourier_module.dir/src/modules/Interp1DClass.f90.s
-.PHONY : src/modules/Interp1DClass.f90.s
+src/apps/testWrapper.f90.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/src/apps/testWrapper.f90.s
+.PHONY : src/apps/testWrapper.f90.s
+
+src/modules/Interp2DClass.o: src/modules/Interp2DClass.f90.o
+.PHONY : src/modules/Interp2DClass.o
+
+# target to build an object file
+src/modules/Interp2DClass.f90.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module2d.dir/build.make CMakeFiles/fourier_module2d.dir/src/modules/Interp2DClass.f90.o
+.PHONY : src/modules/Interp2DClass.f90.o
+
+src/modules/Interp2DClass.i: src/modules/Interp2DClass.f90.i
+.PHONY : src/modules/Interp2DClass.i
+
+# target to preprocess a source file
+src/modules/Interp2DClass.f90.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module2d.dir/build.make CMakeFiles/fourier_module2d.dir/src/modules/Interp2DClass.f90.i
+.PHONY : src/modules/Interp2DClass.f90.i
+
+src/modules/Interp2DClass.s: src/modules/Interp2DClass.f90.s
+.PHONY : src/modules/Interp2DClass.s
+
+# target to generate assembly for a file
+src/modules/Interp2DClass.f90.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/fourier_module2d.dir/build.make CMakeFiles/fourier_module2d.dir/src/modules/Interp2DClass.f90.s
+.PHONY : src/modules/Interp2DClass.f90.s
 
 # Help Target
 help:
@@ -198,14 +198,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... fourier_module"
-	@echo "... main.exe"
-	@echo "... src/apps/main.o"
-	@echo "... src/apps/main.i"
-	@echo "... src/apps/main.s"
-	@echo "... src/modules/Interp1DClass.o"
-	@echo "... src/modules/Interp1DClass.i"
-	@echo "... src/modules/Interp1DClass.s"
+	@echo "... fourier_module2d"
+	@echo "... testWrapper.exe"
+	@echo "... src/apps/testWrapper.o"
+	@echo "... src/apps/testWrapper.i"
+	@echo "... src/apps/testWrapper.s"
+	@echo "... src/modules/Interp2DClass.o"
+	@echo "... src/modules/Interp2DClass.i"
+	@echo "... src/modules/Interp2DClass.s"
 .PHONY : help
 
 

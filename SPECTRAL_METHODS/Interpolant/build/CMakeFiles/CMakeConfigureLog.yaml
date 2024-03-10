@@ -35,7 +35,7 @@ events:
       Supported LTO compression algorithms: zlib zstd
       gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) 
       COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'a-'
-       /usr/lib/gcc/x86_64-linux-gnu/11/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/tmp/cc3i2Quf.f90 -quiet -v -imultiarch x86_64-linux-gnu CMakeFortranCompilerId.F -quiet -dumpdir a- -dumpbase CMakeFortranCompilerId.F -dumpbase-ext .F -mtune=generic -march=x86-64 -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/11/finclude -fpre-include=/usr/include/finclude/math-vector-fortran.h -o /tmp/ccQSE0yw.s
+       /usr/lib/gcc/x86_64-linux-gnu/11/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/tmp/cc3SmgVd.f90 -quiet -v -imultiarch x86_64-linux-gnu CMakeFortranCompilerId.F -quiet -dumpdir a- -dumpbase CMakeFortranCompilerId.F -dumpbase-ext .F -mtune=generic -march=x86-64 -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/11/finclude -fpre-include=/usr/include/finclude/math-vector-fortran.h -o /tmp/cc1mYCNK.s
       GNU Fortran (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (x86_64-linux-gnu)
       	compiled by GNU C version 11.4.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
       
@@ -56,7 +56,7 @@ events:
       
       GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
       COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'a-'
-       as -v --64 -o /tmp/ccYWOpsW.o /tmp/ccQSE0yw.s
+       as -v --64 -o /tmp/ccpXfsVq.o /tmp/cc1mYCNK.s
       GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38
       Reading specs from /usr/lib/gcc/x86_64-linux-gnu/11/libgfortran.spec
       rename spec lib to liborig
@@ -64,7 +64,7 @@ events:
       COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/
       LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/
       COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'a.'
-       /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccaOV7YH.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. /tmp/ccYWOpsW.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
+       /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccU4uBnC.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. /tmp/ccpXfsVq.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
       COLLECT_GCC_OPTIONS='-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'a.'
       
       
@@ -82,8 +82,8 @@ events:
     checks:
       - "Detecting Fortran compiler ABI info"
     directories:
-      source: "/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-xdEGiY"
-      binary: "/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-xdEGiY"
+      source: "/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-cA5SGa"
+      binary: "/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-cA5SGa"
     cmakeVariables:
       CMAKE_EXE_LINKER_FLAGS: ""
       CMAKE_Fortran_FLAGS: ""
@@ -92,13 +92,13 @@ events:
       variable: "CMAKE_Fortran_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-xdEGiY'
+        Change Dir: '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-cA5SGa'
         
-        Run Build Command(s): /snap/cmake/1366/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2961f/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_2961f.dir/build.make CMakeFiles/cmTC_2961f.dir/build
-        gmake[1]: Entering directory '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-xdEGiY'
-        Building Fortran object CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o
-        /usr/bin/f95   -v -c /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o
+        Run Build Command(s): /snap/cmake/1366/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_30b21/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_30b21.dir/build.make CMakeFiles/cmTC_30b21.dir/build
+        gmake[1]: Entering directory '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-cA5SGa'
+        Building Fortran object CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o
+        /usr/bin/f95   -v -c /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o
         Using built-in specs.
         COLLECT_GCC=/usr/bin/f95
         OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
@@ -108,8 +108,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) 
-        COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2961f.dir/'
-         /usr/lib/gcc/x86_64-linux-gnu/11/f951 /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -cpp=/tmp/ccTjJLi4.f90 -quiet -v -imultiarch x86_64-linux-gnu /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -quiet -dumpdir CMakeFiles/cmTC_2961f.dir/ -dumpbase CMakeFortranCompilerABI.F90.F90 -dumpbase-ext .F90 -mtune=generic -march=x86-64 -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/11/finclude -fpre-include=/usr/include/finclude/math-vector-fortran.h -o /tmp/ccjbLtVF.s
+        COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_30b21.dir/'
+         /usr/lib/gcc/x86_64-linux-gnu/11/f951 /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -cpp=/tmp/ccFhWTwa.f90 -quiet -v -imultiarch x86_64-linux-gnu /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -quiet -dumpdir CMakeFiles/cmTC_30b21.dir/ -dumpbase CMakeFortranCompilerABI.F90.F90 -dumpbase-ext .F90 -mtune=generic -march=x86-64 -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/11/finclude -fpre-include=/usr/include/finclude/math-vector-fortran.h -o /tmp/ccqThMFo.s
         GNU Fortran (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (x86_64-linux-gnu)
         	compiled by GNU C version 11.4.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
         
@@ -129,16 +129,16 @@ events:
         	compiled by GNU C version 11.4.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
         
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
-        COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2961f.dir/'
-         as -v --64 -o CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o /tmp/ccjbLtVF.s
+        COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_30b21.dir/'
+         as -v --64 -o CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o /tmp/ccqThMFo.s
         GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38
         COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.'
-        Linking Fortran executable cmTC_2961f
-        /snap/cmake/1366/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2961f.dir/link.txt --verbose=1
-        /usr/bin/f95  -v CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o -o cmTC_2961f 
-        Driving: /usr/bin/f95 -v CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o -o cmTC_2961f -l gfortran -l m -shared-libgcc
+        COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.'
+        Linking Fortran executable cmTC_30b21
+        /snap/cmake/1366/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30b21.dir/link.txt --verbose=1
+        /usr/bin/f95  -v CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o -o cmTC_30b21 
+        Driving: /usr/bin/f95 -v CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o -o cmTC_30b21 -l gfortran -l m -shared-libgcc
         Using built-in specs.
         COLLECT_GCC=/usr/bin/f95
         COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper
@@ -151,13 +151,13 @@ events:
         gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) 
         Reading specs from /usr/lib/gcc/x86_64-linux-gnu/11/libgfortran.spec
         rename spec lib to liborig
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2961f' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_2961f-'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_30b21' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_30b21-'
         COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2961f' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_2961f.'
-         /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/cceemTD6.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_2961f /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2961f' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_2961f.'
-        gmake[1]: Leaving directory '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-xdEGiY'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_30b21' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_30b21.'
+         /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccizHIPL.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_30b21 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_30b21' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_30b21.'
+        gmake[1]: Leaving directory '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-cA5SGa'
         
       exitCode: 0
   -
@@ -193,13 +193,13 @@ events:
     message: |
       Parsed Fortran implicit link information:
         link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        ignore line: [Change Dir: '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-xdEGiY']
+        ignore line: [Change Dir: '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-cA5SGa']
         ignore line: []
-        ignore line: [Run Build Command(s): /snap/cmake/1366/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2961f/fast]
-        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_2961f.dir/build.make CMakeFiles/cmTC_2961f.dir/build]
-        ignore line: [gmake[1]: Entering directory '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-xdEGiY']
-        ignore line: [Building Fortran object CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o]
-        ignore line: [/usr/bin/f95   -v -c /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o]
+        ignore line: [Run Build Command(s): /snap/cmake/1366/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_30b21/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_30b21.dir/build.make CMakeFiles/cmTC_30b21.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles/CMakeScratch/TryCompile-cA5SGa']
+        ignore line: [Building Fortran object CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o]
+        ignore line: [/usr/bin/f95   -v -c /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -o CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/f95]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
@@ -209,8 +209,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2961f.dir/']
-        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/11/f951 /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -cpp=/tmp/ccTjJLi4.f90 -quiet -v -imultiarch x86_64-linux-gnu /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -quiet -dumpdir CMakeFiles/cmTC_2961f.dir/ -dumpbase CMakeFortranCompilerABI.F90.F90 -dumpbase-ext .F90 -mtune=generic -march=x86-64 -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/11/finclude -fpre-include=/usr/include/finclude/math-vector-fortran.h -o /tmp/ccjbLtVF.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_30b21.dir/']
+        ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/11/f951 /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -cpp=/tmp/ccFhWTwa.f90 -quiet -v -imultiarch x86_64-linux-gnu /snap/cmake/1366/share/cmake-3.28/Modules/CMakeFortranCompilerABI.F90 -quiet -dumpdir CMakeFiles/cmTC_30b21.dir/ -dumpbase CMakeFortranCompilerABI.F90.F90 -dumpbase-ext .F90 -mtune=generic -march=x86-64 -version -fintrinsic-modules-path /usr/lib/gcc/x86_64-linux-gnu/11/finclude -fpre-include=/usr/include/finclude/math-vector-fortran.h -o /tmp/ccqThMFo.s]
         ignore line: [GNU Fortran (Ubuntu 11.4.0-1ubuntu1~22.04) version 11.4.0 (x86_64-linux-gnu)]
         ignore line: [	compiled by GNU C version 11.4.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
         ignore line: []
@@ -230,16 +230,16 @@ events:
         ignore line: [	compiled by GNU C version 11.4.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
         ignore line: []
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2961f.dir/']
-        ignore line: [ as -v --64 -o CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o /tmp/ccjbLtVF.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_30b21.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o /tmp/ccqThMFo.s]
         ignore line: [GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38]
         ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.']
-        ignore line: [Linking Fortran executable cmTC_2961f]
-        ignore line: [/snap/cmake/1366/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2961f.dir/link.txt --verbose=1]
-        ignore line: [/usr/bin/f95  -v CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o -o cmTC_2961f ]
-        ignore line: [Driving: /usr/bin/f95 -v CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o -o cmTC_2961f -l gfortran -l m -shared-libgcc]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-c' '-o' 'CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.']
+        ignore line: [Linking Fortran executable cmTC_30b21]
+        ignore line: [/snap/cmake/1366/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30b21.dir/link.txt --verbose=1]
+        ignore line: [/usr/bin/f95  -v CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o -o cmTC_30b21 ]
+        ignore line: [Driving: /usr/bin/f95 -v CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o -o cmTC_30b21 -l gfortran -l m -shared-libgcc]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/f95]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper]
@@ -252,16 +252,16 @@ events:
         ignore line: [gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04) ]
         ignore line: [Reading specs from /usr/lib/gcc/x86_64-linux-gnu/11/libgfortran.spec]
         ignore line: [rename spec lib to liborig]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2961f' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_2961f-']
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_30b21' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_30b21-']
         ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2961f' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_2961f.']
-        link line: [ /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/cceemTD6.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_2961f /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_30b21' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_30b21.']
+        link line: [ /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccizHIPL.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lquadmath -plugin-opt=-pass-through=-lm -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_30b21 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o -lgfortran -lm -lgcc_s -lgcc -lquadmath -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/11/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/cceemTD6.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccizHIPL.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lquadmath] ==> ignore
@@ -283,7 +283,7 @@ events:
           arg [-znow] ==> ignore
           arg [-zrelro] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_2961f] ==> ignore
+          arg [cmTC_30b21] ==> ignore
           arg [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o]
           arg [/usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o]
@@ -295,7 +295,7 @@ events:
           arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
           arg [-L/usr/lib/gcc/x86_64-linux-gnu/11/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../..]
-          arg [CMakeFiles/cmTC_2961f.dir/CMakeFortranCompilerABI.F90.o] ==> ignore
+          arg [CMakeFiles/cmTC_30b21.dir/CMakeFortranCompilerABI.F90.o] ==> ignore
           arg [-lgfortran] ==> lib [gfortran]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]

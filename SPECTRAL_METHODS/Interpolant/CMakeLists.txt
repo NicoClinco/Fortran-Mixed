@@ -11,39 +11,65 @@ if(NOT CMAKE_BUILD_TYPE)
 set(CMAKE_BUILD_TYPE RELEASE)
 endif()
 
+#DEPENDENCIES#
+set(FFTPACK_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/include)
+set(FFTPACK_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/lib)
+set(FFTWRAPPER_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/fft_wrapper/include)
+set(FFTWRAPPER_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/fft_wrapper/libs)
 
-set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -I/usr/include -I/home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/include")
-set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -std=f2003 ")
+set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -I/usr/include")
+set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -std=f2008 ")
 set(CMAKE_Fortran_FLAGS_DEBUG   "-Wall -O0 -g3 -fbounds-check")
 set(CMAKE_Fortran_FLAGS_RELEASE "-O2")
 
 
-option(BUILD_FFT_MODULE "Build the FFT module" OFF)
-option(BUILD_FOURIER_MODULE "Build the FOURIER module" OFF)
+#option(BUILD_FFT_MODULE "Build the FFT module" OFF)
+option(BUILD_FOURIER_MODULE_1D "--Build the FOURIER module 1D--" OFF)
+option(BUILD_FOURIER_MODULE_2D "--Build the FOURIER module 2D--" OFF)
 
+#Set output for apps and libs:
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/modules)
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_SOURCE_DIR}/modules)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/apps)
 
-if(BUILD_FFT_MODULE)
-  message(STATUS "Building the fft module")
-  add_library(fft_module ${CMAKE_SOURCE_DIR}/src/modules/FFT_MODULE.f90)
+#if(BUILD_FFT_MODULE)
+#  message(STATUS "Building the fft module")
+#  add_library(fft_module ${CMAKE_SOURCE_DIR}/src/modules/FFT_MODULE.f90)
+#endif()
+
+if(BUILD_FOURIER_MODULE_1D)
+  message(STATUS "---Building the Fourier module 1d---")
+  add_library(fourier_module1d ${CMAKE_SOURCE_DIR}/src/modules/Interp1DClass.f90)
+  target_include_directories(fourier_module1d PUBLIC ${FFTPACK_INCLUDE})
+  target_link_directories(fourier_module1d PUBLIC ${FFTPACK_LIBS})
+  target_link_libraries(fourier_module1d fftpack)
 endif()
 
-if(BUILD_FOURIER_MODULE)
-  message(STATUS "Building the Fourier module")
-  add_library(fourier_module ${CMAKE_SOURCE_DIR}/src/modules/Interp1DClass.f90)
-  target_link_directories(fourier_module PUBLIC "/home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/lib")
-  target_link_libraries(fourier_module fftpack)
+if(BUILD_FOURIER_MODULE_2D)
+  message(STATUS "---Building the Fourier module 2d---")
+  add_library(fourier_module2d ${CMAKE_SOURCE_DIR}/src/modules/Interp2DClass.f90)
+  target_include_directories(fourier_module2d PUBLIC ${FFTPACK_INCLUDE} ${FFTWRAPPER_INCLUDE})
+  target_link_directories(fourier_module2d PUBLIC ${FFTPACK_LIBS} PUBLIC ${FFTWRAPPER_LIBS})
+  target_link_libraries(fourier_module2d fftw3 fftw3_wrapper fftpack)
 endif()
 
 
-set(TARGET main.exe)
-set(SOURCE_FILES src/apps/main.f90)
+#set(TARGET main.exe)
+#set(SOURCE_FILES src/apps/main.f90)
+#add_executable(${TARGET} ${SOURCE_FILES})
+#target_link_directories(${TARGET} PUBLIC "/home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/lib"
+#  PUBLIC ${CMAKE_SOURCE_DIR}/modules
+#  )
+#target_link_libraries(${TARGET} fftpack fourier_module)
 
-
+#TEST-WRAPPER:
+set(TARGET testWrapper.exe)
+set(SOURCE_FILES src/apps/testWrapper.f90)
 add_executable(${TARGET} ${SOURCE_FILES})
-target_link_directories(${TARGET} PUBLIC "/home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/lib"
-  PUBLIC ${CMAKE_SOURCE_DIR}/modules
-  )
-target_link_libraries(${TARGET} fftpack fourier_module)
+target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE})
+target_link_directories(${TARGET}
+  PUBLIC ${FFTPACK_LIBS}
+  PUBLIC ${FFTWRAPPER_LIBS}
+  PUBLIC ${CMAKE_SOURCE_DIR}/modules)
+target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module2d)
+

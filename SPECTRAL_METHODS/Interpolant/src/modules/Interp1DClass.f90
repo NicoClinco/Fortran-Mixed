@@ -19,7 +19,7 @@ module FourierInterp1dClass
      module procedure Fourierinterpolate1D_scalar,Fourierinterpolate1D_vector
   end interface Interpolate
   
-  !>@brief Derived class
+  !>@brief Derived class from the Fourier interpolant
   type, extends(FourierInterp1d):: FourierDerivative1d
      !private
      complex(rk),allocatable :: dyHat(:);
@@ -70,7 +70,7 @@ contains
     Dobj%m_derivtransformed = .false.;
 
   end function DerFourierInterp1d_
-  
+!------------------------------------------------------ 
   !>@brief Perform the transformation
   !in the fourier space and obtain yHat.
   subroutine Fwdtransform(Iobj)
@@ -80,9 +80,12 @@ contains
     tmp = Iobj%y;
 
     Iobj%yHat = fft(tmp)
-    Iobj%m_transformed = .true.; !Allows us to save the state.
+    Iobj%m_transformed = .true.; !Allows us to save
   end subroutine Fwdtransform
-!--------------------------------------------------
+  !-----------------------------------------------------
+  !>@brief Perform the Fourier transform
+  ! for obtaining the discrete fourier coefficients
+  ! for the derivative interpolant
   subroutine derFwdtransform(Dobj)
     class (FourierDerivative1d) :: Dobj;
     complex(rk) :: tmp(size(Dobj%y));
@@ -97,6 +100,7 @@ contains
     Dobj%dyHat = ju * (Dobj%yHat) * fftfreq(size(Dobj%yHat));
     Dobj%m_derivtransformed = .true.;
   end subroutine derFwdtransform
+  
 !--------------------------------------------------
   !>@brief Interpolate to a specific point
   ! @param [in]  x The point where we interpolate
@@ -117,9 +121,9 @@ contains
 
     discrete_exp = exp(ju*fftfreq(n)*x);
     yInt = abs(sum(discrete_exp*Iobj%yHat))/real(n); !Normalize
-
   end subroutine Fourierinterpolate1D_scalar
-
+  !---------------------------------------------------------------
+  
   !>@brief Interpolate to a set of points
   !specified in the vector 'x'
   subroutine Fourierinterpolate1D_vector(Iobj,x,yInt)
@@ -136,13 +140,10 @@ contains
     do i=1,size(x)
        discrete_exp(i,:) = exp(ju*fftfreq(size(Iobj%y))*x(i));
     enddo
-
-    
     !Matrix multiplication:
-    yInt =  real(matmul(discrete_exp,Iobj%yHat))/(size(Iobj%y));
-    
+    yInt =  real(matmul(discrete_exp,Iobj%yHat))/(size(Iobj%y));   
   end subroutine Fourierinterpolate1D_vector
-
+!----------------------------------------------------------------
   !>@brief Return the derivative of the function in the
   !point x
   subroutine FourierDerivative1D_scalar(Dobj,x,dyInt)
@@ -156,13 +157,9 @@ contains
        print*,'Error, you must initialize the interpolation object before proceeding';
     endif
 
-    !n = size(Dobj%y);
     discrete_exp = exp(ju*fftfreq(size(Dobj%y))*x);
 
     dyInt = abs(sum(discrete_exp*Dobj%dyHat))/real(size(Dobj%y));
-    
   end subroutine FourierDerivative1D_scalar
-
-  
-  
+!------------------------------------------------------------------
 end module FourierInterp1dClass

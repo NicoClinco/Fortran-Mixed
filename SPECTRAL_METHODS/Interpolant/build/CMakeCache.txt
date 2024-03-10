@@ -14,11 +14,11 @@
 # EXTERNAL cache entries
 ########################
 
-//Build the FFT module
-BUILD_FFT_MODULE:BOOL=OFF
+//--Build the FOURIER module 1D--
+BUILD_FOURIER_MODULE_1D:BOOL=OFF
 
-//Build the FOURIER module
-BUILD_FOURIER_MODULE:BOOL=ON
+//--Build the FOURIER module 2D--
+BUILD_FOURIER_MODULE_2D:BOOL=ON
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
@@ -205,15 +205,15 @@ SpectralDerivative_IS_TOP_LEVEL:STATIC=ON
 SpectralDerivative_SOURCE_DIR:STATIC=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant
 
 //Dependencies for the target
-fourier_module_LIB_DEPENDS:STATIC=general;fftpack;
+fourier_module2d_LIB_DEPENDS:STATIC=general;fftw3;general;fftw3_wrapper;general;fftpack;
 
 
 ########################
 # INTERNAL cache entries
 ########################
 
-//MODIFIED property for variable: BUILD_FOURIER_MODULE
-BUILD_FOURIER_MODULE-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: BUILD_FOURIER_MODULE_2D
+BUILD_FOURIER_MODULE_2D-MODIFIED:INTERNAL=ON
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR

@@ -40,6 +40,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/fourier_module.dir/DependInfo.cmake"
-  "CMakeFiles/main.exe.dir/DependInfo.cmake"
+  "CMakeFiles/fourier_module2d.dir/DependInfo.cmake"
+  "CMakeFiles/testWrapper.exe.dir/DependInfo.cmake"
   )
