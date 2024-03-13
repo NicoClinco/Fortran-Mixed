@@ -48,10 +48,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/cmake/1366/bin/cmake
+CMAKE_COMMAND = /home/nico/.local/lib/python3.10/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /snap/cmake/1366/bin/cmake -E rm -f
+RM = /home/nico/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -78,7 +78,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake to regenerate build system..."
-	/snap/cmake/1366/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/nico/.local/lib/python3.10/site-packages/cmake/data/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -155,6 +155,19 @@ testWrapper.exe/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/build
 .PHONY : testWrapper.exe/fast
 
+#=============================================================================
+# Target rules for targets named test1Dsolver.exe
+
+# Build rule for target.
+test1Dsolver.exe: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test1Dsolver.exe
+.PHONY : test1Dsolver.exe
+
+# fast build rule for target.
+test1Dsolver.exe/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test1Dsolver.exe.dir/build.make CMakeFiles/test1Dsolver.exe.dir/build
+.PHONY : test1Dsolver.exe/fast
+
 src/apps/testWrapper.o: src/apps/testWrapper.f90.o
 .PHONY : src/apps/testWrapper.o
 
@@ -178,6 +191,30 @@ src/apps/testWrapper.s: src/apps/testWrapper.f90.s
 src/apps/testWrapper.f90.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/src/apps/testWrapper.f90.s
 .PHONY : src/apps/testWrapper.f90.s
+
+src/apps/test_solver.o: src/apps/test_solver.f90.o
+.PHONY : src/apps/test_solver.o
+
+# target to build an object file
+src/apps/test_solver.f90.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test1Dsolver.exe.dir/build.make CMakeFiles/test1Dsolver.exe.dir/src/apps/test_solver.f90.o
+.PHONY : src/apps/test_solver.f90.o
+
+src/apps/test_solver.i: src/apps/test_solver.f90.i
+.PHONY : src/apps/test_solver.i
+
+# target to preprocess a source file
+src/apps/test_solver.f90.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test1Dsolver.exe.dir/build.make CMakeFiles/test1Dsolver.exe.dir/src/apps/test_solver.f90.i
+.PHONY : src/apps/test_solver.f90.i
+
+src/apps/test_solver.s: src/apps/test_solver.f90.s
+.PHONY : src/apps/test_solver.s
+
+# target to generate assembly for a file
+src/apps/test_solver.f90.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test1Dsolver.exe.dir/build.make CMakeFiles/test1Dsolver.exe.dir/src/apps/test_solver.f90.s
+.PHONY : src/apps/test_solver.f90.s
 
 src/modules/Interp1DClass.o: src/modules/Interp1DClass.f90.o
 .PHONY : src/modules/Interp1DClass.o
@@ -237,10 +274,14 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... fourier_module1d"
 	@echo "... fourier_module2d"
+	@echo "... test1Dsolver.exe"
 	@echo "... testWrapper.exe"
 	@echo "... src/apps/testWrapper.o"
 	@echo "... src/apps/testWrapper.i"
 	@echo "... src/apps/testWrapper.s"
+	@echo "... src/apps/test_solver.o"
+	@echo "... src/apps/test_solver.i"
+	@echo "... src/apps/test_solver.s"
 	@echo "... src/modules/Interp1DClass.o"
 	@echo "... src/modules/Interp1DClass.i"
 	@echo "... src/modules/Interp1DClass.s"

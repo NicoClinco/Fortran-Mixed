@@ -73,3 +73,14 @@ target_link_directories(${TARGET}
   PUBLIC ${CMAKE_SOURCE_DIR}/modules)
 target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module2d)
 
+
+#General-Solver:
+set(TARGET test1Dsolver.exe)
+set(SOURCE_FILES src/apps/test_solver.f90)
+add_executable(${TARGET} ${SOURCE_FILES})
+target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE})
+target_link_directories(${TARGET}
+  PUBLIC ${FFTPACK_LIBS}
+  PUBLIC ${FFTWRAPPER_LIBS}
+  PUBLIC ${CMAKE_SOURCE_DIR}/modules)
+target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module2d)

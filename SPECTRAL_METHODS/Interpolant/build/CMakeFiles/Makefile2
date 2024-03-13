@@ -45,10 +45,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/cmake/1366/bin/cmake
+CMAKE_COMMAND = /home/nico/.local/lib/python3.10/site-packages/cmake/data/bin/cmake
 
 # The command to remove a file.
-RM = /snap/cmake/1366/bin/cmake -E rm -f
+RM = /home/nico/.local/lib/python3.10/site-packages/cmake/data/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -66,6 +66,7 @@ CMAKE_BINARY_DIR = /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS
 all: CMakeFiles/fourier_module1d.dir/all
 all: CMakeFiles/fourier_module2d.dir/all
 all: CMakeFiles/testWrapper.exe.dir/all
+all: CMakeFiles/test1Dsolver.exe.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -76,6 +77,7 @@ preinstall:
 clean: CMakeFiles/fourier_module1d.dir/clean
 clean: CMakeFiles/fourier_module2d.dir/clean
 clean: CMakeFiles/testWrapper.exe.dir/clean
+clean: CMakeFiles/test1Dsolver.exe.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -137,7 +139,7 @@ CMakeFiles/fourier_module2d.dir/clean:
 CMakeFiles/testWrapper.exe.dir/all: CMakeFiles/fourier_module2d.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=5,6 "Built target testWrapper.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=7,8 "Built target testWrapper.exe"
 .PHONY : CMakeFiles/testWrapper.exe.dir/all
 
 # Build rule for subdir invocation for target.
@@ -155,6 +157,32 @@ testWrapper.exe: CMakeFiles/testWrapper.exe.dir/rule
 CMakeFiles/testWrapper.exe.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testWrapper.exe.dir/build.make CMakeFiles/testWrapper.exe.dir/clean
 .PHONY : CMakeFiles/testWrapper.exe.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test1Dsolver.exe.dir
+
+# All Build rule for target.
+CMakeFiles/test1Dsolver.exe.dir/all: CMakeFiles/fourier_module2d.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test1Dsolver.exe.dir/build.make CMakeFiles/test1Dsolver.exe.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test1Dsolver.exe.dir/build.make CMakeFiles/test1Dsolver.exe.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles --progress-num=5,6 "Built target test1Dsolver.exe"
+.PHONY : CMakeFiles/test1Dsolver.exe.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test1Dsolver.exe.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test1Dsolver.exe.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nico/Desktop/PHD-COURSES/Fortran-Mixed/SPECTRAL_METHODS/Interpolant/build/CMakeFiles 0
+.PHONY : CMakeFiles/test1Dsolver.exe.dir/rule
+
+# Convenience name for target.
+test1Dsolver.exe: CMakeFiles/test1Dsolver.exe.dir/rule
+.PHONY : test1Dsolver.exe
+
+# clean rule for target.
+CMakeFiles/test1Dsolver.exe.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test1Dsolver.exe.dir/build.make CMakeFiles/test1Dsolver.exe.dir/clean
+.PHONY : CMakeFiles/test1Dsolver.exe.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
