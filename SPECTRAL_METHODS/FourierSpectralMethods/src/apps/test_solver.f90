@@ -29,8 +29,8 @@ program main
   real(8),parameter :: pi = 3.14159265358979323846
 
 
-  nsteps = 20
-  nspace = 64
+  nsteps = 10000
+  nspace = 160
   h = 2.0*pi/real(nspace,8)
   
   allocate(x(nspace),c(nspace),u(nspace,nsteps+1))
@@ -45,22 +45,22 @@ program main
   u(:,1) = u0(x)   !Initial condition
 
   t0 = 0.0
-  tfin = 0.01
+  tfin = 8.0
   dt =(tfin-t0)/nsteps
   j = 1
   do while (curr_time < tfin .and. j<=nsteps)
 
      u(:,j+1) = u(:,j) - dt*rhs(c,u(:,j))
-     print '("Current time step: ",f5.3)',curr_time
+     print '("Current time step: ",f5.3)',curr_time+dt
      curr_time = curr_time + dt
      j=j+1
   end do
 
   u = transpose(u)
-  open(unit=999,file='solution.csv',status='replace', action="write")
+  open(unit=999,file='Solution.csv',status='replace', action="write")
   do i=1,size(u,2)
-     do j=1,size(u,1)
-        write(999,'(e12.5,",")',advance='no') u(j,i)
+     do j=1,size(u,1),10
+        write(999,'((G0.8,","))',advance='no') u(j,i)
      enddo
      write(999,*)
   enddo
@@ -75,7 +75,7 @@ contains
   function rhs(c,u)
     real(8), allocatable :: rhs(:)
     real(8),intent(in) :: c(:); !The convection velocity
-    real(8),intent(in) :: u(:); !The convection velocity
+    real(8),intent(in) :: u(:); !The solution
     !real(8),allocatable :: D(:,:) !The matrix of the derivatives
     integer :: n
     complex(8),allocatable :: vHat(:);
@@ -113,7 +113,7 @@ contains
     allocate(Conv(size(x)))
 
     !Convective velocity:
-    Conv = 0.2+(sin(x-1.0))**2
+    Conv = 0.1+(sin(x-1.0))**2
 
   end function Conv
 

@@ -16,6 +16,12 @@ set(FFTPACK_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/include)
 set(FFTPACK_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/lib)
 set(FFTWRAPPER_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/fft_wrapper/include)
 set(FFTWRAPPER_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/fft_wrapper/libs)
+set(SCIFORTRAN_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/SciFORTRAN/scifor/gnu/4.10.9-1-gb5ac685a/include)
+set(SCIFORTRAN_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/SciFORTRAN/scifor/gnu/4.10.9-1-gb5ac685a/lib)
+
+set(LIB_PATHS ${FFTPACK_LIBS} ${FFTWRAPPER_LIBS} ${SCIFORTRAN_LIBS})
+set(INCLUDE_PATHS ${FFTPACK_INCLUDE} ${FFTWRAPPER_INCLUDE} ${SCIFORTRAN_INCLUDE})
+
 
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -I/usr/include")
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -std=f2008 ")
@@ -40,27 +46,28 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/apps)
 if(BUILD_FOURIER_MODULE_1D)
   message(STATUS "---Building the Fourier module 1d---")
   add_library(fourier_module1d ${CMAKE_SOURCE_DIR}/src/modules/Interp1DClass.f90)
-  target_include_directories(fourier_module1d PUBLIC ${FFTPACK_INCLUDE})
-  target_link_directories(fourier_module1d PUBLIC ${FFTPACK_LIBS})
+  target_include_directories(fourier_module1d PUBLIC ${INCLUDE_PATHS})
+  target_link_directories(fourier_module1d PUBLIC ${LIB_PATHS})
   target_link_libraries(fourier_module1d fftpack)
 endif()
 
 if(BUILD_FOURIER_MODULE_2D)
   message(STATUS "---Building the Fourier module 2d---")
   add_library(fourier_module2d ${CMAKE_SOURCE_DIR}/src/modules/Interp2DClass.f90)
-  target_include_directories(fourier_module2d PUBLIC ${FFTPACK_INCLUDE} ${FFTWRAPPER_INCLUDE})
-  target_link_directories(fourier_module2d PUBLIC ${FFTPACK_LIBS} PUBLIC ${FFTWRAPPER_LIBS})
+  target_include_directories(fourier_module2d PUBLIC ${INCLUDE_PATHS})
+  target_link_directories(fourier_module2d PUBLIC ${LIB_PATHS})
   target_link_libraries(fourier_module2d fftw3 fftw3_wrapper fftpack)
 endif()
 
-
-#set(TARGET main.exe)
-#set(SOURCE_FILES src/apps/main.f90)
-#add_executable(${TARGET} ${SOURCE_FILES})
-#target_link_directories(${TARGET} PUBLIC "/home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/lib"
-#  PUBLIC ${CMAKE_SOURCE_DIR}/modules
-#  )
-#target_link_libraries(${TARGET} fftpack fourier_module)
+#Test 1d fourier interpolant
+set(TARGET test1d.exe)
+set(SOURCE_FILES src/apps/test1d.f90)
+add_executable(${TARGET} ${SOURCE_FILES})
+target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE})
+target_link_directories(${TARGET}
+  PUBLIC ${LIB_PATHS}
+  PUBLIC ${CMAKE_SOURCE_DIR}/modules)
+target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module1d)
 
 #TEST-WRAPPER:
 set(TARGET testWrapper.exe)
@@ -84,3 +91,5 @@ target_link_directories(${TARGET}
   PUBLIC ${FFTWRAPPER_LIBS}
   PUBLIC ${CMAKE_SOURCE_DIR}/modules)
 target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module2d)
+
+

@@ -28,6 +28,8 @@ module FourierInterp2dClass
      logical :: m_derivtransformed;
    contains
      !Note that the procedure are inherited from the base class
+     procedure :: grad2dXs => FourierGradX_scalar
+     procedure :: grad2dYs => FourierGradY_scalar
   end type FourierDerivative2d
 
   real(rk),parameter :: pi =  3.14159265358979323846;!pi
@@ -126,9 +128,10 @@ contains
   
   !--------------------------------------------------------
   !>@brief Get the derivative in a specified 2d point
+  !along the x direction
   !@param[in] Dobj The derivative object
-  !@param[in] xy Specific point where we want the gradient
-  !@param[]
+  !@param[in] xy Specific point where we want the derivative
+  !@param[out] dyInt The derivative value
   subroutine FourierGradX_scalar(Dobj,xy,dyInt)
     use fftpack, only : fftfreq !Use the frequencies
     implicit none
@@ -146,15 +149,41 @@ contains
     !Get the discrete exponential in the specific points:
     do i =1,n(2)
        expK(:,i) = exp(ju*xy(1)*fftfreq(n(1)))
-
     enddo
     do i=1,n(1)
        expL(i,:) = exp(ju*xy(2)*fftfreq(n(2)))
     enddo
     dyInt = real(sum(Dobj%dydxHat*expK*expL))/(n(1)*n(2));
   end subroutine FourierGradX_scalar
-!------------------------------------------------------------
-  
+!-------------------------------------------------------------------
+  !>@brief Get the derivative in a specified 2d point
+  !along the y direction
+  !@param[in] Dobj the derivative object
+  !@param[in] xy the specific point where we want the derivative
+  subroutine FourierGradY_scalar(Dobj,xy,dyInt)
+    use fftpack, only : fftfreq !Use the frequencies
+    implicit none
+    class (FourierDerivative2d),intent(inout) :: Dobj
+    real(rk),intent(in) :: xy(:)
+    real(rk),intent(out) :: dyInt
+    
+    integer :: i,n(2)
+    complex(rk),allocatable :: expK(:,:),expL(:,:);
+    
+    n = shape(Dobj%y)
+
+    allocate(expK(n(1),n(2)),expL(n(1),n(2))); !allocate the exponentials
+
+    do i =1,n(2) !x
+       expK(:,i) = exp(ju*xy(1)*fftfreq(n(1)))
+    enddo
+    do i=1,n(1) !y
+       expL(i,:) = exp(ju*xy(2)*fftfreq(n(2)))
+    enddo
+    !Derivative with respect y:
+    dyInt = real(sum(Dobj%dydyHat*expK*expL))/(n(1)*n(2));
+ !---------------------------------------------------------------------   
+  end subroutine FourierGradY_scalar
   
   !>@brief Interpolate in a specified point
   !@param [in] xy: An array which contains
@@ -184,6 +213,9 @@ contains
     yInt = real(sum(Iobj%yHat*expK*expL))/(n(1)*n(2));
   end subroutine FourierInterpolate2D_scalar
   !----------------------------------------------------------------
+
+  
+
   
   !>@brief Interpolate to a set of interpolation points
   !@param[in] Iobj

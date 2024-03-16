@@ -145,7 +145,8 @@ contains
   end subroutine Fourierinterpolate1D_vector
 !----------------------------------------------------------------
   !>@brief Return the derivative of the function in the
-  !point   subroutine FourierDerivative1D_scalar(Dobj,x,dyInt)
+  !point x
+  subroutine FourierDerivative1D_scalar(Dobj,x,dyInt)
     class (FourierDerivative1d),intent(in) :: Dobj;
     real(rk),intent(in) :: x;
     real(rk),intent(out) :: dyInt; !The interpolated value
@@ -160,5 +161,44 @@ contains
 
     dyInt = abs(sum(discrete_exp*Dobj%dyHat))/real(size(Dobj%y));
   end subroutine FourierDerivative1D_scalar
-!------------------------------------------------------------------
+  !------------------------------------------------------------------
+
+  !>@brief Get the derivative matrix
+  !for given a grid between [0,2*pi]
+  !@param numPnts the number of points
+  function GetDerivativeMatrix(numPnts) result (Dn)
+    use fftpack, only : fftfreq
+    implicit none
+    integer :: numPnts,i,j !The number of points retained
+    real(kind=8) :: Dn(0:numPnts-1,0:numPnts-1)
+
+    integer :: freqs(numPnts)
+    real,allocatable :: k(:) !Frequencies
+
+    if( mod(numPnts,2) == 0) then
+       allocate(k(numPnts+1))
+       do i=-numPnts/2,numPnts/2
+          k(i+numPnts/2+1) = real(i)
+       enddo
+       k(1) = k(1)/2.0
+       k(numPnts) = k(numPnts+1)/2.0;
+    else
+       !Use the fft package
+       allocate(k(numPnts))
+       k = real(fftfreq(numPnts),8)
+
+       !k(int(numPnts/2+1))=k(int(numPnts/2+1))/2.0
+       !k(int(numPnts/2+1)+1)=k(int(numPnts/2+1)+1)/2.0
+       
+    endif
+    print*,k(:)
+    do j=0,numPnts-1
+       do i=0,numPnts-1
+          Dn(i,j) = real(sum(ju*k*exp( ju*2.0*pi/real(numPnts)*real(i-j)*k) ) )
+       enddo
+    enddo
+    Dn = Dn/real(numPnts)
+  end function GetDerivativeMatrix
+
+  
 end module FourierInterp1dClass
