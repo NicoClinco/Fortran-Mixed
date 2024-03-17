@@ -48,48 +48,48 @@ if(BUILD_FOURIER_MODULE_1D)
   add_library(fourier_module1d ${CMAKE_SOURCE_DIR}/src/modules/Interp1DClass.f90)
   target_include_directories(fourier_module1d PUBLIC ${INCLUDE_PATHS})
   target_link_directories(fourier_module1d PUBLIC ${LIB_PATHS})
-  target_link_libraries(fourier_module1d fftpack)
+  target_link_libraries(fourier_module1d fftpack scifor)
 endif()
 
 if(BUILD_FOURIER_MODULE_2D)
   message(STATUS "---Building the Fourier module 2d---")
   add_library(fourier_module2d ${CMAKE_SOURCE_DIR}/src/modules/Interp2DClass.f90)
-  target_include_directories(fourier_module2d PUBLIC ${INCLUDE_PATHS})
-  target_link_directories(fourier_module2d PUBLIC ${LIB_PATHS})
-  target_link_libraries(fourier_module2d fftw3 fftw3_wrapper fftpack)
+  target_include_directories(fourier_module2d PUBLIC ${INCLUDE_PATHS} ${CMAKE_SOURCE_DIR}/modules)
+  target_link_directories(fourier_module2d PUBLIC ${LIB_PATHS} ${CMAKE_SOURCE_DIR}/modules)
+  target_link_libraries(fourier_module2d fftw3 fftw3_wrapper fftpack scifor fourier_module1d)
 endif()
 
 #Test 1d fourier interpolant
 set(TARGET test1d.exe)
 set(SOURCE_FILES src/apps/test1d.f90)
 add_executable(${TARGET} ${SOURCE_FILES})
-target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE})
+target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE} )
 target_link_directories(${TARGET}
   PUBLIC ${LIB_PATHS}
   PUBLIC ${CMAKE_SOURCE_DIR}/modules)
-target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module1d)
+target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack scifor fourier_module1d)
 
 #TEST-WRAPPER:
-set(TARGET testWrapper.exe)
-set(SOURCE_FILES src/apps/testWrapper.f90)
-add_executable(${TARGET} ${SOURCE_FILES})
-target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE})
-target_link_directories(${TARGET}
-  PUBLIC ${FFTPACK_LIBS}
-  PUBLIC ${FFTWRAPPER_LIBS}
-  PUBLIC ${CMAKE_SOURCE_DIR}/modules)
-target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module2d)
+#set(TARGET testWrapper.exe)
+#set(SOURCE_FILES src/apps/testWrapper.f90)
+#add_executable(${TARGET} ${SOURCE_FILES})
+#target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE})
+#target_link_directories(${TARGET}
+#  PUBLIC ${FFTPACK_LIBS}
+#  PUBLIC ${FFTWRAPPER_LIBS}
+#  PUBLIC ${CMAKE_SOURCE_DIR}/modules)
+#target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module2d)
 
 
 #General-Solver:
-set(TARGET test1Dsolver.exe)
-set(SOURCE_FILES src/apps/test_solver.f90)
-add_executable(${TARGET} ${SOURCE_FILES})
-target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE})
-target_link_directories(${TARGET}
-  PUBLIC ${FFTPACK_LIBS}
-  PUBLIC ${FFTWRAPPER_LIBS}
-  PUBLIC ${CMAKE_SOURCE_DIR}/modules)
-target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module2d)
+#set(TARGET test1Dsolver.exe)
+#set(SOURCE_FILES src/apps/test_solver.f90)
+#add_executable(${TARGET} ${SOURCE_FILES})
+#target_include_directories(${TARGET} PUBLIC ${FFTPACK_INCLUDE} PUBLIC ${FFTWRAPPER_INCLUDE})
+#target_link_directories(${TARGET}
+#  PUBLIC ${FFTPACK_LIBS}
+#  PUBLIC ${FFTWRAPPER_LIBS}
+#  PUBLIC ${CMAKE_SOURCE_DIR}/modules)
+#target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack fourier_module2d)
 
 

@@ -32,9 +32,15 @@ module FourierInterp1dClass
   real(rk),parameter :: pi =  3.14159265358979323846;!pi
   complex,parameter :: ju = (0.0,1.0);   !img unity
 
-  !interface interpolate1D
+  interface MassMatrix
+     module procedure GetInterpolationMatrix
+  end interface MassMatrix
 
-  !end interface interpolate1D
+  interface DerivativeMatrix
+     module procedure GetDerivativeMatrix
+  end interface DerivativeMatrix
+  
+  
 contains
 
   !>@brief Constructor for 1d interpolation
@@ -173,32 +179,47 @@ contains
     real(kind=8) :: Dn(0:numPnts-1,0:numPnts-1)
 
     integer :: freqs(numPnts)
-    real,allocatable :: k(:) !Frequencies
+    real(8),allocatable :: k(:) !Frequencies
+   
+    real(8) :: f1 
 
-    if( mod(numPnts,2) == 0) then
-       allocate(k(numPnts+1))
-       do i=-numPnts/2,numPnts/2
-          k(i+numPnts/2+1) = real(i)
-       enddo
-       k(1) = k(1)/2.0
-       k(numPnts) = k(numPnts+1)/2.0;
-    else
-       !Use the fft package
-       allocate(k(numPnts))
-       k = real(fftfreq(numPnts),8)
-
-       !k(int(numPnts/2+1))=k(int(numPnts/2+1))/2.0
-       !k(int(numPnts/2+1)+1)=k(int(numPnts/2+1)+1)/2.0
-       
-    endif
-    print*,k(:)
+    f1 = 2.0*pi/real(numPnts,8);
+    Dn = 0.0
+    allocate(k(numPnts))
+    k = real(fftfreq(numPnts),8)
+    
     do j=0,numPnts-1
        do i=0,numPnts-1
-          Dn(i,j) = real(sum(ju*k*exp( ju*2.0*pi/real(numPnts)*real(i-j)*k) ) )
+          Dn(i,j) = real(ju*sum(k*exp( ju*f1*real(i-j)*k)))
        enddo
     enddo
-    Dn = Dn/real(numPnts)
+    Dn = Dn/real(numPnts,8)
   end function GetDerivativeMatrix
 
-  
+
+  !>@brief Get the interpolation Matrix
+  !@param numPoints The number of points retained
+  function GetInterpolationMatrix(numPnts) result(In)
+    use fftpack, only : fftfreq
+    implicit none
+    integer :: numPnts,i,j !The number of points retained
+    real(kind=8) :: In(0:numPnts-1,0:numPnts-1)
+
+    integer :: freqs(numPnts)
+    real(8),allocatable :: k(:) !Frequencies
+
+    real(8) :: f1 
+
+    f1 = 2.0*pi/real(numPnts,8); !factor
+    In = 0.0
+    allocate(k(numPnts))
+    k = real(fftfreq(numPnts),8)
+    do j=0,numPnts-1
+       do i=0,numPnts-1
+          In(i,j) = real(sum(exp( ju*f1*real(i-j)*k)))
+       enddo
+    enddo
+    In = In/real(numPnts,8)
+  end function GetInterpolationMatrix
+
 end module FourierInterp1dClass

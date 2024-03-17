@@ -4,6 +4,9 @@ program main
   !     FourierDerivative1d,DerFourierInterp1d_,derFwdTransform,FourierDerivative1D_scalar, InterpolateFourier
   use FourierInterp1dClass
   use fftpack_kind, only: rk
+
+  USE SCIFOR, only: parse_cmd_variable,parse_input_variable 
+  
   implicit none;
   integer ::i;
   real(rk),allocatable :: x(:);
@@ -14,8 +17,8 @@ program main
   type (FourierDerivative1d) :: fourierDerivative;
 
   !Derivative matrix:
-  real(rk),allocatable:: Dn(:,:);
-  
+  real(rk),allocatable:: Dn(:,:),In(:,:);
+  real(rk),allocatable :: Dny(:),Iny(:);
   !real(rk),parameter :: pi =  3.14159265358979323846;
   real(rk):: y_interp,dy_interp;
 
@@ -25,7 +28,14 @@ program main
   real(rk),allocatable :: y_(:);
   real(rk),allocatable :: y_hat(:);
 
-  n=10;
+  character(len=28) :: cmdlinestring
+  
+  !---------------> Classical method : explicit evaluation:
+  call parse_cmd_variable(cmdlinestring,"cmdlinestring")
+  call parse_input_variable(npnts,"num_points",cmdlinestring,default=5,comment='Number of points to test')
+  write(*,'("Selected number of points: ",i2)')npnts
+  !npnts=9;
+  n = npnts
   allocate(x(n),y(n),yHat(n),y_(n),y_hat(n));
 
   do i=1,n
@@ -55,21 +65,27 @@ program main
   print '(A,1X,E11.5)','Interpolation error',abs(sum(y_-y));
   
   print*,'Interpolated value [derivative] in x=0.5: ',dy_interp;
-  
+  !------------------------------------->
   !print '("{",ES10.3,",",1X,ES10.3,"}")',yHat(1:5);
 
-  npnts = 5
-  allocate(Dn(0:npnts,0:npnts))
+  !npnts =4
+  allocate(Dn(npnts,npnts))
+  allocate(In(npnts,npnts))
   Dn = GetDerivativeMatrix(npnts)
+  In = GetInterpolationMatrix(npnts)
+  
+  allocate(Dny(npnts),Iny(npnts))
+  
+  Dny = matmul(Dn,y)
+  Iny = matmul(In,y)
 
-  open(999, file='DerMatrix.csv', status='replace', action='write')
-  do i=1,npnts
-     write(999,'(*(E12.6,","))') Dn(i,:)
-  enddo
-  close(999)
+  write(*,'("Interpolation with matrixes",*(E12.4))') Iny
+  write(*,'("Exact solution y = sin(x)",*(E12.4))') real(y)
   
+  write(*,'("Derivative with matrixes",*(E12.4))') Dny
+  write(*,'("Exact solution y = cos(x)",*(E12.4))') cos(x)
+
   
- 
   
 
 

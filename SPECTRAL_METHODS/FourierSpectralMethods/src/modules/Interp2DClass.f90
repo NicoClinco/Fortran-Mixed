@@ -237,3 +237,43 @@ contains
   end subroutine FourierInterpolate2D_vector
   
 end module FourierInterp2dClass
+
+!>@brief a Module which contains some subroutines
+!for assembling matrixes for derivative
+!
+!Note: The global solution is assumed to be flattened
+!      (in the sense that is Nx*Ny)
+!
+!
+!
+!
+module FourierOperators2d
+
+contains
+
+  function gradXmatrix(numPoints)
+    !use SCIFOR, only : SF_SP_LINALG, only: build_tridiag_block, SF_LINALG
+    
+    use FourierInterp1dClass, only : GetDerivativeMatrix
+    !use SCIFOR, only : SF_LINALG
+    
+    real(kind=8) :: gradXmatrix(numPoints*numPoints,numPoints*numPoints)
+    real(kind=8) :: gradXsubMatrix(numPoints,numPoints); !The matrix that will create the diagonal
+    real(kind=8) :: subDiagDummy(numPoints-1,numPoints,numPoints);
+    real(kind=8) :: mDiagonal(numPoints,numPoints,numPoints);
+    integer indx
+
+    do indx=1,numPoints-1
+       subDiagDummy(i,:,:) = real(zeros(numPoints,numPoints),8)
+    enddo
+
+    gradXsubMatrix = GetDerivativeMatrix(numPoints); !Get the subblock
+    
+    do indx=1,numPoints
+       mDiagonal(i,:,:) = gradXsubMatrix
+    enddo
+    
+    gradXmatrix = build_tridiag(numPoints,numPoints,subDiagDummy,mDiagonal)
+  end function gradXmatrix
+  
+end module FourierOperators2d
