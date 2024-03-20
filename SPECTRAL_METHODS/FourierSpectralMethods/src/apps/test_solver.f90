@@ -1,14 +1,18 @@
-!A 1D example of a solver of
-!a simple diffusion equation
-!with the Fourier collocation method.
+  !! A 1D example of a solver of a an advection equation
+  !! with the Fourier collocation method.
 
 ! -------------------------------------------------!
-!
-! \frac{\partial{u}}{\partial{t}} +
-!    c(x) \frac{\partial{u}}{\partial{x}} = 0 
-!
-! The derivative is computed by the pseudospectral
-! method, and the time step is EXP. EULER 1 order
+!>
+!! \begin{equation}
+!! 
+!! \frac{\partial{u}}{\partial{t}} +
+!!    c(x) \frac{\partial{u}}{\partial{x}} = 0 
+!!
+!! \end{equation}
+!!
+!! The derivative is computed by the pseudospectral
+
+!! method, and the time step is EXP. EULER 1 order
 !--------------------------------------------------!
 
 
