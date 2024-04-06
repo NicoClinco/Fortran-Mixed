@@ -1,8 +1,4 @@
 !! A 1D example of a solver that advance the Fourier modes in time
-!!
-!!
-!!
-!!
 program test1dFourier
   use fftw3_wrapper
   use SCIFOR, only: print_matrix
@@ -17,7 +13,13 @@ program test1dFourier
   real(8),parameter :: pi = 3.14159265358979323846
   complex(kind=8),allocatable :: uHatStages(:,:) !Solution at every stage [explicit stage]
   complex(kind=8),allocatable :: uHatTimes(:,:) !Solution at every time instance
-  complex(kind=8),allocatable :: uPhysTimes(:,:) !Solution [physical] at every time instance
+  real(kind=8),allocatable :: uPhysTimes(:,:) !Solution [physical] at every time instance
+
+  complex(kind=8),allocatable :: tmpuPhys(:);
+  complex(kind=8),allocatable :: tmpuHat(:);
+
+  
+
   
   !Time-stepping scheme tableu:
   integer :: numStages = 4
@@ -28,13 +30,16 @@ program test1dFourier
   real(kind=8) :: tstart,tend,dt,curr_time
   !Time advancing stuffs:
   tstart = 0.0
-  tend   = 2.0
-  numSteps= 50
+  tend   = 8.0
+  numSteps= 200
   dt = (tend-tstart)/real(numSteps)
 
-  numModes = 32
-  allocate( uHatTimes(numSteps,numModes), uPhysTimes(numSteps,numModes), &
-       uHatStages(numStages,numModes))
+  numModes = 24
+  allocate( uHatTimes(1:numSteps,1:numModes), uPhysTimes(1:numSteps,1:numModes), &
+       uHatStages(1:numStages,1:numModes))
+
+  !Allocate temporary vectors:
+  allocate(tmpuPhys(1:numModes),tmpuHat(1:numModes))
 
   alpha = 0.5
   epsilon = 0.0
@@ -42,10 +47,10 @@ program test1dFourier
   convMatrix = FourierAdvectionMatrix(numModes,alpha);
   diffMatrix = FourierDiffusionMatrix(numModes,epsilon);
 
-  write(*,'(A)')'-------------------------------------'
-  call print_matrix(convMatrix)
-  write(*,'(A)')'-------------------------------------'
-  call print_matrix(diffMatrix)
+  !write(*,'(A)')'-------------------------------------'
+  !call print_matrix(convMatrix)
+  !write(*,'(A)')'-------------------------------------'
+  !call print_matrix(diffMatrix)
 
   write(*,'(A)')'=========> STARTING THE TIME-STEPPING SCHEME========>'
 
@@ -62,13 +67,17 @@ program test1dFourier
   enddo
   curr_time = tstart
   step=1
-  uPhysTimes(step,:) = u0(x)
-  
-  !Initial condition   
-  call fft(uHatTimes(step,:),uPhysTimes(step,:))
+  uPhysTimes(1,:) = u0(x)
+  !print*,uPhysTimes(step,:)
+  !Initial condition
+  !call fft(uHatTimes(step,:),uPhysTimes(step,:))
+  tmpuPhys = u0(x)
+
+
+  call fft(tmpuHat,tmpuPhys,num=[numModes])
+  uHatTimes(1,:) = tmpuHat
   
   do while(curr_time<tend)
-
      uHatStages(1,:) = uHatTimes(step,:)
      do stage = 2,numStages
         uHatStages(stage,:) = uHatTimes(step,:)
@@ -80,13 +89,37 @@ program test1dFourier
      do stage = 1,numStages
         uHatTimes(step+1,:) = uHatTimes(step+1,:)+dt*b(stage)*matmul(convMatrix,uHatStages(stage,:))
      enddo
-     call ifft(uPhysTimes(step+1,:),uHatTimes(step+1,:))
+
+     
+     tmpuHat = uHatTimes(step+1,:)
+
+     deallocate(tmpuPhys)
+     call ifft(tmpuPhys,tmpuHat,num=[numModes])
+     uPhysTimes(step+1,:) = real(tmpuPhys,8) !copy
      step=step+1
-     curr_time = curr_time + dt 
+     curr_time = curr_time + dt
+     
   enddo
   
-
+  
   write(*,'(A)')'=========> ENDING THE TIME-STEPPING SCHEME==========>'
+
+  !Here we write the solution:
+  open(unit=999,file='sol.csv',status='replace',action='write')
+  
+  do i=1,size(uPhysTimes,2)
+     do j=1,6
+        
+        if(j.eq.1) then
+           write(999,'((G0.8,","))',advance='no') uPhysTimes(1,i)
+        else
+           write(999,'((G0.8,","))',advance='no') uPhysTimes((j-1)*40,i) 
+        endif
+ 
+     enddo
+     write(999,*)
+  enddo
+  close(999)
   
 contains
 
@@ -116,13 +149,13 @@ contains
     complex(kind=8),allocatable :: F(:,:)
     complex(kind=8) :: ju = (0.0,1.0) !Unitary vector
     ks = cmplx(fftfreq(modes))!Get the frequencies
-    F = diag(ju*alpha*ks);
-
+    F = diag(-ju*alpha*ks);
   end function FourierAdvectionMatrix
 
-  !> Evaluate the diffusion matrix
+  !> @brief Evaluate the diffusion matrix
   !!
-  !!
+  !! @param[in] modes The modes considered
+  !! @param[in] The viscosity coefficient
   function FourierDiffusionMatrix(modes,epsilon) result(Fsquare)
     use SCIFOR, only : diag
     use fftpack, only : fftfreq
@@ -137,10 +170,9 @@ contains
     Fsquare = diag(-epsilon*ks*ks);
   end function FourierDiffusionMatrix
 
-  !> Timestepping scheme
-  !!
-  !!
-  !!
+  !> @brief Timestepping scheme
+  !! Here we construct the Matrixes correspondant
+  !! to the runge-kutta tableau.
   subroutine ConstructRK4(A,b,c,numStages)
     integer,intent(in) :: numStages
     real(kind=8),intent(inout) :: A(numStages,numStages)
@@ -162,6 +194,5 @@ contains
     c(3) = 0.5 
     c(4) = 1.0
     
-
   end subroutine ConstructRK4
 end program test1dFourier
