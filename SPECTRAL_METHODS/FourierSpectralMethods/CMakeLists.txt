@@ -21,6 +21,8 @@ set(FFTWRAPPER_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/fft_wrapper/libs
 set(LAPACK_LIBS /usr/lib/x86_64-linux-gnu)
 set(SCIFORTRAN_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/SciFORTRAN/Scifor/build)
 set(SCIFORTRAN_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/SciFORTRAN/Scifor/build/include)
+set(NLSOLVER_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/nlesolver-fortran/build/gfortran_63E63B2712D76620/nlesolver-fortran)
+set(NLSOLVER_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/nlesolver-fortran/build/gfortran_2654F75F5833692A)
 
 set(LIB_PATHS ${FFTPACK_LIBS} ${FFTWRAPPER_LIBS} ${LAPACK_LIBS} ${SCIFORTRAN_LIBS})
 set(INCLUDE_PATHS ${FFTPACK_INCLUDE} ${FFTWRAPPER_INCLUDE} ${SCIFORTRAN_INCLUDE})
@@ -105,4 +107,19 @@ target_link_directories(${TARGET}
   PUBLIC ${LIB_PATHS}
   PUBLIC ${CMAKE_SOURCE_DIR}/modules
   )
-target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack blas scifor )
+target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack scifor)
+
+
+
+#Add also a non linear solver:
+set(TestNLsolver testNLsolver.exe)
+set(SOURCE_FILES src/apps/testNLsolver.f90)
+add_executable(${TestNLsolver} ${SOURCE_FILES})
+target_include_directories(${TestNLsolver} PUBLIC ${INCLUDE_PATHS} PUBLIC ${NLSOLVER_INCLUDE})
+target_link_directories(${TestNLsolver}
+  PUBLIC ${LIB_PATHS}
+  PUBLIC ${NLSOLVER_LIBS}
+  PUBLIC ${CMAKE_SOURCE_DIR}/modules
+  PUBLIC /usr/x86_64-linux-gnu
+  )
+target_link_libraries(${TestNLsolver}  gfortran lapacke lapack blas gfortran nlesolver-fortran)

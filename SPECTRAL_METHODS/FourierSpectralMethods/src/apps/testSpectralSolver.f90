@@ -2,6 +2,7 @@
 program test1dFourier
   use fftw3_wrapper
   use SCIFOR, only: print_matrix
+  
   implicit none
 
   integer :: numModes
@@ -18,9 +19,6 @@ program test1dFourier
   complex(kind=8),allocatable :: tmpuPhys(:);
   complex(kind=8),allocatable :: tmpuHat(:);
 
-  
-
-  
   !Time-stepping scheme tableu:
   integer :: numStages = 4
   real(kind=8) :: A(4,4)
