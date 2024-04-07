@@ -15,6 +15,9 @@ program nlesolver_test_1
   real(wp),parameter :: tol = 1.0e-8_wp
   logical,parameter :: verbose = .false.
 
+  integer :: max_iter_ = 200
+  real(wp) :: tol_ = 1.0e-8
+  logical :: verbose_= .false.
   !Solver parameters:
   type(nlesolver_type) :: solver
   real(wp) :: alpha
@@ -33,7 +36,11 @@ program nlesolver_test_1
   !real(wp) :: alpha_v(2)
   !alpha_v(:) = 1.0
 
-  print '(A)','------->TEST THE BASIC MODULE CAPABILITIES<------'
+    
+  fmin_tol = 1.0e-2_wp ! don't need a tight tol for this
+  n_intervals = 2
+  alpha = 1.0_wp
+  print '(A)','------->TEST THE MODULE CAPABILITIES<------'
 
   !Here we test the module that allows us to create parametric
   !functions for solving the non-linear system:
@@ -46,14 +53,25 @@ program nlesolver_test_1
   call set_parameters(parameters_vector)
   call setParametricJac(jac_func_p)
   call setParametricFunc(func_p)
+  !Initialize the internal non linear solver:
+  step_mode = 1
+  use_broyden = .false.
+  description= 'Optimizer: CONSTANT-ALPHA'
+  call initNLsys_global( n, &
+       m, &
+       max_iter = max_iter_, &
+       tol = tol_, &
+       step_mode = step_mode,&
+       use_broyden = use_broyden,&
+       n_intervals = n_intervals, &
+       fmin_tol = fmin_tol, &
+       verbose = verbose_, &
+       description=description)
+  x = [1.0_wp, 2.0_wp]
+  call NLsys_solve(x)
+  write(*,*)'Final root solution',x
   
-  
-  print '(A)','------->TEST THE BASIC MODULE CAPABILITIES<------'
-  
-  
-  fmin_tol = 1.0e-2_wp ! don't need a tight tol for this
-  n_intervals = 2
-  alpha = 1.0_wp
+  print '(A)','------->TEST THE MODULE<------'
 
   write(*,*) ''
   write(*,*) '***********************'
@@ -130,6 +148,7 @@ program nlesolver_test_1
      
      x = [1.0_wp, 2.0_wp]
      call solver%solve(x)
+     write(*,*)'---',x
 
      call solver%status(istat, message)
      write(*,'(I3,1X,A)') istat, message

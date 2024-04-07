@@ -21,14 +21,16 @@ module nlesolver_wrapper
   logical :: m_is_jac = .false.
 
 
+  
+
   !> @brief A basic structure that encapsulate
   !! all the functionalities
   type :: solver_info
      integer :: n
      integer :: m
      integer :: max_iter
-     integer :: tol
-     integer :: verbose
+     real(kind=8) :: tol
+     logical :: verbose
 
      !TYPE OF SOLVER
      !AND OTHER SETTINGS
@@ -40,7 +42,7 @@ module nlesolver_wrapper
      integer :: istat
      character(len=:), allocatable :: message
      character(len=:),allocatable :: description
-     real(wp) :: fmin_tol
+     real(kind=8) :: fmin_tol
   end type solver_info
   
   !Here we create the solver object:
@@ -74,12 +76,16 @@ module nlesolver_wrapper
   end interface
 
 
+  !Set to public the procedures:
   public setParametricFunc, setParametricJac, setStandardFunc, setStandardJac
   public set_parameters
   public wrapped_func, wrapped_jac
+
+  public setNLsysSettings, setNLsysOptions
+  public initNLsys_global
+  public NLsys_solve
   
-  
-contains
+ contains
   
   !> @brief Set the stored pointer to a function
   !! passed as argument
@@ -185,19 +191,21 @@ contains
     solver_obj%tol = tol
     solver_obj%verbose =verbose
   end subroutine setNLsysSettings
-  
-  subroutine setNLsysOptions(
-    step_mode,
-    use_broyden,
-    n_intervals,
-    fmin_tol,
-    description
-    )
+
+  !> @brief Set the options for the optmizer
+  !!
+  !!
+  subroutine setNLsysOptions( &
+    step_mode, &
+    use_broyden, &
+    n_intervals, &
+    fmin_tol, &
+    description)
     integer,intent(in)      :: step_mode
     logical,intent(in)      :: use_broyden
     integer,intent(in)      :: n_intervals
     real(kind=8),intent(in) :: fmin_tol
-    character(len=:)        :: description
+    character(len=:),intent(in),allocatable :: description
 
     solver_obj%step_mode = step_mode
     solver_obj%use_broyden = use_broyden
@@ -213,28 +221,71 @@ contains
   !! and the jacobian of the system previously,
   !! otherwise an error will be raised.
   !!@endnote
-  !!
   subroutine initNLsys()
     implicit none
 
-    if((m_is_func .eqv. .false.) .and.
+    if((m_is_func .eqv. .false.) .and. &
        (m_is_parametric_func).eqv. .false.) then
        error stop 'initNLsys: PLEASE, initialize the nl system!!!'
     endif
 
-    call solver_info%m_solver%initialize(
-    solver_info%n,
-    solver_info%m,
-    solver_info%tol,
-    func = wrapped_func,
-    grad = wrapped_jac,
-    step_mode = solver_info%step_mode,
-    use_broyden = solver_info%use_broyden
-    n_intervals = solver_info%n_intervals,
-    fmin_tol = solver_info%fmin_tol,
-    verbose = solver_info%verbose
+    !Print the message info:
+    write(*,'(A)') solver_obj%description
+    write(*,'(A)')'[initNLsys:]-->Initializing the internal solver object<--'
+    call solver_obj%m_solver%initialize( &
+    n=solver_obj%n, &
+    m=solver_obj%m, &
+    max_iter=solver_obj%max_iter, &
+    tol=solver_obj%tol, &
+    func = wrapped_func, &
+    grad = wrapped_jac, &
+    step_mode = solver_obj%step_mode, &
+    use_broyden = solver_obj%use_broyden, &
+    n_intervals = solver_obj%n_intervals, &
+    fmin_tol = solver_obj%fmin_tol, &
+    verbose = solver_obj%verbose &
     )
-    !To complete.
+    !export_iteration = export <- TODO
+    
   end subroutine initNLsys
+
+  !!> @brief Set the global non linear system in our case.
+  !!
+  !!
+  !!
+  subroutine initNLsys_global( &
+       n, &
+       m, &
+       step_mode,&
+       use_broyden,&
+       n_intervals, &
+       fmin_tol, &
+       description,&
+       max_iter, &
+       tol, &
+       verbose)
+    implicit none
+    integer, intent(in) :: n,m
+    integer,intent(inout),optional :: max_iter
+    real(kind=8),intent(inout),optional :: tol
+    logical,intent(inout),optional :: verbose
+    integer,intent(in) :: step_mode,n_intervals
+    logical,intent(in) :: use_broyden
+    real(kind=8),intent(in) :: fmin_tol
+    character(len=:),allocatable :: description
+
+    call setNLsysSettings(n,m,max_iter,tol,verbose)
+    call setNLsysOptions(step_mode,use_broyden,n_intervals,fmin_tol,description)
+    call initNLsys
+  end subroutine initNLsys_global
+
+  !> @brief Solve the non linear system
+  !! @param[in] x0 The initial condition.
+  subroutine NLsys_solve(x0)
+    implicit none
+    real(kind=8) :: x0(:)
+    write(*,'(A,1X,*(E10.3,","))')'Initial condition: ',x0(:)
+    call solver_obj%m_solver%solve(x0)
+  end subroutine NLsys_solve
   
 end module nlesolver_wrapper
