@@ -111,15 +111,15 @@ target_link_libraries(${TARGET} fftw3 fftw3_wrapper fftpack scifor)
 
 
 
-#Add also a non linear solver:
-set(TestNLsolver testNLsolver.exe)
-set(SOURCE_FILES src/apps/testNLsolver.f90)
-add_executable(${TestNLsolver} ${SOURCE_FILES})
-target_include_directories(${TestNLsolver} PUBLIC ${INCLUDE_PATHS} PUBLIC ${NLSOLVER_INCLUDE})
-target_link_directories(${TestNLsolver}
-  PUBLIC ${LIB_PATHS}
-  PUBLIC ${NLSOLVER_LIBS}
-  PUBLIC ${CMAKE_SOURCE_DIR}/modules
-  PUBLIC /usr/x86_64-linux-gnu
-  )
-target_link_libraries(${TestNLsolver}  gfortran lapacke lapack blas gfortran nlesolver-fortran)
+#Add solvers (implicit versions)
+#set(TestEulerImplicit testEulerIM.exe)
+#set(SOURCE_FILES src/apps/testEulerIM.f90)
+#add_executable(${TestEulerImplicit} ${SOURCE_FILES})
+#target_include_directories(${TestEulerImplicit} PUBLIC ${INCLUDE_PATHS} PUBLIC ${NLSOLVER_INCLUDE})
+#target_link_directories(${TestEulerImplicit}
+#  PUBLIC ${LIB_PATHS}
+#  PUBLIC ${NLSOLVER_LIBS}
+#  PUBLIC ${CMAKE_SOURCE_DIR}/modules
+#  PUBLIC /usr/x86_64-linux-gnu
+#  )
+#target_link_libraries(${TestEulerImplicit}  gfortran lapacke lapack blas gfortran nlesolver-fortran)
