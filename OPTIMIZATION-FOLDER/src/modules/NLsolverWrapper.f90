@@ -273,7 +273,8 @@ module nlesolver_wrapper
     logical,intent(in) :: use_broyden
     real(kind=8),intent(in) :: fmin_tol
     character(len=:),allocatable :: description
-
+    !NOTE:
+    ! here we should check if the entries are all present!!
     call setNLsysSettings(n,m,max_iter,tol,verbose)
     call setNLsysOptions(step_mode,use_broyden,n_intervals,fmin_tol,description)
     call initNLsys

@@ -59,7 +59,7 @@ program nlesolver_test_1
   description= 'Optimizer: CONSTANT-ALPHA'
   call initNLsys_global( n, &
        m, &
-       max_iter = max_iter_, &
+       !max_iter = max_iter_, &
        tol = tol_, &
        step_mode = step_mode,&
        use_broyden = use_broyden,&
