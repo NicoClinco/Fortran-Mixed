@@ -59,15 +59,17 @@ program nlesolver_test_1
   description= 'Optimizer: CONSTANT-ALPHA'
   call initNLsys_global( n, &
        m, &
-       !max_iter = max_iter_, &
-       tol = tol_, &
        step_mode = step_mode,&
        use_broyden = use_broyden,&
        n_intervals = n_intervals, &
        fmin_tol = fmin_tol, &
-       verbose = verbose_, &
-       description=description)
+       description=description, &
+       tol = tol_, &
+       verbose = verbose_)!, &
+       !max_iter = max_iter_)
+       !tol = tol_)
   x = [1.0_wp, 2.0_wp]
+  !Solve the nonlinear system
   call NLsys_solve(x)
   write(*,*)'Final root solution',x
   
@@ -128,31 +130,51 @@ program nlesolver_test_1
      write(*,'(A,I3,A,A)') 'Case ', i, ' : ', description
      write(*,*) ''
 
-     !The first step is the initialization:
-     call solver%initialize( n = n, &
-          m = m, &
-          max_iter = max_iter, &
-          tol = tol, &
-          func = wrapped_func, &
-          grad = wrapped_jac, &
+     call initNLsys_global( n, &
+          m, &
+          !max_iter = max_iter_, &
+          tol = tol_, &
           step_mode = step_mode,&
           use_broyden = use_broyden,&
-          export_iteration = export,&
           n_intervals = n_intervals, &
           fmin_tol = fmin_tol, &
-          verbose = verbose)
-     call solver%status(istat, message)
+          verbose = verbose_, &
+          description=description)
+     
+     
+     call NLsys_status(istat,message)
      write(*,'(I3,1X,A)') istat, message
-     if (istat /= 0) error stop
+     if(istat /= 0) error stop
      
-     
+     !Solve the nonlinear system
      x = [1.0_wp, 2.0_wp]
-     call solver%solve(x)
-     write(*,*)'---',x
+     call NLsys_solve(x)
+     write(*,'(*(E10.3,1X))')x 
+     !The first step is the initialization:
+     !call solver%initialize( n = n, &
+     !     m = m, &
+     !     max_iter = max_iter, &
+     !     tol = tol, &
+     !     func = wrapped_func, &
+     !     grad = wrapped_jac, &
+     !     step_mode = step_mode,&
+     !     use_broyden = use_broyden,&
+     !     export_iteration = export,&
+     !     n_intervals = n_intervals, &
+     !     fmin_tol = fmin_tol, &
+     !     verbose = verbose)
+     !call solver%status(istat, message)
+     !write(*,'(I3,1X,A)') istat, message
+     !if (istat /= 0) error stop
+     
+     
+     !x = [1.0_wp, 2.0_wp]
+     !call solver%solve(x)
+     !write(*,*)'---',x
 
-     call solver%status(istat, message)
-     write(*,'(I3,1X,A)') istat, message
-     write(*,*) ''
+     !call solver%status(istat, message)
+     !write(*,'(I3,1X,A)') istat, message
+     !write(*,*) ''
 
   end do
 
@@ -194,6 +216,10 @@ contains
   end subroutine func_p
 
   !> @brief The jacobian function [parametric]
+  !!
+  !!@note
+  !! The user can set the parameter array on the right
+  !!@endnote 
   subroutine jac_func_p(x,g,p)
     implicit none
     real(wp),dimension(:),intent(in)    :: x

@@ -6,11 +6,11 @@ module nlesolver_wrapper
   private 
   real(kind=8),allocatable :: m_params(:)
   
-  !Pointers to parametric functions:
+  !Pointers to parametric functions
   procedure(ParametricFunction),pointer :: pParFun => null()
   procedure(ParametricJacFunc),pointer :: pParJacFun => null()
 
-  !Pointers to standard functions (no-parametric)
+  !Pointers to standard functions (non-parametric)
   procedure(standardFunction),pointer :: pFun => null()
   procedure(standardJacFunc),pointer :: pJacFun => null()
 
@@ -83,7 +83,7 @@ module nlesolver_wrapper
 
   public setNLsysSettings, setNLsysOptions
   public initNLsys_global
-  public NLsys_solve
+  public NLsys_solve, NLsys_status
   
  contains
   
@@ -138,8 +138,13 @@ module nlesolver_wrapper
   !> @brief Create a wrapper function needed for the
   !! non linear system solution.
   !!
+  !! The interface of this function is required
+  !! by the library nles_solver.
+  !! 
   !!@note
-  !! The user must specify 
+  !! The user must specify the parameters
+  !! m_params by calling set_parameters if
+  !! you have a parametric jacobian function.
   !!@endnote
   subroutine wrapped_func(me,x,f)
     implicit none
@@ -249,10 +254,8 @@ module nlesolver_wrapper
     
   end subroutine initNLsys
 
-  !!> @brief Set the global non linear system in our case.
-  !!
-  !!
-  !!
+  !!> @brief Set the global non linear system in our case:
+  !!  the solver setting and the solver options
   subroutine initNLsys_global( &
        n, &
        m, &
@@ -273,9 +276,29 @@ module nlesolver_wrapper
     logical,intent(in) :: use_broyden
     real(kind=8),intent(in) :: fmin_tol
     character(len=:),allocatable :: description
+    integer  :: local_max_iter
+    real(kind=8) :: local_tol
+    logical :: local_verbose
     !NOTE:
-    ! here we should check if the entries are all present!!
-    call setNLsysSettings(n,m,max_iter,tol,verbose)
+    
+    if(.not. present(max_iter)) then
+       local_max_iter = 100
+    else
+       local_max_iter = max_iter
+    endif
+    if(.not. present(tol)) then
+       local_tol = 1.0e-8
+    else
+       local_tol = tol
+    endif
+
+    if(.not. present(verbose)) then
+       local_verbose = .false.
+    else
+       local_verbose = verbose
+    endif
+    
+    call setNLsysSettings(n,m,local_max_iter,local_tol,local_verbose)
     call setNLsysOptions(step_mode,use_broyden,n_intervals,fmin_tol,description)
     call initNLsys
   end subroutine initNLsys_global
@@ -288,5 +311,18 @@ module nlesolver_wrapper
     write(*,'(A,1X,*(E10.3,","))')'Initial condition: ',x0(:)
     call solver_obj%m_solver%solve(x0)
   end subroutine NLsys_solve
+
+  !> @brief Obtain the message about the
+  !! the solver status:
+  !!
+  !!@param[in] istat
+  !!@param[in] message: The message that inform us
+  subroutine NLsys_status(istat,message)
+    implicit none
+    integer,intent(inout) :: istat;
+    character(len=:),intent(inout),allocatable :: message
+    !Get the status of the solver:
+    call solver_obj%m_solver%status(istat,message)
+  end subroutine NLsys_status
   
 end module nlesolver_wrapper

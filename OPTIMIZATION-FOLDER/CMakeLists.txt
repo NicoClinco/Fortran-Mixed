@@ -27,8 +27,8 @@ set(INCLUDE_PATHS ${FFTPACK_INCLUDE} ${FFTWRAPPER_INCLUDE} ${SCIFORTRAN_INCLUDE}
 
 
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -I/usr/include")
-set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -std=f2008 ")
-set(CMAKE_Fortran_FLAGS_DEBUG   "-Wall -O0 -g3 -fbounds-check")
+set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -std=f2008")
+set(CMAKE_Fortran_FLAGS_DEBUG   "-Wall -O0 -g -fbounds-check -fcheck=all")
 set(CMAKE_Fortran_FLAGS_RELEASE "-O2")
 
 
