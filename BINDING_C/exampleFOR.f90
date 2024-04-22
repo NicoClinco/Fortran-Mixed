@@ -1,5 +1,5 @@
 program PrintfromC
-  use iso_c_binding
+  USE, INTRINSIC :: ISO_C_BINDING
   implicit none
   
   interface
@@ -17,14 +17,26 @@ program PrintfromC
 
   interface
      subroutine printvector(x,size) bind(c)
-       import c_double, c_int
+       USE, INTRINSIC :: ISO_C_BINDING
+       integer(kind=c_int),intent(in),value:: size
        real(kind=c_double),intent(in) :: x(*)
-       integer(kind=c_int),intent(in) :: size
+       
      end subroutine printvector
   end interface
 
+  !interface
+  !   subroutine writeheader(filename,ln,comment1,lnc1,flg) bind(c)
+  !     import c_int
+  !     character(*),intent(in) :: filename
+  !     integer(kind=c_int),intent(in) :: ln
+  !     character(*),intent(in) :: comment1
+  !     integer(kind=c_int),intent(in) :: lnc1
+  !     integer(kind=c_int),intent(in) :: flg
+  !   end subroutine writeheader
+  !end interface
+  
   real(kind=8) :: x_value
-  real(kind=c_double):: x_vector(5)
+  real(kind=8):: x_vector(5)
 
   
   x_vector = 0.0
@@ -32,9 +44,10 @@ program PrintfromC
   
   call HelloWorld
 
-  x_value = real(0.5,8)
-  call printvariable(x_value)
+  !x_value = real(0.5,8)
+  !call printvariable(x_value)
 
+  x_vector(1) = 35.5
   call printvector(x_vector,5)
   
 end program PrintfromC
