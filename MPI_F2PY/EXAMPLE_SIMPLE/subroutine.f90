@@ -3,7 +3,7 @@
 !! 
 !!
 subroutine simple
-
+  
   use mpi
   !include 'mpif.h'
   integer numtasks, rank, ierr, rc
@@ -15,9 +15,13 @@ subroutine simple
   end if
 
   call MPI_COMM_RANK(MPI_COMM_WORLD, rank, ierr)
-  call MPI_COMM_SIZE(MPI_COMM_WORLD, numtasks, ierr)
-  print *, 'Number of tasks=',numtasks,' My rank=',rank
-
+  
+  if(rank==0) then
+     call MPI_COMM_SIZE(MPI_COMM_WORLD, numtasks, ierr)
+     write(*,'(A,1x,i2)')'Number of tasks:',numtasks
+  endif
+  write(*,'(A,1x,i2)') 'Rank: ',rank
+  
   call MPI_FINALIZE(ierr)
 
 end subroutine simple
