@@ -213,6 +213,7 @@ contains
     real(wp),dimension(:),intent(in) :: p
     f(1) = x(1)**2 + p(1)*x(2) - 0.1_wp
     f(2) = p(2)*x(2) + 0.2_wp
+    print*,'prova'
   end subroutine func_p
 
   !> @brief The jacobian function [parametric]

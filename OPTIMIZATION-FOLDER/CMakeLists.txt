@@ -5,7 +5,7 @@ project(SpectralDerivative
   LANGUAGES Fortran)
 set(VERSION 1.0)
 enable_language(Fortran)
-set(CMake_Fortran_Compiler "gfortran*")
+set(CMake_Fortran_Compiler "gfortran")
 
 if(NOT CMAKE_BUILD_TYPE)
 set(CMAKE_BUILD_TYPE RELEASE)
@@ -29,7 +29,7 @@ set(INCLUDE_PATHS ${FFTPACK_INCLUDE} ${FFTWRAPPER_INCLUDE} ${SCIFORTRAN_INCLUDE}
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -I/usr/include")
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -std=f2008")
 set(CMAKE_Fortran_FLAGS_DEBUG   "-Wall -O0 -g -fbounds-check -fcheck=all")
-set(CMAKE_Fortran_FLAGS_RELEASE "-O2")
+set(CMAKE_Fortran_FLAGS_RELEASE "-O2 -fno-stack-arrays")
 
 
 #option(BUILD_FFT_MODULE "Build the FFT module" OFF)

@@ -231,7 +231,7 @@ module nlesolver_wrapper
 
     if((m_is_func .eqv. .false.) .and. &
        (m_is_parametric_func).eqv. .false.) then
-       error stop 'initNLsys: PLEASE, initialize the nl system!!!'
+       error stop "initNLsys: PLEASE, initialize the nl system with appropriate function"
     endif
 
     !Print the message info:
