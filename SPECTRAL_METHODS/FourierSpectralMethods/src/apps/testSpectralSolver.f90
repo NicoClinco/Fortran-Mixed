@@ -191,6 +191,5 @@ contains
     c(2) = 0.5
     c(3) = 0.5 
     c(4) = 1.0
-    
   end subroutine ConstructRK4
 end program test1dFourier

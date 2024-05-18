@@ -2,7 +2,7 @@ program main
  
   use fftw3_wrapper
   use fftpack, only : fftfreq
-
+  use IOFILE, only: print_matrix
   use FourierInterp2dClass
   
   implicit none
@@ -14,7 +14,7 @@ program main
   integer :: num(2);
   integer,allocatable :: kfreqs(:,:),lfreqs(:,:);
   !real,parameter :: pi = 3.1416
-
+  
   type (FourierInterp2d) :: Interpolant2d;
   type (FourierDerivative2d) :: Derivative2d;
   real(kind=8) :: y_int,grady_x;
@@ -23,10 +23,11 @@ program main
   real(kind=8):: intpoints(10,2)
   real(kind=8):: physSol(10) 
   
+  
   character(20) :: separator_line;
   separator_line(:) = '********************';
 
-
+  
   
 
   n = 11; !random
@@ -122,7 +123,9 @@ program main
      physSol(i) = sin(intpoints(i,1))*sin(intpoints(i,2))
   enddo
 
+  
   !call testInterpolation2Dv(Derivative2d,intpoints,physSol)
+  
 contains
 
   !>@brief Test the interpolation properties
@@ -141,14 +144,13 @@ contains
 
     call Iobj%Interpolate2dv(physPoints,intrpSolution);
 
-    
-    
     write(*,'(A)')'...Test the interpolation properties of the Fourier2d...'
     do nps = 1,size(physSolution)
        print *,nps
        write(*,'(2(e12.5,1x)," Error:",1x,e12.5)') physPoints(nps,:), &
             abs(intrpSolution(nps) - physSolution(nps))
     enddo
-    
   end subroutine testInterpolation2Dv
+
+  
 end program main

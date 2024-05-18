@@ -169,9 +169,9 @@ contains
   end subroutine FourierDerivative1D_scalar
   !------------------------------------------------------------------
 
-  !>@brief Get the derivative matrix
-  !for given a grid between [0,2*pi]
-  !@param numPnts the number of points
+  !>@brief Get the derivative matrix for a given grid between [0,2pi]
+  !!
+  !!param numPnts: the number of points between [0,2pi)
   function GetDerivativeMatrix(numPnts) result (Dn)
     use fftpack, only : fftfreq
     implicit none

@@ -212,11 +212,7 @@ contains
     enddo
     yInt = real(sum(Iobj%yHat*expK*expL))/(n(1)*n(2));
   end subroutine FourierInterpolate2D_scalar
-  !----------------------------------------------------------------
-
-  
-
-  
+!---------------------------------------------------------------------
   !>@brief Interpolate to a set of interpolation points
   !@param[in] Iobj
   !@param[in] xy(nPoints,2) a row vector which contains
@@ -230,50 +226,104 @@ contains
     integer :: nPoints,ipnts;
 
     nPoints = size(xy,1) !Get the numOfPoints
-    
+
     do ipnts = 1,nPoints
        call FourierInterpolate2d_scalar(Iobj,xy(ipnts,:),yInt(ipnts))
     enddo
   end subroutine FourierInterpolate2D_vector
-  
-end module FourierInterp2dClass
-
-!>@brief a Module which contains some subroutines
-!for assembling matrixes for derivative
-!
-!Note: The global solution is assumed to be flattened
-!      (in the sense that is Nx*Ny)
-!
-!
-!
-!
-module FourierOperators2d
-
-contains
-
-  function gradXmatrix(numPoints)
+  !---------------------------------------------------------------------
+  !> Assemble the gradient operator along the X direction.
+  !!  
+  !! Basically, it is a diagonal-block matrix which contains
+  !! the derivative matrix along x along each subblock.
+  !!
+  !! |Dx    |     We have nPoints(y) diagonal blocks here
+  !! |  Dx  | <--
+  !! |    Dx|
+  !!
+  !!
+  !!@note
+  !! For the derivative along y, we just reshape the solution
+  !! vector, without building another matrix.
+  !!@endnote
+  subroutine  gradXmatrix(gXmatrix,numPoints)
     !use SCIFOR, only : SF_SP_LINALG, only: build_tridiag_block, SF_LINALG
-    
+    !use SF_SP_LINALG
+    !use SCIFOR, only : zeros
     use FourierInterp1dClass, only : GetDerivativeMatrix
-    !use SCIFOR, only : SF_LINALG
+    implicit none
+    integer,intent(in) :: numPoints
+    real(kind=8),intent(out) :: gXmatrix(numPoints*numPoints,numPoints*numPoints)
     
-    real(kind=8) :: gradXmatrix(numPoints*numPoints,numPoints*numPoints)
     real(kind=8) :: gradXsubMatrix(numPoints,numPoints); !The matrix that will create the diagonal
     real(kind=8) :: subDiagDummy(numPoints-1,numPoints,numPoints);
     real(kind=8) :: mDiagonal(numPoints,numPoints,numPoints);
-    integer indx
-
-    do indx=1,numPoints-1
-       subDiagDummy(i,:,:) = real(zeros(numPoints,numPoints),8)
-    enddo
-
-    gradXsubMatrix = GetDerivativeMatrix(numPoints); !Get the subblock
     
-    do indx=1,numPoints
-       mDiagonal(i,:,:) = gradXsubMatrix
+    integer :: numBlocks,i,indx
+
+    numBlocks = numPoints !Number of points along y
+
+    
+    subDiagDummy(:,:,:) = 0.0
+    !do indx=1,numBlocks-1
+    !   subDiagDummy(i,:,:) = 0.0
+    !enddo
+    
+    gradXsubMatrix(1:numPoints,1:numPoints) = GetDerivativeMatrix(numPoints); !The matrix along the diagonal.
+    
+    
+    do indx=1,numBlocks
+       mDiagonal(i,:,:) = gradXsubMatrix(:,:)
+       
     enddo
     
-    gradXmatrix = build_tridiag(numPoints,numPoints,subDiagDummy,mDiagonal)
-  end function gradXmatrix
-  
-end module FourierOperators2d
+    !build the diagonal block matrix:
+    
+    
+    call d_build_tridiag_block(gXmatrix,numBlocks,numPoints,subDiagDummy,mDiagonal)
+  contains
+    subroutine d_build_tridiag_block(Amat,Nblock,Nsize,sub,diag,over)
+      implicit none
+      integer,intent(in)                                         :: Nblock
+      integer,intent(in)                                          :: Nsize
+      real(kind=8),dimension(Nblock-1,Nsize,Nsize),intent(in)          :: sub
+      real(kind=8),dimension(Nblock,Nsize,Nsize),intent(in)            :: diag
+      real(kind=8),dimension(Nblock-1,Nsize,Nsize),optional,intent(in) :: over
+      real(kind=8),dimension(Nblock-1,Nsize,Nsize)          :: over_
+      real(kind=8)   :: Amat(Nblock*Nsize,Nblock*Nsize)
+      integer                                          :: i,j,iblock,is,js
+      over_=sub
+      if(present(over)) over_=over
+      !
+      Amat=real(0.0,8)
+
+
+      do iblock=1,Nblock-1
+         do i=1,Nsize
+            do j=1,Nsize
+               is = i + (iblock-1)*Nsize
+               js = j + (iblock-1)*Nsize
+
+               Amat(is+Nsize,js) = Sub(iblock,i,j)
+               Amat(is,js)       = Diag(iblock,i,j)
+               Amat(is,js+Nsize) = Over_(iblock,i,j)
+
+            enddo
+         enddo
+      enddo
+
+
+      do i=1,Nsize
+         do j=1,Nsize
+            is = i + (Nblock-1)*Nsize
+            js = j + (Nblock-1)*Nsize
+            Amat(is,js)       = Diag(Nblock,i,j)
+         enddo
+      enddo
+
+    end subroutine d_build_tridiag_block
+
+  end subroutine gradXmatrix
+
+
+end module FourierInterp2dClass
