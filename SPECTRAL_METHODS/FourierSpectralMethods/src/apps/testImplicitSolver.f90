@@ -1,30 +1,36 @@
-program testImplicitSolve
-  use nlesolver_wrapper
-  use nlesolver_module, wp => nlesolver_rk
-  use FourierVar1d
-  use SCIFOR, only : print_matrix
-  use SF_FONTS
-  use SF_PARSE_INPUT
+!> A Program that solvea basic linear advection equation
+!!
+!!
+!! The program explain a basic example in which we solve a linear
+!! advection equation with an implicit time-stepping scheme.
+!! For the moment, EULER-BDF1 is chosen.
+program testImplicitSolver
+  USE nlesolver_wrapper
+  USE nlesolver_module, wp => nlesolver_rk
+  USE FourierVar1d
+  USE FourierUtils
+  USE SCIFOR, only : print_matrix
+  USE SF_FONTS
+  USE SF_PARSE_INPUT
   implicit none
   real(kind=8),parameter :: pi = 3.14159265358979323846
   complex(kind=8) :: junit = (0.0,1.0)
   
   real(kind=8),allocatable :: x(:)
-  real(kind=8) :: h
+  real(kind=8) :: h,kin_vis
   real(kind=8),allocatable :: tmp_u(:)
   complex(kind=8),allocatable :: tmp_uh(:)
 
   
   real(kind=8),allocatable :: tmp_u_ext(:)
-  complex(kind=8),allocatable :: utime(:,:) !The solution at each time-step (uHat)
-  real(kind=8),allocatable :: u_phy_time(:,:) !The soltion at each time-step (physical)
+  complex(kind=8),allocatable :: utime(:,:)   !The solution at each time-step (complex)
+  real(kind=8),allocatable :: u_phy_time(:,:) !The solution at each time-step (physical)
   real(kind=8) :: t_init,t_fin,dt,time
   integer :: n_time_steps,cur_step
   
   
-  integer :: gnum_modes
-  integer :: i
-  real(kind=8),allocatable :: adv_vels(:)
+  integer :: gnum_modes,i
+  real(kind=8),allocatable :: solver_params(:)
   character(len=:),allocatable :: buf_title
   character(len=:),allocatable :: arg_name
   
@@ -32,7 +38,7 @@ program testImplicitSolve
   real(kind=8) :: tol = 1.0e-7
   integer :: max_iter = 200
   logical :: verbose = .false.
-  logical :: use_broyden = .true.
+  logical :: USE_broyden = .true.
   integer :: step_mode = 1
   integer :: n_intervals
   character(len=:),allocatable :: description
@@ -41,7 +47,7 @@ program testImplicitSolve
 
   !Parse input/output:
   arg_name = 'num_modes'
-  call parse_cmd_variable(gnum_modes,trim(arg_name),default=4)
+  CALL parse_cmd_variable(gnum_modes,trim(arg_name),default=4)
   
   
   buf_title = '--------- IMPLICIT-EULER SOLVER FOR THE ADVECTION EQUATION ---------'
@@ -59,17 +65,21 @@ program testImplicitSolve
      x(i) = (i-1)*h
   enddo
   !------------------ MESH ---------------------------------
-  !Temporary:
+
+  !------------------ INITIAL CONDITIONS -------------------
   allocate(tmp_u(gnum_modes),&
        tmp_uh(gnum_modes))
-  allocate(adv_vels(2*gnum_modes))
+  allocate(solver_params(2))
   allocate(tmp_u_ext(2*gnum_modes))
   tmp_u = u0(x)
   
-  tmp_uh = fwd_transform(tmp_u)
-  adv_vel = real(2*pi,8) !Advection velocity
-  adv_vels(:) = adv_vel
-
+  tmp_uh = fwd_transform_1d(tmp_u)
+  adv_vel = real(pi,8) !Advection velocity (constant)
+  kin_vis = 0.001;
+  solver_params(1) = adv_vel;solver_params(2) = kin_vis
+  
+  !------------------ INITIAL CONDITIONS --------------------
+  
   !------------------ global time-stepping -----------------
   t_init = 0.0
   t_fin  = 1.0
@@ -77,8 +87,8 @@ program testImplicitSolve
   dt = (t_fin - t_init)/real(n_time_steps)
   allocate(utime(0:n_time_steps,gnum_modes)) !The solution for each time step
   allocate(u_phy_time(0:n_time_steps,gnum_modes))
-  utime(0,:) = tmp_uh(:)
-  u_phy_time(0,:) = bwd_transform(utime(0,:))
+  utime(0,:) = tmp_uh(:) 
+  u_phy_time(0,:) = bwd_transform_1d(utime(0,:))
   
   fmin_tol = 1.0e-2
   n_intervals = 2
@@ -86,12 +96,12 @@ program testImplicitSolve
   description = bold(description)
  
   
-  call set_parameters(adv_vels)
-  call setParametricJac(jac)
-  call setParametricFunc(resid)
-  call initNLsys_global(2*gnum_modes,2*gnum_modes,&
+  CALL set_parameters(solver_params)
+  CALL setParametricJac(jac)
+  CALL setParametricFunc(resid)
+  CALL initNLsys_global(2*gnum_modes,2*gnum_modes,&
        step_mode =step_mode,&
-       use_broyden=use_broyden,&
+       USE_broyden=USE_broyden,&
        n_intervals = n_intervals,&
        fmin_tol = fmin_tol,&
        description = description,&
@@ -99,7 +109,7 @@ program testImplicitSolve
        tol = tol,&
        verbose=verbose)
   
-  call INITSOL(tmp_uh,gnum_modes)
+  CALL INITSOL(tmp_uh,gnum_modes)
 
   !TIME-STEPPING--------------------------------------------
   cur_step = 0
@@ -109,29 +119,29 @@ program testImplicitSolve
      
      write(*,'("Timestep: ",i2)') cur_step
      write(*,'("Time: ",e8.3)') time
-     
+
+     !Extended solution [real,imag]
      tmp_u_ext(:) = m_sol%m_ruHat
      
-     call NLSYS_SOLVE(tmp_u_ext)
+     CALL NLSYS_SOLVE(tmp_u_ext)
      
      !Update
      m_sol%m_ruHat = tmp_u_ext(:)
      utime(cur_step,:) = tmp_u_ext(1:gnum_modes) + &
           junit*tmp_u_ext(gnum_modes+1:2*gnum_modes)
-     u_phy_time(cur_step,:) = bwd_transform(utime(cur_step,:))
+     u_phy_time(cur_step,:) = bwd_transform_1d(utime(cur_step,:))
      write(*,'("Current-solution= ",*(G9.3,","))') u_phy_time(cur_step,:)
-     
-     !write(*,'("Current-solution=",*(G9.3,","))') tmp_u_ext
   enddo
   !---------------------------------------------------------
   print*,trim(bold('END TIME STEPPING SCHEME'))
   print*,trim(bold('Saving the global solution in "sol_euler.dat"'))
   CALL print_matrix(u_phy_time,'sol_euler.dat',w=8,d=3)
 
-contains
+CONTAINS
   !-----------------------------------------------
   !-----------------------------------------------
   !!The initial solution for our system
+  !!@param[in] x: The discrete mesh
   function u0(x)
     implicit none
     real(kind=8),intent(in) :: x(:)
@@ -140,49 +150,29 @@ contains
     u0(:) = cos(x(:))
   end function u0
   !-----------------------------------------------
-  !-----------------------------------------------
+  !-----------------------------------------------  
 
-  !! Transform our solution from the physical
-  !! to the frequency space
-  function fwd_transform(u) result(uh)
-    use fftw3_wrapper
-    implicit none
-    real(kind=8),intent(in) :: u(:)
-    complex(kind=8),allocatable :: uh(:)
-    integer :: nummodes
-    nummodes = size(u)
-    allocate(uh(nummodes))
-    call fft(uh,u,num=[nummodes])
-  end function fwd_transform
-  !-----------------------------------------------
-  !-----------------------------------------------
-
-  !! Perform the backward transformartion for
-  function bwd_transform(uhat) result(u)
-    use fftw3_wrapper
-    implicit none
-    complex(kind=8),intent(in) :: uhat(:)
-    real(kind=8),allocatable :: u(:)
-    integer :: nummodes
-    nummodes = size(uhat)
-    call ifft(u,uhat,num=[nummodes])
-  end function bwd_transform
-  !-----------------------------------------------
-  !-----------------------------------------------
-  
-  !! Advection operator along the x direction
-  !! Note that here we pass (real)uhat that is
-  !! the extended vector of u
+  !> Advection operator along the x-direction.
+  !! 
+  !! @param [in]   uhat  : The solution vector    
+  !! @return[out]  op    : The resultant operator
+  !! @param [in]   alpha : The
   !!
-  !!uhat : The sol. vector (unknown)
-  !!op   : The result
-  !!alpha: The advection velocity 
-  subroutine xAdvectionOp(uhat,op,alpha)
-    use fftpack, only : fftfreq 
+  !! @note
+  !!  -Since the system is complex, the advection operator
+  !!   is of length 2*num_modes. In the first part we have the
+  !!   real part, while in the second part we have the complex
+  !!   part
+  !! 
+  !! - The Advection operator is the following:
+  !!   C_{op} = -i*k*u_{k}
+  !!@endnote
+  SUBROUTINE xAdvectionOp(uhat,op,alpha)
+    USE fftpack, only : fftfreq 
     implicit none
-    real(kind=8),dimension(:),intent(in) :: uhat
+    real(kind=8),dimension(:),intent(in)  :: uhat
     real(kind=8),dimension(:),intent(out) :: op
-    real(kind=8),intent(in) :: alpha
+    real(kind=8),intent(in)               :: alpha
     integer :: num_modes
     complex(kind=8),allocatable :: ks(:)
     complex(kind=8),allocatable :: uhatcmplx(:)
@@ -198,37 +188,89 @@ contains
     
     op(1:dim) = real(uhatcmplx(:),8)
     op(dim+1:2*dim) = aimag(uhatcmplx(:))
+  end SUBROUTINE xAdvectionOp
+  !-----------------------------------------------
+  !-----------------------------------------------
+
+  !>@brief Assemble the diffusion operator with the
+  !!Fourier-Galerkin space discretization.
+  !!
+  !!@param[in]   uhat: The solution vector extended
+  !!@return[out] op  : The operator
+  !!@param[in]   nu  : The kinematic viscosity
+  !!
+  !!@note
+  !!  The diffusion operator is the following:
+  !!   D_{op} = (k^2)*\hat{u_k}
+  !!@endnote
+  SUBROUTINE xDiffusionOp(uhat,op,nu)
+    USE fftpack, only : fftfreq 
+    IMPLICIT NONE
+    real(kind=8),dimension(:),intent(in)  :: uhat
+    real(kind=8),dimension(:),intent(out) :: op
+    real(kind=8),intent(in)               :: nu
+    integer :: dim
+    complex(kind=8) :: ju = (0.0,1.0)
+    complex(kind=8),allocatable :: uhatcmplx(:)
+    complex(kind=8),allocatable :: ks(:)
+
+    dim = int(size(uhat)/2)
+    allocate(uhatcmplx(dim),ks(dim))
+    ks = cmplx(fftfreq(dim))
+    uhatcmplx(:) = uhat(1:dim)+ju*uhat(dim+1:2*dim)
+    uhatcmplx(:) = (ks**2)*uhatcmplx(:)*nu
+
+    op(1:dim) = -real(uhatcmplx(:),8)
+    op(dim+1:2*dim) = -aimag(uhatcmplx(:))
     
-  end subroutine xAdvectionOp
-  !-----------------------------------------------
-  !-----------------------------------------------
+  END SUBROUTINE xDiffusionOp
+  
   
   !! The residual of our system (non-linear)
   !! [extended version for the non-linear solver]
   !!
-  !!The residual is the extended vector for our
-  !!system in the Fourier space
-  subroutine resid(u,res,alpha)
-    !use FourierVar1d, only: m_sol !uHat,m_ruHat
+  !!@note
+  !!The residual is the extended vector that contains
+  !!in the first part the real part and in the second
+  !!the imaginary values
+  !!@endnote
+  !!
+  !!@param[in]    u:
+  !!@param[inout] res:   The residual
+  !!@param[in]    alpha: It is a vector that contains the
+  !!                     parameters that one can use in the
+  !!                     nonlinear solver
+  SUBROUTINE resid(u,res,alpha)
     implicit none
     real(kind=8),dimension(:),intent(in) :: u
     real(kind=8),dimension(:),intent(inout) :: res
     real(kind=8),dimension(:),intent(in) :: alpha
     real(kind=8),dimension(:),allocatable :: Fu
+    real(kind=8),dimension(:),allocatable :: Du
+
+    integer :: num_params
     
-    allocate(Fu(size(u)))
-    Fu(:) = 0.0
-    call xAdvectionOp(u,Fu(1:size(u)),alpha(1))
-    res(:) = u(:) - dt*Fu(:) - m_sol%m_ruHat(:)
-    
-  end subroutine resid
+    num_params = size(alpha)
+    allocate(Fu(size(u)),Du(size(u)))
+    Fu(:) = 0.0; Du(:) = 0.0;
+    CALL xAdvectionOp(u,Fu(1:size(u)),alpha(1))
+
+    if(num_params .ge. 2) then
+       CALL xDiffusionOp(u,Du(1:size(u)),alpha(2))
+    endif
+
+    res(:) = u(:)+ dt*Fu(:) - dt*Du(:)- m_sol%m_ruHat(:)
+  END SUBROUTINE resid
   !-----------------------------------------------
   !-----------------------------------------------
   
-  !! The jacobian matrix for the implicit
-  !! Euler first order system
-  subroutine jac(u,J,alpha)
-    use fftpack, only : fftfreq
+  !>@brief The Jacobian of the resulting non linear system.
+  !!
+  !!@param[in]    u:      The unknown variable
+  !!@param[inout] J:      The Jacobian matrix
+  !!@param[in]    \alpha: The parameters that contains the advection and diffusivity.
+  SUBROUTINE jac(u,J,alpha)
+    USE fftpack, only : fftfreq
     
     implicit none
     real(kind=8),dimension(:),intent(in) :: u
@@ -244,15 +286,17 @@ contains
     
     do sub=1,2
        do i=0,num_modes-1
-          J(1+(sub-1)*num_modes+i,1+(sub-1)*num_modes+i) = real(1.0,8)
+          J(1+(sub-1)*num_modes+i,1+(sub-1)*num_modes+i) =  &
+               real(1.0,8)+ks(i+1)**2*dt*alpha(2)
        enddo
     enddo
+    !Sub-blocks:
     do i =0,num_modes-1
        J(1+i,1+(1)*num_modes+i) = -alpha(1)*real(ks(i+1))*dt
        J(1+(1)*num_modes+i,1+i) = +alpha(1)*real(ks(i+1))*dt
     enddo
-  end subroutine jac
+  end SUBROUTINE jac
   
 
 
-end program testImplicitSolve
+end program testImplicitSolver

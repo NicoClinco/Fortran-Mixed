@@ -1,24 +1,34 @@
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.10)
 project(SpectralDerivative
-  DESCRIPTION "Construction of Fourier Interpolant in 1D"
+  DESCRIPTION "Fourier-Galerkin spectral scheme"
   LANGUAGES Fortran)
 set(VERSION 1.0)
 enable_language(Fortran)
 set(CMake_Fortran_COMPILER "gfortran")
 
 if(NOT CMAKE_BUILD_TYPE)
-set(CMAKE_BUILD_TYPE RELEASE)
+  set(CMAKE_BUILD_TYPE RELEASE)
+  set(OPTS "-O3 -cpp")
 endif()
 
-#DEPENDENCIES#
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  message(STATUS "Compiling in debug-mode")
+  set(DB_OPTS "-g -Wall -fbounds-check -fbacktrace -cpp -DDEBUG")
+  set(OPTS ${DB_OPTS})
+  set(MOD_DEBUG MOD_DEBUG/true_debug.f90)
+endif()
+
+set(CMAKE_Fortran_FLAGS ${OPTS})
+
+
+#DEPENDENCIES: My personal computer:
 set(FFTPACK_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/include)
 set(FFTPACK_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/FFTPack/lib)
 set(FFTWRAPPER_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/fft_wrapper/include)
 set(FFTWRAPPER_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/fft_wrapper/libs)
 set(SYS_LIBS /usr/lib/x86_64-linux-gnu)
-#set(SCIFORTRAN_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/SciFORTRAN/scifor/gnu/4.10.9-1-gb5ac685a/include)
-#set(SCIFORTRAN_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/SciFORTRAN/scifor/gnu/4.10.9-1-gb5ac685a/lib)
+
 set(LAPACK_LIBS /usr/lib/x86_64-linux-gnu)
 set(SCIFORTRAN_LIBS /home/nico/Desktop/PHD-COURSES/librariesFOR/SciFORTRAN/Scifor/build)
 set(SCIFORTRAN_INCLUDE /home/nico/Desktop/PHD-COURSES/librariesFOR/SciFORTRAN/Scifor/build/include)
@@ -31,8 +41,6 @@ set(INCLUDE_PATHS ${FFTPACK_INCLUDE} ${FFTWRAPPER_INCLUDE} ${SCIFORTRAN_INCLUDE}
 
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -I/usr/include")
 set(CMAKE_Fortran_FLAGS   "${CMAKE_Fortran_FLAGS} -std=f2008 ")
-set(CMAKE_Fortran_FLAGS_DEBUG   "-Wall -O0 -g3 -fbounds-check -fcheck=all -fno-stack-arrays")
-set(CMAKE_Fortran_FLAGS_RELEASE "-O0 -fbounds-check -fcheck=all -fno-stack-arrays")
 
 
 #option(BUILD_FFT_MODULE "Build the FFT module" OFF)
@@ -50,15 +58,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/apps)
 #endif()
 ###############################################################################################
 if(BUILD_FOURIER_MODULE_1D)
-  message(STATUS "---Building the Fourier module 1d---")
+  message(STATUS "Building the Fourier module 1d")
   add_library(fourier_module1d SHARED ${CMAKE_SOURCE_DIR}/src/modules/Interp1DClass.f90)
   target_include_directories(fourier_module1d PUBLIC ${INCLUDE_PATHS})
   target_link_directories(fourier_module1d PUBLIC ${LIB_PATHS})
   target_link_libraries(fourier_module1d fftpack scifor)
 endif()
-###############################################################################################
+################################################################################################
 if(BUILD_FOURIER_MODULE_2D)
-  message(STATUS "---Building the Fourier module 2d---")
+  message(STATUS "Building the Fourier module 2d")
   add_library(fourier_module2d
     SHARED ${CMAKE_SOURCE_DIR}/src/modules/Interp2DClass.f90)
   target_include_directories(fourier_module2d
@@ -131,6 +139,7 @@ target_link_libraries(${TARGET}
 #IMPLICIT-SOLVER
 add_executable(ImplicitSolver
   src/modules/FourierVar1d.f90
+  src/modules/FourierUtils.f90
   src/apps/testImplicitSolver.f90)
 target_include_directories(ImplicitSolver
   PUBLIC ${INCLUDE_PATHS}

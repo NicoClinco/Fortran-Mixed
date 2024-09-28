@@ -10,9 +10,9 @@ if __name__=='__main__':
 
     #sol = pd.read_csv('Solution.csv',header=None)
     sol = pd.read_csv('sol_euler.dat',header=None,delim_whitespace=True,dtype=float)
-    print(sol[0])
+    
     sol_numpy = sol.to_numpy()
-    print(sol_numpy.shape)
+    
     fig,axs = plt.subplots(2,1,figsize=(7,7))
     num_points = sol_numpy.shape[1]
     x = np.linspace(0,2*np.pi,num_points)
