@@ -4,6 +4,7 @@
 *.o
 *.xaif
 *.mod-whirl
+*.pre.*
 *.log~
 *.exe
 *~
