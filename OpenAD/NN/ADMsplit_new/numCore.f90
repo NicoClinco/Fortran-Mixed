@@ -17,30 +17,39 @@ CONTAINS
   !!
   !!@param[in] nin
   !!@param[in] nout
-   SUBROUTINE InitWeights(nin,nout)
-     IMPLICIT NONE
-     INTEGER,INTENT(IN) :: nin,nout
-
-  !   n_in=nin;n_out=nout
-  !   ALLOCATE(W(nout,nin),b(nout) )
-     W(1:n_out,1:n_in) = 0.0_8;
-     b(1:n_out) = 0.0_8
-   END SUBROUTINE InitWeights
+  SUBROUTINE InitWeights(nin,nout)
+    IMPLICIT NONE
+    INTEGER,INTENT(IN) :: nin,nout
+    REAL(KIND=8)       :: rnd
+    INTEGER :: i,j
+    !   n_in=nin;n_out=nout
+    !   ALLOCATE(W(nout,nin),b(nout) )
+    DO i=1,nout
+       DO j=1,nin
+          CALL random_number(rnd)
+          W(j,i) = rnd
+       ENDDO
+       CALL random_number(rnd)
+       b(i) = rnd
+    ENDDO
+  END SUBROUTINE InitWeights
 END MODULE var
 !>@brief Perform the forward in our case and evaluate the
 !!loss function according the specific flag passed.
 !!
-SUBROUTINE forward(nb,nIN,nOut,X,Y,&
+SUBROUTINE forward(nb,nIn,nOut,X,Y,&
      eval_loss,ytrgt)
   USE VAR, ONLY : n_In,n_Out,W,b,cost_fun
   IMPLICIT NONE
-  INTEGER,INTENT(IN)         :: nb,nIn,nOut
+  INTEGER                    :: nb,nIn,nOut
   REAL(KIND=8),INTENT(IN)    :: X(nIn,nb)
   REAL(KIND=8),INTENT(INOUT) :: Y(nOut,nb)
   LOGICAL,INTENT(IN)         :: eval_loss
-  REAL(KIND=8),optional      :: ytrgt(nout,nb)
+  LOGICAL                    :: is_present_trgt
+  REAL(KIND=8),optional      :: ytrgt(nOut,nb)
   INTEGER :: i,j,ib
   !$openad INDEPENDENT(W)
+
   DO ib=1,nb
      DO j=1,nIn
         DO i=1,nOut
@@ -48,31 +57,38 @@ SUBROUTINE forward(nb,nIN,nOut,X,Y,&
         ENDDO
      ENDDO
   ENDDO
-  if(eval_loss .and. present(ytrgt) ) then
-     CALL LossFun(nout,nb,y,ytrgt,cost_fun)
-  endif
+  
+  CALL LossFun(nout,nb,y,ytrgt,cost_fun)
   !$openad DEPENDENT(cost_fun)
+  
+  !if(present(ytrgt)) is_present_trgt = .true.
+  !if(eval_loss .and. is_present_trgt) then
+  !   print*,'check-1'
+  !   CALL LossFun(nout,nb,y,ytrgt,cost_fun)
+  !   print*,'check-2'
+  !endif
+  
 END SUBROUTINE forward
 
 
-SUBROUTINE LossFun(nout,nb,Y,ytrgt,lf)
-  USE var, only : W,b
+SUBROUTINE LossFun(nout_,nb_,Y,ytrgt,lf)
   IMPLICIT NONE
-  INTEGER,INTENT(IN) :: nout,nb
-  REAL(KIND=8),DIMENSION(nout,nb) :: Y
-  REAL(KIND=8),DIMENSION(nout,nb) :: ytrgt
+  INTEGER                         :: nout_,nb_
+  REAL(KIND=8),DIMENSION(nout_,nb_) :: Y
+  REAL(KIND=8),DIMENSION(nout_,nb_) :: ytrgt
   INTEGER :: ib,i,j
   REAL(KIND=8) :: rnb
 
   !The value of the loss-function:
   REAL(KIND=8) :: lf
   lf = 0.0_8
-  rnb = 1.0_8/REAL(nb,8)
+  rnb = 1.0_8/REAL(nb_,8)
   
-  DO ib=1,nb
-     DO j=1,nout
+  DO ib=1,nb_
+     DO j=1,nout_
         lf = lf + (Y(j,ib)-ytrgt(j,ib))*(Y(j,ib)-ytrgt(j,ib))
      ENDDO
   ENDDO
   lf = lf*(rnb)
 END SUBROUTINE LossFun
+
