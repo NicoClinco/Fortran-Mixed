@@ -43,7 +43,7 @@ SUBROUTINE forward(nb,nIn,nOut,X,Y,&
   IMPLICIT NONE
   INTEGER                    :: nb,nIn,nOut
   REAL(KIND=8),INTENT(IN)    :: X(nIn,nb)
-  REAL(KIND=8),INTENT(INOUT) :: Y(nOut,nb)
+  REAL(KIND=8)               :: Y(nOut,nb)
   LOGICAL,INTENT(IN)         :: eval_loss
   LOGICAL                    :: is_present_trgt
   REAL(KIND=8),optional      :: ytrgt(nOut,nb)
@@ -61,12 +61,6 @@ SUBROUTINE forward(nb,nIn,nOut,X,Y,&
   CALL LossFun(nout,nb,y,ytrgt,cost_fun)
   !$openad DEPENDENT(cost_fun)
   
-  !if(present(ytrgt)) is_present_trgt = .true.
-  !if(eval_loss .and. is_present_trgt) then
-  !   print*,'check-1'
-  !   CALL LossFun(nout,nb,y,ytrgt,cost_fun)
-  !   print*,'check-2'
-  !endif
   
 END SUBROUTINE forward
 

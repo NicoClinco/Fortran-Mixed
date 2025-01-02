@@ -14,7 +14,8 @@ PROGRAM testNN
   REAL(KIND=8) :: Y_TRGT(nFeatures,nBatches)
   TYPE(ACTIVE) :: Y(nFeatures,nBatches)
   INTEGER      :: i,j
-
+  REAL(KIND=8) :: tv(4) !True values of the derivatives
+  INTEGER      :: gIndxs(nFeatures,nFeatures)
   LOGICAL      :: GET_LOSS_FUNCTION 
 
   GET_LOSS_FUNCTION = .true.
@@ -23,7 +24,8 @@ PROGRAM testNN
   
   !Initialize the array of batches
   CALL InitInputs(nFeatures,nBatches,xInput)
-  CALL InitTRGT(nFeatures,nBatches,Y_TRGT)
+  Y_TRGT(:,:) = 0.0_8
+  !CALL InitTRGT(nFeatures,nBatches,Y_TRGT)
 
   CALL tape_init()
   !Set to zero the derivatives:
@@ -42,6 +44,26 @@ PROGRAM testNN
      write(*,"(20(A))")'*'
      write(*,"(2(F10.5))")y(:,j)%v
      write(*,"(20(A))")'*'
+  ENDDO
+
+  DO j=1,nFeatures
+     DO i=1,nFeatures
+        gIndxs(i,j) = (i-1)*nFeatures+j
+        
+     ENDDO
+  ENDDO
+
+  
+  tv(1) = (2.0)/REAL(nBatches,8)*SUM(y(1,:)%v*xInput(1,:))
+  tv(2) = (2.0)/REAL(nBatches,8)*SUM(y(1,:)%v*xInput(2,:))
+  tv(3) = (2.0)/REAL(nBatches,8)*SUM(y(2,:)%v*xInput(1,:))
+  tv(4) = (2.0)/REAL(nBatches,8)*SUM(y(2,:)%v*xInput(2,:))
+  
+  DO i=1,nFeatures
+     DO j=1,nFeatures
+        write(*,'(A,i1,A1,i1,A1,F10.5)')'dL/dW(',i,',',j,')= ',W(i,j)%d
+        write(*,'(A,i1,A1,i1,A1,F10.5)')'dL/dWt(',i,',',j,')=',tv(gIndxs(i,j))
+     ENDDO
   ENDDO
   
 CONTAINS
