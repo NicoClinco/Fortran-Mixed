@@ -46,8 +46,8 @@ CONTAINS
     INTEGER :: nin,nout,nlayers,i,j,ilayer
     INTEGER,INTENT(INOUT) :: gindxs(2)
 
-    gindxs(1) = 1+(ilayer-1)*nin*nout + (i-1)*nin+j
-    gindxs(2) = (nlayers)*nin*nout+1+(ilayer-1)*nout + i
+    gindxs(1) = (ilayer-1)*nin*nout + (i-1)*nin+j
+    gindxs(2) = (nlayers)*nin*nout+(ilayer-1)*nout + i
   END SUBROUTINE getLayerIndexes
 
 END MODULE var
@@ -63,7 +63,7 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
   REAL(KIND=8)           :: y(n_out,nb)
   LOGICAL,INTENT(IN)     :: eval_loss
   REAL(KIND=8),optional  :: ytrgt(n_out,nb)
-  INTEGER                :: ib,i,j,ilayer,ista
+  INTEGER                :: ib,i,j,ilayer,ista,i1,i2
   INTEGER                :: wbindxs(2)
 
   !$openad INDEPENDENT(Wb_global)
@@ -79,8 +79,10 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
   DO ib=1,nb
         DO j=1,n_in
            DO i=1,n_out
-              CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-              y(i,ib) = y(i,ib)+Wb_global(wbindxs(1))*x(j,ib)+Wb_global(wbindxs(2))
+              !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
+              i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
+              i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
+              y(i,ib) = y(i,ib)+Wb_global(i1)*x(j,ib)+Wb_global(i2)
               !y(i,ib) = y(i,ib)+W_layers(i,j,ilayer)*x(j,ib)+b_layers(i,ilayer)
            ENDDO
         ENDDO
@@ -91,8 +93,10 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
      DO ilayer=2,n_layers
         DO j=1,n_in
            DO i=1,n_out
-              CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-              y(i,ib) = y(i,ib)+Wb_global(wbindxs(1))*y(j,ib)+Wb_global(wbindxs(2))
+              !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
+              i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
+              i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
+              y(i,ib) = y(i,ib)+Wb_global(i1)*y(j,ib)+Wb_global(i2)
               !y(i,ib) = y(i,ib)+W_layers(i,j,ilayer)*y(j,ib)+b_layers(i,ilayer)
            ENDDO
         ENDDO

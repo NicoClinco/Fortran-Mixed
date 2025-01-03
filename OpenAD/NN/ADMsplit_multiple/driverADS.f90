@@ -63,7 +63,6 @@ PROGRAM testNN
   DO j=1,nBatches
      write(*,"(20(A))")'*'
      write(*,"(3(F10.5))")y(:,j)%v
-     write(*,"(20(A))")'*'
   ENDDO
   
   DO ilayer=1,nlayers
@@ -93,7 +92,7 @@ CONTAINS
   !!@param[inout] x
   SUBROUTINE InitInputs(nf,nb,x)
     IMPLICIT NONE
-    INTEGER(kind=4),INTENT(IN)          :: nf,nb
+    INTEGER(kind=4),INTENT(IN)  :: nf,nb
     REAL(KIND=8),INTENT(INOUT)  :: x(nf,nb)
     INTEGER                     :: i,ib
     
