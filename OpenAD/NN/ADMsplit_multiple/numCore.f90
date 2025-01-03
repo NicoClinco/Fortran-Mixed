@@ -75,7 +75,7 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
   !=========================================================
   
   ilayer=1
-  !$openad xxx simple loop
+  !****openad xxx simple loop
   DO ib=1,nb
         DO j=1,n_in
            DO i=1,n_out
@@ -88,7 +88,7 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
         ENDDO
   ENDDO
 
-  !$openad xxx simple loop
+  !****openad xxx simple loop
   DO ib=1,nb
      DO ilayer=2,n_layers
         DO j=1,n_in
@@ -97,7 +97,7 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
               i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
               i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
               y(i,ib) = y(i,ib)+Wb_global(i1)*y(j,ib)+Wb_global(i2)
-              !y(i,ib) = y(i,ib)+W_layers(i,j,ilayer)*y(j,ib)+b_layers(i,ilayer)
+              
            ENDDO
         ENDDO
      ENDDO
@@ -129,7 +129,7 @@ SUBROUTINE LossFun(nb,y,ytrgt,lf)
   lf = 0.0_8
   rnb = 1.0_8/REAL(nb,8)
 
-  !$openad xxx simple loop
+  !**openad xxx simple loop
   DO ib=1,nb
      DO j=1,n_out
         lf = lf + (Y(j,ib)-ytrgt(j,ib))*(Y(j,ib)-ytrgt(j,ib))

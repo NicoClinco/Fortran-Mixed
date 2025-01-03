@@ -15,11 +15,15 @@ PROGRAM testNN
   REAL(KIND=8) :: xInput(nFeatures,nBatches)
   REAL(KIND=8) :: Y_TRGT(nFeatures,nBatches)
   TYPE(ACTIVE) :: Y(nFeatures,nBatches)
-  INTEGER(w2f__i4)     :: i,j,ilayer,wbindxs(2)
+  INTEGER(w2f__i4)     :: i,j,ilayer,wbindxs(2),ib
   REAL(KIND=8) :: tv(nFeatures*nFeatures)    !True values of the derivatives
   INTEGER      :: gIndxs(nFeatures,nFeatures)
-  LOGICAL      :: GET_LOSS_FUNCTION 
+  LOGICAL      :: GET_LOSS_FUNCTION
 
+  !Output of the first layer:
+  REAL(KIND=8) :: dummy_out(nFeatures,nbatches)
+  REAL(KIND=8) :: dummy_w(nFeatures) !W11^2,W21^2,W31^2
+  
   GET_LOSS_FUNCTION = .true.
   
 
@@ -33,18 +37,6 @@ PROGRAM testNN
   CALL OAD_revTape()
   CALL InitLinearLayers(nFeatures,nFeatures,nLayers)
   !CALL InitTRGT(nFeatures,nBatches,Y_TRGT)
-
-  write(*,*) 'nin,nout,nlayers=',n_in,n_out,n_layers
-  write(*,'(A)')'**************************************'
-  ! DO ilayer=1,nlayers
-  !    DO j=1,n_in
-  !       DO i=1,n_out
-  !          CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-  !          write(*,'(A,":",3(i2,","),i2,",",i2)')'layer,i,j,g1,g2',ilayer,i,j,wbindxs(1:2)
-  !       ENDDO
-  !    ENDDO
-  ! ENDDO
-  write(*,'(A)')'**************************************'
   ! !Set to zero the derivatives:
   ! CALL OAD_revTape()
   ! CALL InitWeights(nFeatures,nFeatures)
@@ -72,12 +64,34 @@ PROGRAM testNN
            write(*,*) '*',i,j,wbindxs(1:2)
            write(*,'(A,i2,A1,i2,A1,F10.5,"|",F10.5)')'dL/dW(',i,',',j,')= ',Wb_global(wbindxs(1))%d,&
                 Wb_global(wbindxs(2))%d
+           !Output of the first layer:
+           
         ENDDO
      ENDDO
   ENDDO
+
+  !True value:
+  CALL getLayerIndexes(n_in,n_out,n_layers,1,1,2,wbindxs)
+  dummy_w(1) = Wb_global(wbindxs(1))%v
+  CALL getLayerIndexes(n_in,n_out,n_layers,2,1,2,wbindxs)
+  dummy_w(2) = Wb_global(wbindxs(1))%v
+  CALL getLayerIndexes(n_in,n_out,n_layers,3,1,2,wbindxs)
+  dummy_w(3) = Wb_global(wbindxs(1))%v
+  
+  DO ib=1,nbatches
+     DO i=1,nFeatures
+        dummy_out(i,ib) = dummy_w(i)*xInput(1,ib)
+     ENDDO
+  ENDDO
+
   
 
   
+
+  !Testing the true derivative for the first weigth:
+  !tv(1) = (2.0)/REAL(nBatches,8)*DOT_PRODUCT(y(:,:)%v,dummy_out)
+  tv(2) = (2.0)/REAL(nBatches,8)*SUM(y(2,:)%v)
+  write(*,*)'true, dL/dw11,dL/db',tv(1),tv(2)
   ! DO j=1,nFeatures
   !    DO i=1,nFeatures
   !       write(*,'(A,i1,A1,i1,A1,F10.5)')'dL/dW(',i,',',j,')= ',W(i,j)%d
