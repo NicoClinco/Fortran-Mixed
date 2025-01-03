@@ -13,6 +13,16 @@
 *.so
 *.pt
 *.tp
+OAD_active.f90
+OAD_cp.f90
+OAD_rev.f90
+OAD_tape.f90
+ad_inline.f
+ad_template.f
+iaddr.c
+w2f__types.f90
+*.x2w.*
+*.pre.*
 CMakeCache.txt 
 CMakeFiles
 cmake_install.cmake
