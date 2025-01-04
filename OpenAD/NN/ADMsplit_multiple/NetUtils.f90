@@ -14,7 +14,7 @@ SUBROUTINE UpdateWeightsAndBiases(nin,nout,nlayers,Wflattened,W,b)
   !Weigths
   DO ilayer=1,nlayers
      !Weights:
-     ista = 1+(ilayer-1)*nin*nout
+     ista = (ilayer-1)*nin*nout
      iend = ilayer*nin*nout
      DO i=1,nout
         DO j=1,nin
@@ -24,7 +24,7 @@ SUBROUTINE UpdateWeightsAndBiases(nin,nout,nlayers,Wflattened,W,b)
      ENDDO
 
      !biases: weigths-offset+biases index
-     ista = (nlayers)*nin*nout+1+(ilayer-1)*nout
+     ista = (nlayers)*nin*nout+(ilayer-1)*nout
      iend = (nlayers)*nin*nout+ilayer*nout
      DO i=1,nout
         b(i,ilayer) = Wflattened(ista+i)
