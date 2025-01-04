@@ -48,7 +48,7 @@ PROGRAM testNN
   !Verification of the true derivative of the loss wrt the parameters:
   DO j=1,nFeatures
      DO i=1,nFeatures
-        gIndxs(i,j) = (i-1)*nFeatures+j
+        gIndxs(i,j)     = (i-1)*nFeatures+j
         tv(gIndxs(i,j)) = (2.0)/REAL(nBatches,8)*SUM(y(i,:)%v*xInput(j,:))
      ENDDO
   ENDDO

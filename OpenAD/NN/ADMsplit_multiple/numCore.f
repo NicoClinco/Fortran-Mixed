@@ -8,7 +8,7 @@ MODULE var
   !Features:
   INTEGER                  :: n_in,n_out,n_layers
   REAL(KIND=8),DIMENSION(:),ALLOCATABLE :: Wb_global
-  
+  !REAL(KIND=8),DIMENSION(:),ALLOCATABLE :: b_global
 
   ![nout,nin,nlayers]
   REAL(KIND=8),DIMENSION(:,:,:),ALLOCATABLE :: W_layers
@@ -45,6 +45,7 @@ CONTAINS
     IMPLICIT NONE
     INTEGER :: nin,nout,nlayers,i,j,ilayer
     INTEGER,INTENT(INOUT) :: gindxs(2)
+
     gindxs(1) = (ilayer-1)*nin*nout + (i-1)*nin+j
     gindxs(2) = (nlayers)*nin*nout+(ilayer-1)*nout + i
   END SUBROUTINE getLayerIndexes
@@ -60,7 +61,6 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
   INTEGER                :: nb
   REAL(KIND=8)           :: x(n_in,nb)
   REAL(KIND=8)           :: y(n_out,nb)
-  REAL(KIND=8)           :: yi,yj
   LOGICAL,INTENT(IN)     :: eval_loss
   REAL(KIND=8),optional  :: ytrgt(n_out,nb)
   INTEGER                :: ib,i,j,ilayer,ista,i1,i2
@@ -74,65 +74,34 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
   ! - Other layers implicit
   !=========================================================
   
-  
-  ! DO ib=1,nb
-  !       DO j=1,n_in
-  !          DO i=1,n_out
-  !             !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-  !             i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
-  !             i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
-  !             yi = y(i,ib)
-  !             y(i,ib) = yi+Wb_global(i1)*x(j,ib)+Wb_global(i2)
-  !             !y(i,ib) = y(i,ib)+W_layers(i,j,ilayer)*x(j,ib)+b_layers(i,ilayer)
-  !          ENDDO
-  !       ENDDO
-  ! ENDDO
-  
-  
-  ! DO ib=1,nb
-  !    DO ilayer=2,n_layers
-  !       DO j=1,n_in
-  !          DO i=1,n_out
-  !             !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-  !             i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
-  !             i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
-  !             yi = y(i,ib)
-  !             yj = y(j,ib)
-  !             y(i,ib) = yi+Wb_global(i1)*y(j,ib)+Wb_global(i2)
-  
-  !          ENDDO
-  !       ENDDO
-  !    ENDDO
-  ! ENDDO
-  
+  ilayer=1
+  !****openad xxx simple loop
   DO ib=1,nb
-     DO ilayer=1,n_layers
-        if(ilayer.eq.1) then
-           DO j=1,n_in
-              DO i=1,n_out
-                 !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-                 i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
-                 i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
-                 yi = y(i,ib)
-                 y(i,ib) = yi+Wb_global(i1)*x(j,ib)+Wb_global(i2)
-                 !y(i,ib) = y(i,ib)+W_layers(i,j,ilayer)*x(j,ib)+b_layers(i,ilayer)
-              ENDDO
+        DO j=1,n_in
+           DO i=1,n_out
+              !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
+              i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
+              i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
+              y(i,ib) = y(i,ib)+Wb_global(i1)*x(j,ib)+Wb_global(i2)
+              !y(i,ib) = y(i,ib)+W_layers(i,j,ilayer)*x(j,ib)+b_layers(i,ilayer)
            ENDDO
-        else
-           DO j=1,n_in
-              DO i=1,n_out
-                 !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-                 i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
-                 i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
-                 yi = y(i,ib)
-                 yj = y(j,ib)
-                 y(i,ib) = yi+Wb_global(i1)*y(j,ib)+Wb_global(i2)
-              ENDDO
+        ENDDO
+  ENDDO
+
+  !****openad xxx simple loop
+  DO ib=1,nb
+     DO ilayer=2,n_layers
+        DO j=1,n_in
+           DO i=1,n_out
+              !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
+              i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
+              i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
+              y(i,ib) = y(i,ib)+Wb_global(i1)*y(j,ib)+Wb_global(i2)
+              
            ENDDO
-        endif
+        ENDDO
      ENDDO
   ENDDO
-  
 
   CALL LossFun(nb,y,ytrgt,cost_fun)
   

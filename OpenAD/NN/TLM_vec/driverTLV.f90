@@ -3,9 +3,7 @@
 PROGRAM testNN
   USE w2f__types
   USE OAD_active
-  USE OAD_rev
-  USE OAD_tape
-  USE var !ALL
+  USE var 
   IMPLICIT NONE
 
   INTEGER(w2f__i4),PARAMETER :: Nbatches  = 10
@@ -14,7 +12,6 @@ PROGRAM testNN
   
   REAL(KIND=8) :: xInput(nFeatures,nBatches)
   REAL(KIND=8) :: Y_TRGT(nFeatures,nBatches)
-  TYPE(ACTIVE) :: Y(nFeatures,nBatches)
   INTEGER(w2f__i4)     :: i,j,ilayer,wbindxs(2),ib
   REAL(KIND=8) :: tv(nFeatures*nFeatures)    !True values of the derivatives
   INTEGER      :: gIndxs(nFeatures,nFeatures)
@@ -23,6 +20,8 @@ PROGRAM testNN
   !Output of the first layer:
   REAL(KIND=8) :: dummy_out(nFeatures,nbatches)
   REAL(KIND=8) :: dummy_w(nFeatures) !W11^2,W21^2,W31^2
+
+  external forward
   
   GET_LOSS_FUNCTION = .true.
   
@@ -31,23 +30,18 @@ PROGRAM testNN
   CALL InitInputs(nFeatures,Nbatches,xInput)
   Y_TRGT(:,:) = 0.0_8
 
-  CALL tape_init()
-  !Set to zero the derivatives:
-  CALL OAD_revPlain()
   CALL InitLinearLayers(nFeatures,nFeatures,nLayers)
-  Wb_global(:)%d = 0.0_8
+  
   !CALL InitTRGT(nFeatures,nBatches,Y_TRGT)
   Y_TRGT(:,:) = 0.0_8
-  Y(:,:)%v   = 0.0_8
-  Y(:,:)%d   = 0.0_8
-  COST_FUN%d = 1.0_8 
 
-  CALL OAD_revTape()
-  CALL forward(nBatches,xInput,Y,GET_LOSS_FUNCTION,Y_TRGT)
-  CALL OAD_revAdjoint()
-  CALL forward(nBatches,xInput,Y,GET_LOSS_FUNCTION,Y_TRGT)
-  
-  CALL OAD_revPlain()
+
+  DO i=1,size(Wb_global%v)
+     CALL zero_deriv(Wb_global(i))
+     Wb_global(i)%d(i) = 1.0D0
+  ENDDO
+  CALL forward(nBatches,xInput,GET_LOSS_FUNCTION,Y_TRGT)
+
   WRITE(*,*)'Cost function value=',COST_FUN%v
   DO j=1,nBatches
      write(*,"(20(A))")'*'
@@ -59,8 +53,8 @@ PROGRAM testNN
         DO i=1,n_out
            CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
            !write(*,*) '*',i,j,wbindxs(1:2)
-           write(*,'(A,i2,A1,i2,A1,F10.5,"|",F10.5)')'dL/dW(',i,',',j,')= ',Wb_global(wbindxs(1))%d,&
-                Wb_global(wbindxs(2))%d
+           write(*,'(A,i2,A1,i2,A1,F10.5,"|",F10.5)')'dL/dW(',i,',',j,')= ',COST_FUN%d(1),&
+                COST_FUN%d(3)
            !Output of the first layer:
            
         ENDDO
@@ -87,8 +81,8 @@ PROGRAM testNN
 
   !Testing the true derivative for the first weigth:
   !tv(1) = (2.0)/REAL(nBatches,8)*DOT_PRODUCT(y(:,:)%v,dummy_out)
-  tv(2) = (2.0)/REAL(nBatches,8)*SUM(y(2,:)%v)
-  tv(1) = (2.0)/REAL(nBatches,8)*SUM(y(1,:)%v)
+  tv(2) = (2.0)/REAL(nBatches,8)*SUM(y(2,:)%v*xInput(1,:))
+  tv(1) = (2.0)/REAL(nBatches,8)*SUM(y(1,:)%v*xInput(1,:))
   write(*,*)'true, dL/dw11,dL/db',tv(1),tv(2)
 
   
