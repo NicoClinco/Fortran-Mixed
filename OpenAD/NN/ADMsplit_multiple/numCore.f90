@@ -8,6 +8,8 @@ MODULE var
   !Features:
   INTEGER                  :: n_in,n_out,n_layers
   REAL(KIND=8),DIMENSION(:),ALLOCATABLE :: Wb_global
+
+  REAL(KIND=8),DIMENSION(:,:),ALLOCATABLE :: Y
   
 
   ![nout,nin,nlayers]
@@ -37,6 +39,7 @@ CONTAINS
     ENDDO
   END SUBROUTINE InitLinearLayers
 
+
   !>@brief Get the global index for our weights and biases
   !!from the global flattened array
   !!
@@ -51,18 +54,18 @@ CONTAINS
 
 END MODULE var
 
-SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
+SUBROUTINE forward(nb,x,eval_loss,ytrgt)
   USE var, only : wb_global,cost_fun,n_in,n_out,n_layers,&
-       W_layers,b_layers,getLayerIndexes
+       W_layers,b_layers,getLayerIndexes,y
   IMPLICIT NONE
 
 
   INTEGER                :: nb
   REAL(KIND=8)           :: x(n_in,nb)
-  REAL(KIND=8)           :: y(n_out,nb)
   REAL(KIND=8)           :: yi,yj
   LOGICAL,INTENT(IN)     :: eval_loss
   REAL(KIND=8),optional  :: ytrgt(n_out,nb)
+  REAL(KIND=8)           :: zBuf(n_out,nb) 
   INTEGER                :: ib,i,j,ilayer,ista,i1,i2
   INTEGER                :: wbindxs(2)
 
@@ -70,70 +73,44 @@ SUBROUTINE forward(nb,x,y,eval_loss,ytrgt)
   
   !=========================================================
   ! -Perform the forward method:
-  ! - First layer explicit
-  ! - Other layers implicit
+  ! -After each layer a buffer zBuff is stored
   !=========================================================
+
+  zBuf(1:n_out,1:nb) = 0.0_8
   
-  
-  ! DO ib=1,nb
-  !       DO j=1,n_in
-  !          DO i=1,n_out
-  !             !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-  !             i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
-  !             i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
-  !             yi = y(i,ib)
-  !             y(i,ib) = yi+Wb_global(i1)*x(j,ib)+Wb_global(i2)
-  !             !y(i,ib) = y(i,ib)+W_layers(i,j,ilayer)*x(j,ib)+b_layers(i,ilayer)
-  !          ENDDO
-  !       ENDDO
-  ! ENDDO
-  
-  
-  ! DO ib=1,nb
-  !    DO ilayer=2,n_layers
-  !       DO j=1,n_in
-  !          DO i=1,n_out
-  !             !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
-  !             i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
-  !             i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
-  !             yi = y(i,ib)
-  !             yj = y(j,ib)
-  !             y(i,ib) = yi+Wb_global(i1)*y(j,ib)+Wb_global(i2)
-  
-  !          ENDDO
-  !       ENDDO
-  !    ENDDO
-  ! ENDDO
-  
+  !To store an intermediate vector.
   DO ib=1,nb
      DO ilayer=1,n_layers
         if(ilayer.eq.1) then
-           DO j=1,n_in
-              DO i=1,n_out
+           
+           DO i=1,n_out
+              
+              DO j=1,n_in
                  !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
                  i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
-                 i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
-                 yi = y(i,ib)
-                 y(i,ib) = yi+Wb_global(i1)*x(j,ib)+Wb_global(i2)
-                 !y(i,ib) = y(i,ib)+W_layers(i,j,ilayer)*x(j,ib)+b_layers(i,ilayer)
+                 y(i,ib) = y(i,ib)+Wb_global(i1)*x(j,ib)
+                 
               ENDDO
+              i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
+              y(i,ib) = y(i,ib) + Wb_global(i2)
            ENDDO
         else
-           DO j=1,n_in
-              DO i=1,n_out
+           y(1:n_out,ib) = 0.0_8
+           DO i=1,n_out
+              DO j=1,n_in
                  !CALL getLayerIndexes(n_in,n_out,n_layers,i,j,ilayer,wbindxs)
                  i1 = (ilayer-1)*n_in*n_out + (i-1)*n_in+j
-                 i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
-                 yi = y(i,ib)
-                 yj = y(j,ib)
-                 y(i,ib) = yi+Wb_global(i1)*y(j,ib)+Wb_global(i2)
+                 y(i,ib) = y(i,ib)+Wb_global(i1)*zBuf(j,ib)
               ENDDO
+              i2 = (n_layers)*n_in*n_out+(ilayer-1)*n_out + i
+              y(i,ib) = y(i,ib) + Wb_global(i2)
            ENDDO
         endif
-     ENDDO
+        zBuf(1:n_out,ib) = y(1:n_out,ib)
+        
+     ENDDO !END-LAYER-LOOP
   ENDDO
   
-
   CALL LossFun(nb,y,ytrgt,cost_fun)
   
   !$openad DEPENDENT(cost_fun)

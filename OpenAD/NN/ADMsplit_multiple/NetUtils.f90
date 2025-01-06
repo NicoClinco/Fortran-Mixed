@@ -31,3 +31,28 @@ SUBROUTINE UpdateWeightsAndBiases(nin,nout,nlayers,Wflattened,W,b)
      ENDDO
   ENDDO
 END SUBROUTINE UpdateWeightsAndBiases
+
+
+!>@brief Print the weights of the neural network
+!!       to the std output
+!!
+SUBROUTINE printWeights(nin,nout,nlayers,W,b)
+  IMPLICIT NONE
+  INTEGER,INTENT(IN) :: nin,nout,nlayers
+  REAL(KIND=8),INTENT(IN)   :: b(nout,nlayers)
+  REAL(KIND=8),INTENT(IN)   :: W(nout,nin,nlayers)
+
+  CHARACTER(40) :: chararr
+  INTEGER :: i,j,ilayer
+  
+  chararr='****************************************'
+  
+  write(*,'(A40)') chararr
+  do ilayer=1,nlayers
+     write(*,'(A6,1x,i1," ",A30)') 'LAYER=',ilayer,chararr(1:30)
+     DO i=1,nout
+        write(*,'(3(F12.8,","),"|",F12.8)')W(i,:,ilayer),b(i,ilayer)
+     ENDDO
+  enddo
+  write(*,'(A40)') chararr
+END SUBROUTINE printWeights
