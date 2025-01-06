@@ -42,10 +42,11 @@ CONTAINS
 
   !>@brief Get the global index for our weights and biases
   !!from the global flattened array
-  !!
-  !!
+
+  
   SUBROUTINE getLayerIndexes(nin,nout,nlayers,i,j,ilayer,gindxs)
     IMPLICIT NONE
+    !$openad xxx template ad_template_getlayer.f90
     INTEGER :: nin,nout,nlayers,i,j,ilayer
     INTEGER,INTENT(INOUT) :: gindxs(2)
     gindxs(1) = (ilayer-1)*nin*nout + (i-1)*nin+j

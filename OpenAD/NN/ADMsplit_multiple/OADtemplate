@@ -1,0 +1,35 @@
+ifndef F90C
+F90C=gfortran 
+endif
+ifndef CC
+CC=gcc
+endif
+
+ifndef OPENADROOT
+$(error environment variable OPENADROOT is undefined, this example requires it)
+endif
+
+# OpenAD runtime support files 
+OAD_RTS = \
+w2f__types.f90 \
+OAD_active.f90 \
+OAD_cp.f90 \
+OAD_tape.f90 \
+OAD_rev.f90 \
+ad_template_getlayer.f90 \
+iaddr.c \
+
+build: $(OAD_RTS) $(addsuffix .o, $(basename $(OAD_RTS)))
+
+# pick up the support files from the OpenAD installation
+OAD_active.f90:
+	ln -sf ${OPENADROOT}/runTimeSupport/scalar/$@ ./
+w2f__types.f90 iaddr.c:
+	ln -sf ${OPENADROOT}/runTimeSupport/all/$@ ./
+
+
+# specialized F90 compile here is the reason for the separate makefile
+# we do not want impose the default bit size on reals required for 
+# the other source code
+%.o : %.f90
+	${F90C} -Wall -g -o $@ -c $<
