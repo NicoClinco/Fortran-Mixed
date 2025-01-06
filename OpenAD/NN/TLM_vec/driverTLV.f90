@@ -13,7 +13,6 @@ PROGRAM testNN
   REAL(KIND=8) :: xInput(nFeatures,nBatches)
   REAL(KIND=8) :: Y_TRGT(nFeatures,nBatches)
   INTEGER(w2f__i4)     :: i,j,ilayer,wbindxs(2),ib
-  REAL(KIND=8) :: tv(nFeatures*nFeatures)    !True values of the derivatives
   INTEGER      :: gIndxs(nFeatures,nFeatures)
   LOGICAL      :: GET_LOSS_FUNCTION
 
@@ -60,10 +59,12 @@ PROGRAM testNN
         ENDDO
      ENDDO
   ENDDO
-
+  
+  write(*,'(A)')'=== TLVM VALUES:'
   
   CALL printWeights(nFeatures,nFeatures,nlayers,d_W,d_b)
-  write(*,'(A)')'----------------------------------------'
+  write(*,'(A)')'========================================'
+  write(*,'(A)')'=== TRUE VALUES:'
   CALL UpdateWeightsAndBiases(nfeatures,nfeatures,nlayers,Wb_global%v,W_layers,b_layers)
   CALL dLdW1(nfeatures,nfeatures,nBatches,W_layers(:,:,2),xInput,y%v,d_Wt(:,:,1))
   CALL dLdW2(nfeatures,nfeatures,nBatches,W_layers(:,:,1),xInput,y%v,b_layers(:,1),d_Wt(:,:,2))
@@ -238,6 +239,4 @@ CONTAINS
     
   END SUBROUTINE dLdb2
 
-  
-  
 END PROGRAM testNN
