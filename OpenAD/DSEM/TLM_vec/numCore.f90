@@ -19,6 +19,10 @@ MODULE var
   REAL(KIND=8) :: F1(Nvar,Ns+1,Nc)
 
 
+  !Fluxes:
+  REAL(KIND=8) :: alpha_rusanov = 0.5
+
+
 CONTAINS
 
   !>@brief Create the discrete solution points for the SD scheme
@@ -177,8 +181,10 @@ END MODULE var
 !!
 MODULE AD_vars
   USE var, only : Nvar,Ns,Nc
+  !Flattened vectors:
   REAL(KIND=8) :: FLATstencilQs(Nvar*Ns*3)
   REAL(KIND=8) :: FLATstencilQfp(Nvar*(Ns+1)*3)
+  REAL(KIND=8) :: FLAT_fluxes(Nvar*(Ns+1)*3)
   
 CONTAINS
   
@@ -221,10 +227,10 @@ SUBROUTINE calc_resid(stencilQs)
 
   CALL calc_Qfp
 
-  !CALL calc_fluxes()
+  CALL calc_fluxes
   
-  !$openAD DEPENDENT(FLATstencilQfp)
-
+  !$openAD DEPENDENT(FLAT_fluxes)
+  
 END SUBROUTINE calc_resid
 
 !>@brief Interpolate the solution to the flux-points
@@ -240,6 +246,7 @@ SUBROUTINE calc_Qfp
   INTEGER :: ivar,is,ic,ifp
   INTEGER :: igsp,igfp
 
+  !Put to zero the flux-points:
   flatstencilQfp(:) = 0.0_8
   
   ivar=1
@@ -259,9 +266,79 @@ SUBROUTINE calc_Qfp
 END SUBROUTINE calc_Qfp
 
 
+!>@brief Compute the internal fluxes for the burger Equation
+!!@param[in]
+SUBROUTINE calc_fluxes
+  USE var
+  USE AD_vars
+  IMPLICIT NONE
+
+  INTEGER      :: ic,ifp,is,ivar
+  INTEGER      :: igfp,igsp
+  REAL(KIND=8) :: half = 0.5_8
+  REAL(KIND=8) :: alpha
+  do ic=1,3
+     do ifp=1,Ns+1
+        do is=1,Ns  
+           do ivar=1,Nvar
+              CALL globalIndx_fp(ivar,ifp,ic,igfp)
+              
+              FLAT_fluxes(igfp) = half*FLATstencilQfp(igfp)*FLATstencilQfp(igfp)
+           enddo
+        enddo
+     enddo
+  enddo
+  alpha = alpha_rusanov
+  CALL calc_interface_fluxes_rusanov(alpha)
+  
+END SUBROUTINE calc_fluxes
+
+!>@brief Computation of the interface fluxes between the interfaces
+!!       of three cells according to the Rusanov flux
+SUBROUTINE calc_interface_fluxes_rusanov(alpha)
+  USE var
+  USE AD_vars
+  IMPLICIT NONE
+  REAL(kind=8) :: alpha
+  INTEGER :: ic,is,ivar
+  
+  !Interface flux-points indexes across the three cells
+  INTEGER :: flux_points(2,2)
+  REAL(kind=8) :: half = 0.5_8
+  REAL(kind=8) :: avg_fluxes(2)
+  REAL(kind=8) :: jumps_qfp(2)
+  ivar=1
+  !(ic-1)*Nvar*Ns+(is-1)*Nvar+ivar
+  !right fp left cells:
+  flux_points(1,1) = (Ns+1-1)*Nvar+ivar !(1+Ns)
+  !left fp middle cell:
+  flux_points(1,2) = (2-1)*Nvar*(Ns+1)+(1-1)*Nvar+ivar !(Ns+1)+1
+  !right fp middle cell:
+  flux_points(2,1) = (2-1)*Nvar*(Ns+1)+(Ns+1-1)*Nvar+ivar
+
+  !left fp right cell:
+  flux_points(2,2) = (3-1)*Nvar*(Ns+1)+(1-1)*Nvar+ivar
+
+  !Compute the average and the jumps:
+  avg_fluxes(1) = half*(FLAT_fluxes(flux_points(1,1))+FLAT_fluxes(flux_points(1,2)))
+  avg_fluxes(2) = half*(FLAT_fluxes(flux_points(2,1))+FLAT_fluxes(flux_points(2,2)))
+
+  jumps_qfp(1) = flatstencilQfp(flux_points(1,1)) - flatstencilQfp(flux_points(1,2))
+  jumps_qfp(2) = flatstencilQfp(flux_points(2,1)) - flatstencilQfp(flux_points(2,2))
+  
+  FLAT_fluxes(flux_points(1,1)) = avg_fluxes(1) - alpha*(jumps_qfp(1))
+  FLAT_fluxes(flux_points(2,1)) = avg_fluxes(2) - alpha*(jumps_qfp(2))
+  
+  !Copy:
+  FLAT_fluxes(flux_points(1,2)) = FLAT_fluxes(flux_points(1,1))
+  FLAT_fluxes(flux_points(2,2)) = FLAT_fluxes(flux_points(2,1))
+  
+  
+END SUBROUTINE calc_interface_fluxes_rusanov
+
+
+
 subroutine gauss_xs(N,Xs,sp_type)
-
-
   implicit none
   integer, parameter :: RP = kind(1.d0);
   real(kind=RP), parameter :: pi  = 3.1415926

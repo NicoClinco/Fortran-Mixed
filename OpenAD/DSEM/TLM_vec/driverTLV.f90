@@ -56,7 +56,7 @@ PROGRAM driver
         ic_sp = gisp2ic(j)
         ic_fp = gifp2ic(i)
         if(ic_sp .eq. ic_fp .and. ic_fp .eq. 1) then
-           write(*,*) ic_sp,' ',ic_fp,' ',flatstencilQfp(i)%d(j)
+           write(*,*) ic_sp,' ',ic_fp,' ',flatstencilQfp(i)%d(j),flat_fluxes(i)%d(j)
         endif
      ENDDO
   ENDDO
