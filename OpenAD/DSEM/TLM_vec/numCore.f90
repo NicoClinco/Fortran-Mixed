@@ -332,8 +332,6 @@ SUBROUTINE calc_interface_fluxes_rusanov(alpha)
   !Copy:
   FLAT_fluxes(flux_points(1,2)) = FLAT_fluxes(flux_points(1,1))
   FLAT_fluxes(flux_points(2,2)) = FLAT_fluxes(flux_points(2,1))
-  
-  
 END SUBROUTINE calc_interface_fluxes_rusanov
 
 
