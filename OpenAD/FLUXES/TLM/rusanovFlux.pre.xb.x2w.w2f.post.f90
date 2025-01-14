@@ -164,14 +164,15 @@ REAL(w2f__8) OpenAD_lin_8
 REAL(w2f__8) OpenAD_lin_9
 type(active) :: OpenAD_prp_0
 type(active) :: OpenAD_prp_1
+type(active) :: OpenAD_prp_10
 type(active) :: OpenAD_prp_2
 type(active) :: OpenAD_prp_3
-type(active) :: OpenAD_prp_4(1:5)
-type(active) :: OpenAD_prp_5(1:5)
-type(active) :: OpenAD_prp_6
-type(active) :: OpenAD_prp_7
-
-REAL(w2f__8) EKL,EKR,IEL,IER
+type(active) :: OpenAD_prp_4
+type(active) :: OpenAD_prp_5
+type(active) :: OpenAD_prp_6(1:5)
+type(active) :: OpenAD_prp_7(1:5)
+type(active) :: OpenAD_prp_8(1:5)
+type(active) :: OpenAD_prp_9
 INTEGER :: i
 !
 !     **** Top Level Pragmas ****
@@ -191,31 +192,31 @@ do i=1,10
 enddo
 
 !Left:
-QFLR(2)%d(1) = QFL(2)/QFL(1)
-QFLR(3)%d(1) = QFL(3)/QFL(1)
-QFLR(4)%d(1) = QFL(4)/QFL(1)
+! QFLR(2)%d(1) = QFL(2)/QFL(1)
+! QFLR(3)%d(1) = QFL(3)/QFL(1)
+! QFLR(4)%d(1) = QFL(4)/QFL(1)
 
-EKL=0.0_WP
-EKR=0.0_WP
-EKL = 0.5_WP*SUM(QFL(2:4)**2)/QFL(1)**2
-IEL = QFL(5)/QFL(1)-EKL
-QFLR(5)%d(2) = 2.0_WP*(QFL(2)/QFL(1))
-QFLR(5)%d(3) = 2.0_WP*(QFL(3)/QFL(1))
-QFLR(5)%d(4) = 2.0_WP*(QFL(4)/QFL(1))
-QFLR(5)%d(1) = IEL+EKL
+! ! EKL=0.0_WP
+! ! EKR=0.0_WP
+! ! EKL = 0.5_WP*SUM(QFL(2:4)**2)/QFL(1)**2
+! ! IEL = QFL(5)/QFL(1)-EKL
+! QFLR(5)%d(2) = (QFL(2)/QFL(1))
+! QFLR(5)%d(3) = (QFL(3)/QFL(1))
+! QFLR(5)%d(4) = (QFL(4)/QFL(1))
+! QFLR(5)%d(1) = QFL(5)/QFL(1)
 
 
-!Right
+! ! !Right
 
-QFLR(7)%d(6) = QFR(2)/QFR(1)
-QFLR(8)%d(6) = QFR(3)/QFR(1)
-QFLR(9)%d(6) = QFR(4)/QFR(1)
-EKR = 0.5_WP*SUM(QFR(2:4)**2)/QFR(1)**2
-IER = QFR(5)/QFR(1)-EKR
-QFLR(10)%d(7) = 2.0_WP*(QFR(2)/QFR(1))
-QFLR(10)%d(8) = 2.0_WP*(QFR(3)/QFR(1))
-QFLR(10)%d(9) = 2.0_WP*(QFR(4)/QFR(1))
-QFLR(10)%d(6) = IER+EKR
+! QFLR(7)%d(6) = QFR(2)/QFR(1)
+! QFLR(8)%d(6) = QFR(3)/QFR(1)
+! QFLR(9)%d(6) = QFR(4)/QFR(1)
+! ! EKR = 0.5_WP*SUM(QFR(2:4)**2)/QFR(1)**2
+! ! IER = QFR(5)/QFR(1)-EKR
+! QFLR(10)%d(7) = (QFR(2)/QFR(1))
+! QFLR(10)%d(8) = (QFR(3)/QFR(1))
+! QFLR(10)%d(9) = (QFR(4)/QFR(1))
+! QFLR(10)%d(6) = QFR(5)/QFR(1)
 
 
 
@@ -308,9 +309,9 @@ ELSE
     FN(2:3)%v = (QFL(2:3)*UNL%v+QFLR(7:8)%v*UNR%v+SF(1:2)*OpenAD_aux_15)
     FN(4)%v = 0.0D00
     CALL zero_deriv(FN(4))
-    CALL setderiv(OpenAD_prp_6,PL)
-    CALL inc_deriv(OpenAD_prp_6,PR)
-    CALL sax(OpenAD_lin_41,OpenAD_prp_6,FN(2:3))
+    CALL setderiv(OpenAD_prp_9,PL)
+    CALL inc_deriv(OpenAD_prp_9,PR)
+    CALL sax(OpenAD_lin_41,OpenAD_prp_9,FN(2:3))
     CALL saxpy(OpenAD_lin_38,UNL,FN(2:3))
     CALL saxpy(OpenAD_lin_39,QFLR(7:8),FN(2:3))
     CALL saxpy(OpenAD_lin_40,UNR,FN(2:3))
@@ -360,17 +361,17 @@ ELSE
     OpenAD_lin_59 = QFLR(7:9)%v
     OpenAD_lin_60 = SF(1:3)
     FN(2:4)%v = (QFLR(2:4)%v*UNL%v+QFLR(7:9)%v*UNR%v+SF(1:3)*OpenAD_aux_18)
-    CALL setderiv(OpenAD_prp_7,PL)
-    CALL inc_deriv(OpenAD_prp_7,PR)
-    CALL sax(OpenAD_lin_60,OpenAD_prp_7,FN(2:4))
+    CALL setderiv(OpenAD_prp_10,PL)
+    CALL inc_deriv(OpenAD_prp_10,PR)
+    CALL sax(OpenAD_lin_60,OpenAD_prp_10,FN(2:4))
     CALL saxpy(OpenAD_lin_56,QFLR(2:4),FN(2:4))
     CALL saxpy(OpenAD_lin_57,UNL,FN(2:4))
     CALL saxpy(OpenAD_lin_58,QFLR(7:9),FN(2:4))
     CALL saxpy(OpenAD_lin_59,UNR,FN(2:4))
   ENDIF
 ENDIF
-OpenAD_aux_3 = (QFL(5)+PL%v)
-OpenAD_aux_4 = (QFR(5)+PR%v)
+OpenAD_aux_3 = (QFLR(5)%v+PL%v)
+OpenAD_aux_4 = (QFLR(10)%v+PR%v)
 OpenAD_lin_15 = OpenAD_aux_3
 OpenAD_lin_16 = UNL%v
 OpenAD_lin_17 = OpenAD_aux_4
@@ -394,31 +395,37 @@ OpenAD_acc_2 = (OpenAD_lin_19*OpenAD_lin_23)
 OpenAD_acc_3 = (OpenAD_lin_21*OpenAD_acc_2)
 OpenAD_acc_4 = (OpenAD_lin_22*OpenAD_lin_20*OpenAD_acc_2)
 OpenAD_acc_5 = (OpenAD_lin_24*5.0D-01)
-CALL setderiv(OpenAD_prp_1,PL)
-CALL inc_deriv(OpenAD_prp_1,PR)
-CALL setderiv(OpenAD_prp_2,QFLR(1))
-CALL inc_deriv(OpenAD_prp_2,QFLR(6))
-CALL setderiv(OpenAD_prp_3,UNL)
-CALL inc_deriv(OpenAD_prp_3,UNR)
+CALL setderiv(OpenAD_prp_1,QFLR(5))
+CALL inc_deriv(OpenAD_prp_1,PL)
+CALL setderiv(OpenAD_prp_2,QFLR(10))
+CALL inc_deriv(OpenAD_prp_2,PR)
+CALL setderiv(OpenAD_prp_3,PL)
+CALL inc_deriv(OpenAD_prp_3,PR)
+CALL setderiv(OpenAD_prp_4,QFLR(1))
+CALL inc_deriv(OpenAD_prp_4,QFLR(6))
+CALL setderiv(OpenAD_prp_5,UNL)
+CALL inc_deriv(OpenAD_prp_5,UNR)
 CALL sax(OpenAD_lin_15,UNL,FN(5))
-CALL saxpy(OpenAD_lin_16,PL,FN(5))
+CALL saxpy(OpenAD_lin_16,OpenAD_prp_1,FN(5))
 CALL saxpy(OpenAD_lin_17,UNR,FN(5))
-CALL saxpy(OpenAD_lin_18,PR,FN(5))
-CALL sax(OpenAD_acc_3,OpenAD_prp_2,LAMBDA)
-CALL saxpy(OpenAD_acc_4,OpenAD_prp_1,LAMBDA)
-CALL saxpy(OpenAD_acc_5,OpenAD_prp_3,LAMBDA)
-OpenAD_aux_12 = (QFLR(6:10)%v-QFL(1:5))
+CALL saxpy(OpenAD_lin_18,OpenAD_prp_2,FN(5))
+CALL sax(OpenAD_acc_3,OpenAD_prp_4,LAMBDA)
+CALL saxpy(OpenAD_acc_4,OpenAD_prp_3,LAMBDA)
+CALL saxpy(OpenAD_acc_5,OpenAD_prp_5,LAMBDA)
+OpenAD_aux_12 = (QFLR(6:10)%v-QFLR(1:5)%v)
 OpenAD_aux_11 = (FN(1:5)%v-LAMBDA%v*OpenAD_aux_12)
 OpenAD_lin_25 = OpenAD_aux_12
 OpenAD_lin_26 = LAMBDA%v
 FN(1:5)%v = (OpenAD_aux_11*5.0D-01)
 OpenAD_acc_6 = (OpenAD_lin_25*INT((-1_w2f__i8)))
 OpenAD_acc_7 = (OpenAD_lin_26*INT((-1_w2f__i8)))
-CALL setderiv(OpenAD_prp_4,FN(1:5))
-CALL setderiv(OpenAD_prp_5,OpenAD_prp_4)
-CALL saxpy(OpenAD_acc_6,LAMBDA,OpenAD_prp_5)
-CALL saxpy(OpenAD_acc_7,QFLR(6:10),OpenAD_prp_5)
-CALL sax(5.0D-01,OpenAD_prp_5,FN(1:5))
+CALL setderiv(OpenAD_prp_6,FN(1:5))
+CALL setderiv(OpenAD_prp_7,QFLR(6:10))
+CALL dec_deriv(OpenAD_prp_7,QFLR(1:5))
+CALL setderiv(OpenAD_prp_8,OpenAD_prp_6)
+CALL saxpy(OpenAD_acc_6,LAMBDA,OpenAD_prp_8)
+CALL saxpy(OpenAD_acc_7,OpenAD_prp_7,OpenAD_prp_8)
+CALL sax(5.0D-01,OpenAD_prp_8,FN(1:5))
 END SUBROUTINE
 
 SUBROUTINE pressure(QV, P)
@@ -459,7 +466,7 @@ REAL(w2f__8) OpenAD_lin_70
 REAL(w2f__8) OpenAD_lin_71
 REAL(w2f__8) OpenAD_lin_72
 REAL(w2f__8) OpenAD_lin_73
-type(active) :: OpenAD_prp_8
+type(active) :: OpenAD_prp_11
 !
 !     **** Statements ****
 !
@@ -505,7 +512,7 @@ ENDIF
 OpenAD_aux_20 = (QV(5)%v-RHOUSQ%v*5.0D-01)
 OpenAD_lin_64 = GAM_M1
 P%v = (GAM_M1*OpenAD_aux_20)
-CALL setderiv(OpenAD_prp_8,QV(5))
-CALL saxpy(-5.0D-01,RHOUSQ,OpenAD_prp_8)
-CALL sax(OpenAD_lin_64,OpenAD_prp_8,P)
+CALL setderiv(OpenAD_prp_11,QV(5))
+CALL saxpy(-5.0D-01,RHOUSQ,OpenAD_prp_11)
+CALL sax(OpenAD_lin_64,OpenAD_prp_11,P)
 END SUBROUTINE
