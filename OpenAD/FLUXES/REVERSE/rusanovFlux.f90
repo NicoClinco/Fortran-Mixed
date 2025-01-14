@@ -10,14 +10,6 @@ MODULE SIM_INFO
   
 END MODULE SIM_INFO
 
-!>@brief Computation of the rusanovFlux between left and right
-!!state
-!!
-!!@param[in] Qfl: Left state
-!!@param[in] Qfr: Right state
-!!@param[in] Fn : Normal flux
-!!@param[in] Sf : Surface vectors
-!!
 SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
   USE SIM_INFO
   IMPLICIT NONE
