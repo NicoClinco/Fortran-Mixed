@@ -69,12 +69,12 @@ SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
      Fn(1)   = unL*Qflr(1)   + unR*Qflr(1+nEQ)
      Fn(2:4) = unL*Qflr(2:4) + unR*Qflr(2+nEQ:4+nEQ) + (pL+pR)*Sf(1:3)
   end if !------------------------------------------------------
-  Fn(5) = unL*(Qfl(5)+pL) + unR*(Qfr(5)+pR)
+  Fn(5) = unL*(Qflr(5)+pL) + unR*(Qflr(5+nEQ)+pR)
 
   am  = sqrt(gam*(pL+pR)/(Qflr(1)+Qflr(1+nEQ)))
   lambda = 0.5_WP*abs(unL+unR) + am*normS
 
-  Fn(1:nEQ) = 0.5_WP*(Fn(1:nEQ) - lambda*(Qflr(nEQ+1:2*nEQ)-Qfl(1:nEQ)))
+  Fn(1:nEQ) = 0.5_WP*(Fn(1:nEQ) - lambda*(Qflr(nEQ+1:2*nEQ)-Qflr(1:nEQ)))
 
   !$openAD DEPENDENT(Fn)
 END SUBROUTINE rusanovFlux
