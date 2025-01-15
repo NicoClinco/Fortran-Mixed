@@ -7,8 +7,9 @@ MODULE SIM_INFO
   REAL(KIND=WP) :: gam = 1.4_WP
   REAL(KIND=WP) :: gam_m1 = 0.4_WP
   
-  
 END MODULE SIM_INFO
+
+
 
 !>@brief Computation of the rusanovFlux between left and right
 !!state
@@ -25,24 +26,22 @@ SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
 
   real(kind=WP)   :: Qfl(nEQ),Qfr(nEQ),Sf(3)
   real(kind=WP)   :: Fn(nEQ)
-  real(kind=WP)   :: unL,unR,pL,pR,am,normS,lambda(5)
+  real(kind=WP)   :: unL,unR,pL,pR,am,normS,lambda
   REAL(kind=WP)   :: Qflr(2*nEQ)
-  INTEGER         :: iloop
+  INTEGER         :: I,J
   
   !$openAD INDEPENDENT(Qflr)
-  DO iloop=1,nEQ
-     Qflr(iloop) = Qfl(iloop)
-     
+  DO I=1,nEQ
+     Qflr(I) = Qfl(I)
+     Qflr(I+nEQ) = Qfr(I)
   ENDDO
-  Qflr(1:nEQ) = Qfl(1:nEQ)
-  Qflr(nEQ+1:2*nEQ) = Qfr(1:nEQ)
 
   CALL pressure(Qflr(1:nEQ),pL)
   CALL pressure(Qflr(nEQ+1:2*nEQ),pR)
 
   if(pL+pR.lt.0.0_WP) then
      !Rmnn_err = 1
-     Fn(:) = 0.0_WP
+     Fn(1:nEQ) = 0.0_WP
      !return
   end if
 
@@ -54,7 +53,8 @@ SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
      ! Calculate the normal flux component
      Fn(1)   = unL*Qflr(1) + unR*Qflr(1+nEQ)
      Fn(2)   = unL*Qflr(2) + unR*Qflr(2+nEQ) + (pL+pR)*Sf(1)
-     Fn(3:4) = 0.0_WP
+     Fn(3) = 0.0_WP
+     Fn(4) = 0.0_WP
   else if(run2D) then !-----------------------------------------
      normS = sqrt(Sf(1)**2+Sf(2)**2)
      unL = (Qflr(2)*Sf(1)+Qfl(3)*Sf(2))/Qflr(1)
@@ -62,7 +62,8 @@ SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
 
      ! Calculate the normal flux component
      Fn(1)   = unL*Qflr(1)   + unR*Qflr(1+nEQ)
-     Fn(2:3) = unL*Qfl(2:3) + unR*QfLr(2+nEQ:3+nEQ) + (pL+pR)*Sf(1:2)
+     Fn(2)   = unL*Qflr(2) + unR*Qflr(2+nEQ) + (pL+pR)*Sf(1)
+     Fn(2)   = unL*Qflr(3) + unR*Qflr(3+nEQ) + (pL+pR)*Sf(2)
      Fn(4)   = 0.0_WP
   else !3D run case --------------------------------------------
      normS = sqrt(Sf(1)**2+Sf(2)**2+Sf(3)**2)
@@ -71,17 +72,21 @@ SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
 
      ! Calculate the normal flux component
      Fn(1)   = unL*Qflr(1)   + unR*Qflr(1+nEQ)
-     Fn(2:4) = unL*Qflr(2:4) + unR*Qflr(2+nEQ:4+nEQ) + (pL+pR)*Sf(1:3)
+     Fn(2) = unL*Qflr(2) + unR*Qflr(2+nEQ) + (pL+pR)*Sf(1)
+     Fn(3) = unL*Qflr(3) + unR*Qflr(3+nEQ) + (pL+pR)*Sf(2)
+     Fn(4) = unL*Qflr(4) + unR*Qflr(4+nEQ) + (pL+pR)*Sf(3)
   end if !------------------------------------------------------
   Fn(5) = unL*(Qflr(5)+pL) + unR*(Qflr(5+nEQ)+pR)
 
   am  = sqrt(gam*(pL+pR)/(Qflr(1)+Qflr(1+nEQ)))
-  lambda(1) = 0.5_WP*abs(unL+unR) + am*normS
-  lambda(2:5) = lambda(1)
+  lambda = 0.5_WP*abs(unL+unR) + am*normS
   !to do: make lambda bigger here
   
-  Fn(1:nEQ) = 0.5_WP*(Fn(1:nEQ) - lambda*(Qflr(nEQ+1:2*nEQ)-Qflr(1:nEQ)))
-
+  Fn(1) = 0.5_WP*(Fn(1) - lambda*(Qflr(nEQ+1)-Qflr(1)))
+  Fn(2) = 0.5_WP*(Fn(2) - lambda*(Qflr(nEQ+2)-Qflr(2)))
+  Fn(3) = 0.5_WP*(Fn(3) - lambda*(Qflr(nEQ+3)-Qflr(3)))
+  Fn(4) = 0.5_WP*(Fn(4) - lambda*(Qflr(nEQ+4)-Qflr(4)))
+  Fn(5) = 0.5_WP*(Fn(5) - lambda*(Qflr(nEQ+5)-Qflr(5)))
   !$openAD DEPENDENT(Fn)
 END SUBROUTINE rusanovFlux
 
