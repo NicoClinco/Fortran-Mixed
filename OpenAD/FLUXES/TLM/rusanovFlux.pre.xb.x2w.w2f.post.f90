@@ -31,7 +31,7 @@ PARAMETER ( WP = 8)
 !
 !     **** Initializers ****
 !
-DATA GAM / 1.39999999999999991118D00 /
+DATA GAM / 1.4000000000000000D00 /
 DATA GAM_M1 / 4.00000000000000022204D-01 /
 DATA RUN1D / .TRUE. /
 DATA RUN2D / .FALSE. /
@@ -192,34 +192,31 @@ do i=1,10
 enddo
 
 !Left:
-! QFLR(2)%d(1) = QFL(2)/QFL(1)
-! QFLR(3)%d(1) = QFL(3)/QFL(1)
-! QFLR(4)%d(1) = QFL(4)/QFL(1)
+!  QFLR(2)%d(1) = QFL(2)/QFL(1)
+!  QFLR(3)%d(1) = QFL(3)/QFL(1)
+!  QFLR(4)%d(1) = QFL(4)/QFL(1)
 
-! ! EKL=0.0_WP
-! ! EKR=0.0_WP
-! ! EKL = 0.5_WP*SUM(QFL(2:4)**2)/QFL(1)**2
-! ! IEL = QFL(5)/QFL(1)-EKL
-! QFLR(5)%d(2) = (QFL(2)/QFL(1))
-! QFLR(5)%d(3) = (QFL(3)/QFL(1))
-! QFLR(5)%d(4) = (QFL(4)/QFL(1))
-! QFLR(5)%d(1) = QFL(5)/QFL(1)
-
-
-! ! !Right
-
-! QFLR(7)%d(6) = QFR(2)/QFR(1)
-! QFLR(8)%d(6) = QFR(3)/QFR(1)
-! QFLR(9)%d(6) = QFR(4)/QFR(1)
-! ! EKR = 0.5_WP*SUM(QFR(2:4)**2)/QFR(1)**2
-! ! IER = QFR(5)/QFR(1)-EKR
-! QFLR(10)%d(7) = (QFR(2)/QFR(1))
-! QFLR(10)%d(8) = (QFR(3)/QFR(1))
-! QFLR(10)%d(9) = (QFR(4)/QFR(1))
-! QFLR(10)%d(6) = QFR(5)/QFR(1)
+! ! ! EKL=0.0_WP
+! ! ! EKR=0.0_WP
+! ! ! EKL = 0.5_WP*SUM(QFL(2:4)**2)/QFL(1)**2
+! ! ! IEL = QFL(5)/QFL(1)-EKL
+!  QFLR(5)%d(2) = (QFL(2)/QFL(1))
+!  QFLR(5)%d(3) = (QFL(3)/QFL(1))
+!  QFLR(5)%d(4) = (QFL(4)/QFL(1))
+!  QFLR(5)%d(1) = QFL(5)/QFL(1)
 
 
+! ! ! !Right
 
+!  QFLR(7)%d(6) = QFR(2)/QFR(1)
+!  QFLR(8)%d(6) = QFR(3)/QFR(1)
+!  QFLR(9)%d(6) = QFR(4)/QFR(1)
+! ! ! EKR = 0.5_WP*SUM(QFR(2:4)**2)/QFR(1)**2
+! ! ! IER = QFR(5)/QFR(1)-EKR
+!  QFLR(10)%d(7) = (QFR(2)/QFR(1))
+!  QFLR(10)%d(8) = (QFR(3)/QFR(1))
+!  QFLR(10)%d(9) = (QFR(4)/QFR(1))
+!  QFLR(10)%d(6) = QFR(5)/QFR(1)
 
 CALL pressure(QFLR(1:5),PL)
 CALL pressure(QFLR(6:10),PR)
