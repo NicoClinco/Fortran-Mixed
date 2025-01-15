@@ -91,7 +91,7 @@ CONTAINS
     dFn_dVar(1,stateIndex,2) = (Fn_p(1)%v - Fn(1)%v)/(2.0_WP*dVar)
     dFn_dVar(2,stateIndex,2) = (Fn_p(2)%v - Fn(2)%v)/(2.0_WP*dVar)
     dFn_dVar(5,stateIndex,2) = (Fn_p(5)%v - Fn(5)%v)/(2.0_WP*dVar)
-    
+
     !dFn(1)/drhoEl
     ls_m1 = ls(:)
     ls_p1 = ls(:)
@@ -102,20 +102,22 @@ CONTAINS
     dFn_dVar(1,stateIndex,5) = (Fn_p(1)%v - Fn(1)%v)/(2.0_WP*dVar)
     dFn_dVar(2,stateIndex,5) = (Fn_p(2)%v - Fn(2)%v)/(2.0_WP*dVar)
     dFn_dVar(5,stateIndex,5) = (Fn_p(5)%v - Fn(5)%v)/(2.0_WP*dVar)
-  
+
     !right state:
     StateIndex=2
     !dFn(1)/drhoR
-    rs_p1(1) = rs_p1(1)+dVar
-    rs_m1(1) = rs_m1(1)-dVar
+    rs_p1    = rs(:)
+    rs_m1    = rs(:)
+    rs_p1(1) = rs(1)+dVar
+    rs_m1(1) = rs(1)-dVar
     CALL rusanovFlux(ls,rs_m1,Fn,Sf)
     CALL rusanovFlux(ls,rs_p1,Fn_p,Sf)
     dFn_dVar(1,stateIndex,1) = (Fn_p(1)%v - Fn(1)%v)/(2.0_WP*dVar)
     dFn_dVar(2,stateIndex,1) = (Fn_p(2)%v - Fn(2)%v)/(2.0_WP*dVar)
     dFn_dVar(5,stateIndex,1) = (Fn_p(5)%v - Fn(5)%v)/(2.0_WP*dVar)
     !dFn(1)/drhouR
-    ls_m1 = ls(:)
-    ls_p1 = ls(:)
+    rs_m1 = rs(:)
+    rs_p1 = rs(:)
     rs_p1(2) = rs_p1(2)+dVar
     rs_m1(2) = rs_m1(2)-dVar
     CALL rusanovFlux(ls,rs_m1,Fn,Sf)
@@ -123,10 +125,10 @@ CONTAINS
     dFn_dVar(1,stateIndex,2) = (Fn_p(1)%v - Fn(1)%v)/(2.0_WP*dVar)
     dFn_dVar(2,stateIndex,2) = (Fn_p(2)%v - Fn(2)%v)/(2.0_WP*dVar)
     dFn_dVar(5,stateIndex,2) = (Fn_p(5)%v - Fn(5)%v)/(2.0_WP*dVar)
-    
+
     !dFn(1)/drhoER
-    ls_m1 = ls(:)
-    ls_p1 = ls(:)
+    rs_m1 = rs(:)
+    rs_p1 = rs(:)
     rs_p1(5) = rs_p1(5)+dVar
     rs_m1(5) = rs_m1(5)-dVar   
     CALL rusanovFlux(ls,rs_m1,Fn,Sf)

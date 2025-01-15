@@ -35,7 +35,7 @@ PROGRAM driver
   !Taping here below:
   CALL zero_deriv(Fn)
   
-  Fn(1)%d = 1.0
+  Fn(2)%d = 1.0
   CALL OAD_revtape()
   
   CALL rusanovFlux(leftState,rightState,Fn,Sf)
@@ -45,16 +45,12 @@ PROGRAM driver
   
   DO I=1,10
      IF(I.LE.5) THEN
-        write(*,*) FD_DER(1,1,I),' ',xVar(I)%d
+        write(*,*) FD_DER(2,1,I),' ',xVar(I)%d
      ELSE
-        write(*,*) FD_DER(1,2,I-nEQ),' ',xVar(I)%d
+        write(*,*) FD_DER(2,2,I-nEQ),' ',xVar(I)%d
      ENDIF
   ENDDO
   
-  
-  
-
-
 CONTAINS
   !>@brief Compute the derivative of the flux with the finite
   !!differences. This serves for comparison
@@ -121,8 +117,10 @@ CONTAINS
     !right state:
     StateIndex=2
     !dFn(1)/drhoR
-    rs_p1(1) = rs_p1(1)+dVar
-    rs_m1(1) = rs_m1(1)-dVar
+    rs_p1    = rs(:)
+    rs_m1    = rs(:)
+    rs_p1(1) = rs(1)+dVar
+    rs_m1(1) = rs(1)-dVar
     CALL rusanovFlux(ls,rs_m1,Fn,Sf)
     CALL rusanovFlux(ls,rs_p1,Fn_p,Sf)
     dFn_dVar(1,stateIndex,1) = (Fn_p(1)%v - Fn(1)%v)/(2.0_WP*dVar)
@@ -140,8 +138,8 @@ CONTAINS
     dFn_dVar(5,stateIndex,2) = (Fn_p(5)%v - Fn(5)%v)/(2.0_WP*dVar)
     
     !dFn(1)/drhoER
-    ls_m1 = ls(:)
-    ls_p1 = ls(:)
+    rs_m1 = rs(:)
+    rs_p1 = rs(:)
     rs_p1(5) = rs_p1(5)+dVar
     rs_m1(5) = rs_m1(5)-dVar   
     CALL rusanovFlux(ls,rs_m1,Fn,Sf)
