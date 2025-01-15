@@ -10,6 +10,14 @@ MODULE SIM_INFO
   
 END MODULE SIM_INFO
 
+!>@brief Computation of the rusanovFlux between left and right
+!!state
+!!
+!!@param[in] Qfl: Left state
+!!@param[in] Qfr: Right state
+!!@param[in] Fn : Normal flux
+!!@param[in] Sf : Surface vectors
+!!
 SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
   USE SIM_INFO
   IMPLICIT NONE
@@ -17,11 +25,15 @@ SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
 
   real(kind=WP)   :: Qfl(nEQ),Qfr(nEQ),Sf(3)
   real(kind=WP)   :: Fn(nEQ)
-  real(kind=WP)   :: unL,unR,pL,pR,am,normS,lambda
-
-  REAL(kind=WP) :: Qflr(2*nEQ)
-
+  real(kind=WP)   :: unL,unR,pL,pR,am,normS,lambda(5)
+  REAL(kind=WP)   :: Qflr(2*nEQ)
+  INTEGER         :: iloop
+  
   !$openAD INDEPENDENT(Qflr)
+  DO iloop=1,nEQ
+     Qflr(iloop) = Qfl(iloop)
+     
+  ENDDO
   Qflr(1:nEQ) = Qfl(1:nEQ)
   Qflr(nEQ+1:2*nEQ) = Qfr(1:nEQ)
 
@@ -61,12 +73,14 @@ SUBROUTINE rusanovFlux(Qfl,Qfr,Fn,Sf)
      Fn(1)   = unL*Qflr(1)   + unR*Qflr(1+nEQ)
      Fn(2:4) = unL*Qflr(2:4) + unR*Qflr(2+nEQ:4+nEQ) + (pL+pR)*Sf(1:3)
   end if !------------------------------------------------------
-  Fn(5) = unL*(Qfl(5)+pL) + unR*(Qfr(5)+pR)
+  Fn(5) = unL*(Qflr(5)+pL) + unR*(Qflr(5+nEQ)+pR)
 
   am  = sqrt(gam*(pL+pR)/(Qflr(1)+Qflr(1+nEQ)))
-  lambda = 0.5_WP*abs(unL+unR) + am*normS
-
-  Fn(1:nEQ) = 0.5_WP*(Fn(1:nEQ) - lambda*(Qflr(nEQ+1:2*nEQ)-Qfl(1:nEQ)))
+  lambda(1) = 0.5_WP*abs(unL+unR) + am*normS
+  lambda(2:5) = lambda(1)
+  !to do: make lambda bigger here
+  
+  Fn(1:nEQ) = 0.5_WP*(Fn(1:nEQ) - lambda*(Qflr(nEQ+1:2*nEQ)-Qflr(1:nEQ)))
 
   !$openAD DEPENDENT(Fn)
 END SUBROUTINE rusanovFlux
