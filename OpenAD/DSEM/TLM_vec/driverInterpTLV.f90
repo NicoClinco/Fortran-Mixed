@@ -72,9 +72,9 @@ PROGRAM driver
                  if(abs(flatstencilQfp(gIndx)%d(i)) .gt. eps_tol) then
                     j=j+1
                     AD_Qf1(ivar,is,js,ks)%DF_SP(j)  = flatstencilQfp(gIndx)%d(i)
-                    AD_Qf1(ivar,is,js,ks)%SP_ijk(j,1:3) = gindxs2_ijkc_sp(j,2:4)
-                    ivarsp = gindxs2_ijkc_sp(j,1)
-                    isp = gindxs2_ijkc_sp(j,2);jsp = gindxs2_ijkc_sp(j,3);ksp = gindxs2_ijkc_sp(j,4)
+                    AD_Qf1(ivar,is,js,ks)%SP_ijk(j,1:3) = gindxs2_ijkc_sp(i,2:4)
+                    ivarsp = gindxs2_ijkc_sp(i,1)
+                    isp = gindxs2_ijkc_sp(i,2);jsp = gindxs2_ijkc_sp(i,3);ksp = gindxs2_ijkc_sp(i,4)
                     
                     write(*,'("dQ_",i1,i1,i1,i1,"/","dx_",i1,i1,i1,i1,"=",F11.7)')ivar,is,js,ks,ivarsp,isp,jsp,ksp,&
                          AD_Qf1(ivar,is,js,ks)%DF_SP(j)
@@ -96,7 +96,7 @@ CONTAINS
     IMPLICIT NONE
     INTEGER,INTENT(INOUT) :: sp_indxs(Nvar*Ns*Ns*Ns,4)
     INTEGER,INTENT(INOUT) :: fp_indxs(Nvar*(Ns+1)*Ns*Ns,4)
-    INTEGER :: is,js,ks,ifp,ivar,gIndx
+    INTEGER :: is,js,ks,ivar,gIndx
     
     DO ks=1,Ns
        DO js=1,Ns
