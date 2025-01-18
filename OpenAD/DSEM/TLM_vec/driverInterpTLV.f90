@@ -112,7 +112,6 @@ CONTAINS
           ENDDO
        ENDDO
     ENDDO
-
   END SUBROUTINE build_maps
   
   
